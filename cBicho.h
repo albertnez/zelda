@@ -8,10 +8,14 @@
 #define JUMP_HEIGHT		96
 #define JUMP_STEP		4
 
-#define STATE_LOOKLEFT		0
-#define STATE_LOOKRIGHT		1
-#define STATE_WALKLEFT		2
-#define STATE_WALKRIGHT		3
+#define STATE_LOOKDOWN	0
+#define STATE_LOOKLEFT	1
+#define STATE_LOOKUP    2
+#define STATE_LOOKRIGHT 3
+#define STATE_WALKDOWN  4
+#define STATE_WALKLEFT  5
+#define STATE_WALKUP    6
+#define STATE_WALKRIGHT 7
 
 class cRect
 {
@@ -35,13 +39,18 @@ public:
 	void GetWidthHeight(int *w,int *h);
 
 	bool Collides(cRect *rc);
+    // Checks collision with tiles
+    bool CollidesMap(int *map);
 	bool CollidesMapWall(int *map,bool right);
 	bool CollidesMapFloor(int *map);
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
-
+	
+    void MoveLeft(int *map);
+    void MoveUp(int *map);
 	void MoveRight(int *map);
-	void MoveLeft(int *map);
+    void MoveDown(int *map);   
+
 	void Jump(int *map);
 	void Stop();
 	void Logic(int *map);
