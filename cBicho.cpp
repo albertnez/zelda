@@ -49,6 +49,43 @@ void cBicho::GetWidthHeight(int *width,int *height)
 	*width = w;
 	*height = h;
 }
+
+void cBicho::SetHitpoints(int hp) {
+    hitpoints = hp;
+}
+
+int cBicho::GetHitpoints() {
+    return hitpoints;
+}
+
+void cBicho::SetMaxHitpoints(int hp) {
+    max_hitpoints = hp;
+}
+
+int cBicho::GetMaxHitpoints() {
+    return max_hitpoints;
+}
+
+void cBicho::Heal(int hp) {
+    hitpoints = std::max(hitpoints, max_hitpoints);
+}
+
+void cBicho::Damage(int hp) {
+    hitpoints = std::min(0, hitpoints - hp);
+}
+
+void cBicho::SetAttack(int attack) {
+    this->attack = attack;
+}
+
+int cBicho::GetAttack() {
+    return attack;
+}
+
+bool cBicho::IsDead() {
+    return hitpoints <= 0;
+}
+
 bool cBicho::Collides(cRect *rc)
 {
 	return ((x>rc->left) && (x+w<rc->right) && (y>rc->bottom) && (y+h<rc->top));
@@ -312,3 +349,4 @@ void cBicho::SetState(int s)
 {
 	state = s;
 }
+

@@ -20,8 +20,7 @@
 class cRect
 {
 public:
-	int left,top,
-		right,bottom;
+        int left,top, right,bottom;
 };
 
 class cBicho
@@ -37,6 +36,15 @@ public:
 	void GetTile(int *tx,int *ty);
 	void SetWidthHeight(int w,int h);
 	void GetWidthHeight(int *w,int *h);
+    void SetHitpoints(int hp);
+    int GetHitpoints();
+    void SetMaxHitpoints(int hp);
+    int GetMaxHitpoints();
+    void Heal(int hp);
+    void Damage(int hp);
+    void SetAttack(int attack);
+    int GetAttack();
+    bool IsDead();
 
 	bool Collides(cRect *rc);
     // Checks collision with tiles
@@ -65,6 +73,9 @@ private:
 	int x,y;
 	int w,h;
 	int state;
+    int hitpoints;
+    int max_hitpoints;
+    int attack;
 
 	bool jumping;
 	int jump_alfa;
