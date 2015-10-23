@@ -1,10 +1,10 @@
-
 #include "Globals.h"
 #include "cGame.h"
-#include <Windows.h>
 
 //Delete console
+#ifdef _WIN32
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#endif
 
 cGame Game;
 
@@ -39,7 +39,7 @@ void AppIdle()
 
 }
 
-void main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	int res_x,res_y,pos_x,pos_y;
 

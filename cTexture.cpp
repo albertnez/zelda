@@ -1,7 +1,8 @@
-
 #include "cTexture.h"
-#include "corona.h"
 #include "Globals.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#include <iostream>
 
 cTexture::cTexture(void)
 {
@@ -13,26 +14,19 @@ cTexture::~cTexture(void)
 
 bool cTexture::Load(char *filename,int type,int wraps,int wrapt,int magf,int minf,bool mipmap)
 {
-	corona::Image* img;
-	int components;
+        int components;
+        switch (type) {
+                case GL_RGB: components = 3; break;
+                case GL_RGBA: components = 4; break;
+                default: return false;
+        }
 
-	img = corona::OpenImage(filename);
-	if(type==GL_RGB)
-	{
-		//img = corona::OpenImage(filename,corona::PF_R8G8B8);
-		components = 3;
-	}
-	else if(type==GL_RGBA)
-	{
-		//img = corona::OpenImage(filename,corona::PF_R8G8B8A8);
-		components = 4;
-	}
-	else return false;
-
-	if(img==NULL) return false;
-
-	width  = img->getWidth();
-	height = img->getHeight();
+        int image_components = 0;
+	unsigned char *data = stbi_load(filename, &width, &height, &image_components, components);
+        if (!data) {
+                std::cerr << "Error loading texture: " << stbi_failure_reason() << std::endl;
+                return false;
+        }
 
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D,id);
@@ -46,14 +40,13 @@ bool cTexture::Load(char *filename,int type,int wraps,int wrapt,int magf,int min
 	if(!mipmap)
 	{
 		glTexImage2D(GL_TEXTURE_2D,0,components,width,height,0,type,
-					 GL_UNSIGNED_BYTE,img->getPixels());
+					 GL_UNSIGNED_BYTE,data);
 	}
 	else
 	{
 		gluBuild2DMipmaps(GL_TEXTURE_2D,components,width,height,type,
-						  GL_UNSIGNED_BYTE,img->getPixels());
+						  GL_UNSIGNED_BYTE,data);
 	}
-
 	return true;
 }
 int cTexture::GetID()
