@@ -20,7 +20,7 @@ public:
 	virtual ~cScene(void);
 
 	bool LoadLevel(int level);
-	void Draw(int tex_id, int cx, int cy);
+	void Draw(int tex_id);
 	int *GetMap();
 
 private:

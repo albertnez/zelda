@@ -12,4 +12,6 @@ public:
 	~cPlayer();
 
 	void Draw(int tex_id);
+	bool isChangingScreen();
+	void endTransition();
 };

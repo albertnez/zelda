@@ -74,7 +74,7 @@ bool cScene::LoadLevel(int level)
 	return res;
 }
 
-void cScene::Draw(int tex_id, int cx, int cy)
+void cScene::Draw(int tex_id)
 {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D,tex_id);

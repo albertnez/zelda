@@ -34,3 +34,13 @@ void cPlayer::Draw(int tex_id)
 
 	DrawRect(tex_id,xo,yo,xf,yf);
 }
+
+
+bool cPlayer::isChangingScreen() 
+{
+	return false;
+}
+
+void cPlayer::endTransition() {
+
+}

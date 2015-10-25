@@ -16,6 +16,12 @@
 #define STATE_WALKLEFT  5
 #define STATE_WALKUP    6
 #define STATE_WALKRIGHT 7
+#define STATE_TRANSITIONUP		8
+#define STATE_TRANSITIONDOWN	9
+#define STATE_TRANSITIONLEFT	10
+#define STATE_TRANSITIONRIGHT	11
+#define STATE_TRANSITIONABOVE   12
+#define STATE_TRANSITIONBELOW	13
 
 class cRect
 {
@@ -58,8 +64,6 @@ public:
     void MoveUp(int *map);
 	void MoveRight(int *map);
     void MoveDown(int *map);   
-
->>>>>>> ff6db0479d5ac42672828316782fcf1908d9d052
 	void Jump(int *map);
 	void Stop();
 	void Logic(int *map);

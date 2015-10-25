@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "cGame.h"
+#include <Windows.h>
 
 //Delete console
 #ifdef _WIN32
