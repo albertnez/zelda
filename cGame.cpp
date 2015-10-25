@@ -73,10 +73,25 @@ bool cGame::Process()
 	//Process Input
 	if(keys[27])	res=false;
 	
-	if(keys[GLUT_KEY_UP])			Player.Jump(Scene.GetMap());
-	if(keys[GLUT_KEY_LEFT])			Player.MoveLeft(Scene.GetMap());
-	else if(keys[GLUT_KEY_RIGHT])	Player.MoveRight(Scene.GetMap());
-	else Player.Stop();
+    bool move_vert = keys[GLUT_KEY_DOWN] ^ keys[GLUT_KEY_UP];
+    if (move_vert) {
+        if (keys[GLUT_KEY_DOWN]) {
+            Player.MoveDown(Scene.GetMap());
+        } else if (keys[GLUT_KEY_UP]) {
+            Player.MoveUp(Scene.GetMap());
+        }
+    }
+    bool move_hor = keys[GLUT_KEY_LEFT] ^ keys[GLUT_KEY_RIGHT];
+    if (move_hor) {
+	    if (keys[GLUT_KEY_LEFT]) {
+            Player.MoveLeft(Scene.GetMap());
+        } else if(keys[GLUT_KEY_RIGHT]) {
+            Player.MoveRight(Scene.GetMap());
+        }
+    }
+    if (!(move_vert || move_hor)) {
+        Player.Stop();
+    }
 	
 	
 	//Game Logic
