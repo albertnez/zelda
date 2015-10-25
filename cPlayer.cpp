@@ -38,9 +38,6 @@ void cPlayer::Draw(int tex_id)
 
 bool cPlayer::isChangingScreen() 
 {
-	return false;
-}
-
-void cPlayer::endTransition() {
-
+	int s = GetState();
+	return (s >= 8 && s <= 13);
 }

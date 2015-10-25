@@ -124,7 +124,7 @@ void cGame::startTransition() {
 
 void cGame::endTransition() {
 	state = STATE_STATIC_CAMERA;
-	Player.endTransition();
+	//Player.endTransition();
 }
 
 //Output
