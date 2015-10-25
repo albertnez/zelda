@@ -192,6 +192,35 @@ void cBicho::MoveRight(int *map)
 		}
 	}
 }
+void cBicho::MoveUp(int *map)
+{
+	int xaux;
+
+	//Whats next tile?
+	if ((y % TILE_SIZE) == 0)
+	{
+		xaux = x;
+		x -= STEP_LENGTH;
+
+		if (CollidesMapWall(map, false))
+		{
+			x = xaux;
+			state = STATE_LOOKLEFT;
+		}
+	}
+	//Advance, no problem
+	else
+	{
+		x -= STEP_LENGTH;
+		if (state != STATE_WALKLEFT)
+		{
+			state = STATE_WALKLEFT;
+			seq = 0;
+			delay = 0;
+		}
+	}
+}
+
 void cBicho::Stop()
 {
 	switch(state)

@@ -34,8 +34,14 @@ void AppMouse(int button, int state, int x, int y)
 }
 void AppIdle()
 {
-
+	int st = glutGet(GLUT_ELAPSED_TIME);
 	if(!Game.Loop()) exit(0);
+	int et = glutGet(GLUT_ELAPSED_TIME);
+	int elapsed = et - st;
+	if (elapsed < 1000 / 60)
+	{
+		Sleep(1000 / 60 - elapsed);
+	}
 
 }
 

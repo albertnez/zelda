@@ -41,6 +41,7 @@ public:
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 
 	void MoveRight(int *map);
+	void MoveUp(int * map);
 	void MoveLeft(int *map);
 	void Jump(int *map);
 	void Stop();

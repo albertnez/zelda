@@ -4,7 +4,7 @@
 
 #define SCENE_Xo		(2*TILE_SIZE)
 #define SCENE_Yo		TILE_SIZE
-#define SCENE_WIDTH		36
+#define SCENE_WIDTH		72
 #define SCENE_HEIGHT	28
 
 #define FILENAME		"level"
@@ -20,7 +20,7 @@ public:
 	virtual ~cScene(void);
 
 	bool LoadLevel(int level);
-	void Draw(int tex_id);
+	void Draw(int tex_id, int cx, int cy);
 	int *GetMap();
 
 private:

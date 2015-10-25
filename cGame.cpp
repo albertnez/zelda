@@ -92,7 +92,7 @@ void cGame::Render()
 	
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(IMG_BLOCKS));
+	Scene.Draw(Data.GetID(IMG_BLOCKS), 0, 0);
 	Player.Draw(Data.GetID(IMG_PLAYER));
 
 	glutSwapBuffers();

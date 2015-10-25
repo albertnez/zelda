@@ -28,6 +28,7 @@ bool cScene::LoadLevel(int level)
 
 	id_DL=glGenLists(1);
 	glNewList(id_DL,GL_COMPILE);
+
 		glBegin(GL_QUADS);
 	
 			for(j=SCENE_HEIGHT-1;j>=0;j--)
@@ -73,7 +74,7 @@ bool cScene::LoadLevel(int level)
 	return res;
 }
 
-void cScene::Draw(int tex_id)
+void cScene::Draw(int tex_id, int cx, int cy)
 {
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D,tex_id);
