@@ -2,3 +2,5 @@
 2DEngine.sdf
 2DEngine.vcxproj.filters
 *.htm
+Debug/
+*.o

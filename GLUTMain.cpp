@@ -1,9 +1,13 @@
 #include "Globals.h"
 #include "cGame.h"
+
+#include <chrono>
+#include <thread>
+
+#ifdef _WIN32
 #include <Windows.h>
 
 //Delete console
-#ifdef _WIN32
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #endif
 
@@ -41,7 +45,7 @@ void AppIdle()
 	int elapsed = et - st;
 	if (elapsed < 1000 / 60)
 	{
-		Sleep(1000 / 60 - elapsed);
+		std::this_thread::sleep_for(std::chrono::microseconds(1000/60 - elapsed));
 	}
 
 }

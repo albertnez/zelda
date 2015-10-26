@@ -3,6 +3,8 @@
 #include "cTexture.h"
 #include "Globals.h"
 
+#include <string>
+
 //Image array size
 #define NUM_IMG		2
 
@@ -24,7 +26,7 @@ public:
 
 	int  GetID(int img);
 	void GetSize(int img,int *w,int *h);
-	bool LoadImage(int img,char *filename,int type = GL_RGBA);
+	bool LoadImage(int img, const std::string& filename,int type = GL_RGBA);
 
 private:
 	cTexture texture[NUM_IMG];

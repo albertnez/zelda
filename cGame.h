@@ -38,7 +38,7 @@ public:
 	void setState(int s);
  
 private:
-	unsigned char keys[256];
+	bool keys[256];
 	cScene Scene;
 	cPlayer Player;
 	cData Data;

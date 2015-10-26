@@ -12,7 +12,7 @@ cTexture::~cTexture(void)
 {
 }
 
-bool cTexture::Load(char *filename,int type,int wraps,int wrapt,int magf,int minf,bool mipmap)
+bool cTexture::Load(const std::string& filename,int type,int wraps,int wrapt,int magf,int minf,bool mipmap)
 {
         int components;
         switch (type) {
@@ -22,7 +22,7 @@ bool cTexture::Load(char *filename,int type,int wraps,int wrapt,int magf,int min
         }
 
         int image_components = 0;
-	unsigned char *data = stbi_load(filename, &width, &height, &image_components, components);
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &image_components, components);
         if (!data) {
                 std::cerr << "Error loading texture: " << stbi_failure_reason() << std::endl;
                 return false;
