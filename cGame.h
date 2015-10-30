@@ -44,7 +44,7 @@ private:
 	cData Data;
 	int sceneOffsetx = 0;
 	int sceneOffsety = 0;
-	int transitionState;
+	Direction transitionState;
 	int state;
 	int frame = 0;
 };

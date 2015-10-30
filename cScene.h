@@ -4,8 +4,12 @@
 
 #define SCENE_Xo		(2*TILE_SIZE)
 #define SCENE_Yo		TILE_SIZE
+// Number of tiles in the map.
 #define SCENE_WIDTH		72
 #define SCENE_HEIGHT	28
+// The Tiles that are visible at any time.
+#define VIEW_WIDTH 36
+#define VIEW_HEIGHT 28
 
 #define FILENAME		"level"
 #define FILENAME_EXT	".txt"

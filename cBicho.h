@@ -2,6 +2,7 @@
 
 #include "cTexture.h"
 #include "Globals.h"
+#include "utils.h"
 
 #define FRAME_DELAY		8
 #define STEP_LENGTH		2
@@ -23,11 +24,6 @@
 #define STATE_TRANSITIONABOVE   12
 #define STATE_TRANSITIONBELOW	13
 
-class cRect
-{
-public:
-        int left,top, right,bottom;
-};
 
 class cBicho
 {
@@ -42,28 +38,34 @@ public:
 	void GetTile(int *tx,int *ty);
 	void SetWidthHeight(int w,int h);
 	void GetWidthHeight(int *w,int *h);
-    void SetHitpoints(int hp);
-    int GetHitpoints();
-    void SetMaxHitpoints(int hp);
-    int GetMaxHitpoints();
-    void Heal(int hp);
-    void Damage(int hp);
-    void SetAttack(int attack);
-    int GetAttack();
-    bool IsDead();
+	void SetHitpoints(int hp);
+	int GetHitpoints();
+	void SetMaxHitpoints(int hp);
+	int GetMaxHitpoints();
+	void Heal(int hp);
+	void Damage(int hp);
+	void SetAttack(int attack);
+	int GetAttack();
+	bool IsDead();
 
 	bool Collides(cRect *rc);
-    // Checks collision with tiles
-    bool CollidesMap(int *map);
+	// Checks collision with tiles
+	bool CollidesMap(int *map);
 	bool CollidesMapWall(int *map,bool right);
 	bool CollidesMapFloor(int *map);
+	// Returns whether reaches the limit of the map.
+	bool ReachesMapLimit(int *map, int scene_x, int scene_y);
+	// Called when cBicho reaches limit of map.
+	virtual void ReachLimit(Direction dir);
+
+
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
-    void MoveLeft(int *map);
-    void MoveUp(int *map);
-	void MoveRight(int *map);
-    void MoveDown(int *map);   
+	void MoveLeft(int *map, int scene_x = 0, int scene_y = 0);
+	void MoveUp(int *map, int scene_x = 0, int scene_y = 0);
+	void MoveRight(int *map, int scene_x = 0, int scene_y = 0);
+	void MoveDown(int *map, int scene_x = 0, int scene_y = 0);   
 	void Jump(int *map);
 	void Stop();
 	void Logic(int *map);
@@ -78,9 +80,9 @@ private:
 	int x,y;
 	int w,h;
 	int state;
-    int hitpoints;
-    int max_hitpoints;
-    int attack;
+	int hitpoints;
+	int max_hitpoints;
+	int attack;
 
 	bool jumping;
 	int jump_alfa;

@@ -1,8 +1,12 @@
 
 #include "cPlayer.h"
 
-cPlayer::cPlayer() {}
+cPlayer::cPlayer() : transition(Direction::None), scene_x(0), scene_y(0) {}
 cPlayer::~cPlayer(){}
+
+void cPlayer::ReachLimit(Direction dir) {
+	transition = dir;
+}
 
 void cPlayer::Draw(int tex_id)
 {	
@@ -36,8 +40,31 @@ void cPlayer::Draw(int tex_id)
 }
 
 
-bool cPlayer::isChangingScreen() 
+bool cPlayer::IsChangingScreen() 
 {
-	int s = GetState();
-	return (s >= 8 && s <= 13);
+	return transition != None;
+}
+
+void cPlayer::EndTransition() {
+	switch (transition) {
+		case Direction::Left:
+			--scene_x;
+			break;
+		case Direction::Right:
+			++scene_x;
+			break;
+		case Direction::Up:
+			++scene_y;
+			break;
+		case Direction::Down:
+			--scene_y;
+			break;
+		default:
+			break;
+	}
+	transition = Direction::None;
+}
+
+Direction cPlayer::GetTransition() {
+	return transition;
 }

@@ -171,6 +171,24 @@ bool cBicho::CollidesMapFloor(int *map)
 	return on_base;
 }
 
+bool cBicho::ReachesMapLimit(int *map, int scene_x, int scene_y) {
+    int init_tile_x = x / TILE_SIZE;
+    int init_tile_y = y / TILE_SIZE;
+    int tile_width = w / TILE_SIZE;
+    int tile_height = h / TILE_SIZE;
+    int end_tile_x = init_tile_x + tile_width + ((x%TILE_SIZE) != 0);
+    int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
+    int start_x = VIEW_WIDTH * scene_x;
+    int start_y = VIEW_HEIGHT * scene_y;
+
+    return (init_tile_x < start_x 
+	    || init_tile_y < start_y 
+	    || end_tile_x >= start_x + VIEW_WIDTH 
+	    || end_tile_y >= start_y + VIEW_HEIGHT);
+}
+void cBicho::ReachLimit(Direction dir) {
+}
+
 void cBicho::GetArea(cRect *rc)
 {
 	rc->left   = x;
@@ -198,7 +216,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::MoveDown(int *map) {
+void cBicho::MoveDown(int *map, int scene_x, int scene_y) {
     int yaux;
 	
 	//Whats next tile?
@@ -226,7 +244,7 @@ void cBicho::MoveDown(int *map) {
 	}
 }
 
-void cBicho::MoveLeft(int *map)
+void cBicho::MoveLeft(int *map, int scene_x, int scene_y)
 {
 	int xaux;
 	
@@ -255,7 +273,7 @@ void cBicho::MoveLeft(int *map)
 	}
 }
 
-void cBicho::MoveUp(int *map) {
+void cBicho::MoveUp(int *map, int scene_x, int scene_y) {
     int yaux;
 
 	//Whats next tile?
@@ -284,8 +302,7 @@ void cBicho::MoveUp(int *map) {
 	}
 }
 
-void cBicho::MoveRight(int *map)
-{
+void cBicho::MoveRight(int *map, int scene_x, int scene_y) {
 	int xaux;
 
 	//Whats next tile?
@@ -294,8 +311,10 @@ void cBicho::MoveRight(int *map)
 		xaux = x;
 		x += STEP_LENGTH;
 
-		if(CollidesMap(map))
-		{
+		if (ReachesMapLimit(map, scene_x, scene_y)) {
+			ReachLimit(Direction::Right);
+			std::cerr << "Reaches limit!" << std::endl;
+		} else if(CollidesMap(map)) {
 			x = xaux;
 			state = STATE_LOOKRIGHT;
 		}

@@ -108,7 +108,7 @@ bool cGame::Process()
 		//Game Logic
 		Player.Logic(Scene.GetMap());
 
-		if (Player.isChangingScreen()) {
+		if (Player.IsChangingScreen()) {
 			startTransition();
 		}
 	}
@@ -117,14 +117,14 @@ bool cGame::Process()
 }
 
 void cGame::startTransition() {
-	transitionState = Player.GetState();
+	transitionState = Player.GetTransition();
 	state = STATE_SCREEN_CHANGE;
 	frame = 0;
 }
 
 void cGame::endTransition() {
 	state = STATE_STATIC_CAMERA;
-	//Player.endTransition();
+	Player.EndTransition();
 }
 
 //Output
@@ -133,16 +133,16 @@ void cGame::Render()
 
 
 	if (state == STATE_SCREEN_CHANGE) {
-		if (transitionState == STATE_TRANSITIONUP) {
+		if (transitionState == Direction::Right) {
 			sceneOffsetx += X_TRANSITION;
 		}
-		else if (transitionState == STATE_TRANSITIONDOWN) {
+		else if (transitionState == Direction::Left) {
 			sceneOffsetx -= X_TRANSITION;
 		}
-		else if (transitionState == STATE_TRANSITIONLEFT) {
+		else if (transitionState == Direction::Down) {
 			sceneOffsety -= Y_TRANSITION;
 		}
-		else if (transitionState == STATE_TRANSITIONUP) {
+		else if (transitionState == Direction::Up) {
 			sceneOffsetx += Y_TRANSITION;
 		}
 

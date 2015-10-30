@@ -27,4 +27,4 @@ cTexture.o: cTexture.cpp cTexture.h
 	g++ -c cTexture.cpp $(CFLAGS)
 
 clean:
-	rm *.o
+	rm -f *.o main
