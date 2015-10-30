@@ -33,8 +33,8 @@ bool cScene::LoadLevel(int level)
 	
 			for(j=SCENE_HEIGHT-1;j>=0;j--)
 			{
-				px=SCENE_Xo;
-				py=SCENE_Yo+(j*TILE_SIZE);
+				px=0;
+				py=(j*TILE_SIZE);
 
 				for(i=0;i<SCENE_WIDTH;i++)
 				{
@@ -56,10 +56,10 @@ bool cScene::LoadLevel(int level)
 
 						//BLOCK_SIZE = 24, FILE_SIZE = 64
 						// 24 / 64 = 0.375
-						glTexCoord2f(coordx_tile       ,coordy_tile+0.375f);	glVertex2i(px           ,py           );
-						glTexCoord2f(coordx_tile+0.375f,coordy_tile+0.375f);	glVertex2i(px+BLOCK_SIZE,py           );
-						glTexCoord2f(coordx_tile+0.375f,coordy_tile       );	glVertex2i(px+BLOCK_SIZE,py+BLOCK_SIZE);
-						glTexCoord2f(coordx_tile       ,coordy_tile       );	glVertex2i(px           ,py+BLOCK_SIZE);
+						glTexCoord2f(coordx_tile       ,coordy_tile+0.26666f);	glVertex2i(px           ,py           );
+						glTexCoord2f(coordx_tile+0.26666f,coordy_tile+0.26666f);	glVertex2i(px+TILE_SIZE,py           );
+						glTexCoord2f(coordx_tile+0.26666f,coordy_tile       );	glVertex2i(px+TILE_SIZE,py+TILE_SIZE);
+						glTexCoord2f(coordx_tile       ,coordy_tile       );	glVertex2i(px           ,py+TILE_SIZE);
 					}
 					px+=TILE_SIZE;
 				}

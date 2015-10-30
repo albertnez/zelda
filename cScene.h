@@ -2,14 +2,12 @@
 
 #include "cTexture.h"
 
-#define SCENE_Xo		(2*TILE_SIZE)
-#define SCENE_Yo		TILE_SIZE
 // Number of tiles in the map.
-#define SCENE_WIDTH		72
-#define SCENE_HEIGHT	28
+#define SCENE_WIDTH	80
+#define SCENE_HEIGHT	60
 // The Tiles that are visible at any time.
-#define VIEW_WIDTH 36
-#define VIEW_HEIGHT 28
+#define VIEW_WIDTH 40
+#define VIEW_HEIGHT 30
 
 #define FILENAME		"level"
 #define FILENAME_EXT	".txt"

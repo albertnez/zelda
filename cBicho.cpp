@@ -200,8 +200,8 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 {
 	int screen_x,screen_y;
 
-	screen_x = x + SCENE_Xo;
-	screen_y = y + SCENE_Yo + (BLOCK_SIZE - TILE_SIZE);
+	screen_x = x;
+	screen_y = y;
 
 	glEnable(GL_TEXTURE_2D);
 	
