@@ -19,6 +19,4 @@ public:
 
 private:
 	Direction transition;
-	int scene_x;
-	int scene_y;
 };

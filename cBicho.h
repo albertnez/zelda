@@ -76,8 +76,9 @@ public:
 	void NextFrame(int max);
 	int  GetFrame();
 	
-private:
+protected:
 	int x,y;
+private:
 	int w,h;
 	int state;
 	int hitpoints;

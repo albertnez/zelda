@@ -172,19 +172,19 @@ bool cBicho::CollidesMapFloor(int *map)
 }
 
 bool cBicho::ReachesMapLimit(int *map, int scene_x, int scene_y) {
-    int init_tile_x = x / TILE_SIZE;
-    int init_tile_y = y / TILE_SIZE;
-    int tile_width = w / TILE_SIZE;
-    int tile_height = h / TILE_SIZE;
-    int end_tile_x = init_tile_x + tile_width + ((x%TILE_SIZE) != 0);
-    int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
-    int start_x = VIEW_WIDTH * scene_x;
-    int start_y = VIEW_HEIGHT * scene_y;
-
+	int init_tile_x = x / TILE_SIZE;
+	int init_tile_y = y / TILE_SIZE;
+	int tile_width = w / TILE_SIZE;
+	int tile_height = h / TILE_SIZE;
+	int end_tile_x = init_tile_x + tile_width + ((x%TILE_SIZE) != 0);
+	int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
+	int start_x = VIEW_WIDTH * scene_x;
+	int start_y = VIEW_HEIGHT * scene_y;
+	
     return (init_tile_x < start_x 
 	    || init_tile_y < start_y 
-	    || end_tile_x >= start_x + VIEW_WIDTH 
-	    || end_tile_y >= start_y + VIEW_HEIGHT);
+	    || end_tile_x > start_x + VIEW_WIDTH 
+	    || end_tile_y > start_y + VIEW_HEIGHT);
 }
 void cBicho::ReachLimit(Direction dir) {
 }
@@ -225,8 +225,10 @@ void cBicho::MoveDown(int *map, int scene_x, int scene_y) {
 		yaux = y;
 		y -= STEP_LENGTH;
 
-		if(CollidesMap(map))
-		{
+		if (ReachesMapLimit(map, scene_x, scene_y)) {
+			ReachLimit(Direction::Down);
+			y = yaux;
+		} else if(CollidesMap(map)) {
 			y = yaux;
 			state = STATE_LOOKDOWN;
 		}
@@ -254,8 +256,10 @@ void cBicho::MoveLeft(int *map, int scene_x, int scene_y)
 		xaux = x;
 		x -= STEP_LENGTH;
 
-		if(CollidesMap(map))
-		{
+		if (ReachesMapLimit(map, scene_x, scene_y)) {
+			ReachLimit(Direction::Left);
+			x = xaux;
+		} else if(CollidesMap(map)) {
 			x = xaux;
 			state = STATE_LOOKLEFT;
 		}
@@ -282,8 +286,10 @@ void cBicho::MoveUp(int *map, int scene_x, int scene_y) {
 		yaux = y;
 		y += STEP_LENGTH;
 
-		if(CollidesMap(map))
-		{
+		if (ReachesMapLimit(map, scene_x, scene_y)) {
+			ReachLimit(Direction::Up);
+			y = yaux;
+		} else if(CollidesMap(map)) {
 			y = yaux;
 			state = STATE_LOOKUP;
 		}
@@ -313,7 +319,7 @@ void cBicho::MoveRight(int *map, int scene_x, int scene_y) {
 
 		if (ReachesMapLimit(map, scene_x, scene_y)) {
 			ReachLimit(Direction::Right);
-			std::cerr << "Reaches limit!" << std::endl;
+			x = xaux;
 		} else if(CollidesMap(map)) {
 			x = xaux;
 			state = STATE_LOOKRIGHT;

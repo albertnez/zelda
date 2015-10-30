@@ -1,7 +1,8 @@
 
 #include "cPlayer.h"
+#include "cScene.h"
 
-cPlayer::cPlayer() : transition(Direction::None), scene_x(0), scene_y(0) {}
+cPlayer::cPlayer() : transition(Direction::None) {}
 cPlayer::~cPlayer(){}
 
 void cPlayer::ReachLimit(Direction dir) {
@@ -48,16 +49,16 @@ bool cPlayer::IsChangingScreen()
 void cPlayer::EndTransition() {
 	switch (transition) {
 		case Direction::Left:
-			--scene_x;
+			x -= 2*TILE_SIZE;
 			break;
 		case Direction::Right:
-			++scene_x;
+			x += 2*TILE_SIZE;
 			break;
 		case Direction::Up:
-			++scene_y;
+			y += 2*TILE_SIZE;
 			break;
 		case Direction::Down:
-			--scene_y;
+			y -= 2*TILE_SIZE;
 			break;
 		default:
 			break;

@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-cGame::cGame(void)
+cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
 }
 
@@ -70,6 +70,24 @@ void cGame::setState(int s) {
 	state = s;
 }
 
+void cGame::UpdateScenePos(Direction dir) {
+	switch (dir) {
+		case Direction::Up:
+			++sceneY;
+			break;
+		case Direction::Down:
+			--sceneY;
+			break;
+		case Direction::Left:
+			--sceneX;
+			break;
+		case Direction::Right:
+			++sceneX;
+			break;
+		default:
+			break;
+	}
+}
 
 //Process
 bool cGame::Process()
@@ -82,28 +100,17 @@ bool cGame::Process()
 	}
 
 	if (state == STATE_STATIC_CAMERA) {
-		bool move_vert = keys[GLUT_KEY_DOWN] ^ keys[GLUT_KEY_UP];
-		if (move_vert) {
-			if (keys[GLUT_KEY_DOWN]) {
-				Player.MoveDown(Scene.GetMap());
-			}
-			else if (keys[GLUT_KEY_UP]) {
-				Player.MoveUp(Scene.GetMap());
-			}
-		}
-		bool move_hor = keys[GLUT_KEY_LEFT] ^ keys[GLUT_KEY_RIGHT];
-		if (move_hor) {
-			if (keys[GLUT_KEY_LEFT]) {
-				Player.MoveLeft(Scene.GetMap());
-			}
-			else if (keys[GLUT_KEY_RIGHT]) {
-				Player.MoveRight(Scene.GetMap());
-			}
-		}
-		if (!(move_vert || move_hor)) {
+		if (keys[GLUT_KEY_DOWN]) {
+			Player.MoveDown(Scene.GetMap(), sceneX, sceneY);
+		} else if (keys[GLUT_KEY_UP]) {
+			Player.MoveUp(Scene.GetMap(), sceneX, sceneY);
+		} else if (keys[GLUT_KEY_LEFT]) {
+			Player.MoveLeft(Scene.GetMap(), sceneX, sceneY);
+		} else if (keys[GLUT_KEY_RIGHT]) {
+			Player.MoveRight(Scene.GetMap(), sceneX, sceneY);
+		} else {
 			Player.Stop();
 		}
-
 
 		//Game Logic
 		Player.Logic(Scene.GetMap());
@@ -119,6 +126,7 @@ bool cGame::Process()
 void cGame::startTransition() {
 	transitionState = Player.GetTransition();
 	state = STATE_SCREEN_CHANGE;
+	UpdateScenePos(transitionState);
 	frame = 0;
 }
 
@@ -143,7 +151,7 @@ void cGame::Render()
 			sceneOffsety -= Y_TRANSITION;
 		}
 		else if (transitionState == Direction::Up) {
-			sceneOffsetx += Y_TRANSITION;
+			sceneOffsety += Y_TRANSITION;
 		}
 
 		glMatrixMode(GL_PROJECTION);

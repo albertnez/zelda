@@ -3,6 +3,7 @@
 #include "cScene.h"
 #include "cPlayer.h"
 #include "cData.h"
+#include "utils.h"
 
 #define GAME_WIDTH	640
 #define GAME_HEIGHT 480
@@ -36,6 +37,7 @@ public:
 	//Output
 	void Render();
 	void setState(int s);
+	void UpdateScenePos(Direction dir);
  
 private:
 	bool keys[256];
@@ -44,6 +46,8 @@ private:
 	cData Data;
 	int sceneOffsetx = 0;
 	int sceneOffsety = 0;
+	int sceneX;
+	int sceneY;
 	Direction transitionState;
 	int state;
 	int frame = 0;
