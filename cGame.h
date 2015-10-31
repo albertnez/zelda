@@ -5,17 +5,15 @@
 #include "cData.h"
 #include "utils.h"
 
-#define GAME_WIDTH	640
-#define GAME_HEIGHT 480
-#define TRANSITION_FRAMES 80
-#define X_TRANSITION 8
-#define Y_TRANSITION 6
+extern const int GAME_WIDTH;
+extern const int GAME_HEIGHT;
+extern const int TRANSITION_FRAMES;
+extern const int X_TRANSITION;
+extern const int Y_TRANSITION;
 
-#define STATE_STATIC_CAMERA 0
-#define STATE_SCREEN_CHANGE 1
-#define STATE_SCENE_CHANGE 2
-
-
+extern const int STATE_STATIC_CAMERA;
+extern const int STATE_SCREEN_CHANGE;
+extern const int STATE_SCENE_CHANGE;
 
 class cGame
 {

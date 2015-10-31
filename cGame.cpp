@@ -2,6 +2,16 @@
 #include "Globals.h"
 #include <iostream>
 
+const int GAME_WIDTH = 640;
+const int GAME_HEIGHT = 480;
+
+const int TRANSITION_FRAMES = 80;
+const int X_TRANSITION = VIEW_WIDTH * TILE_SIZE / TRANSITION_FRAMES;
+const int Y_TRANSITION = VIEW_HEIGHT * TILE_SIZE / TRANSITION_FRAMES;
+
+const int STATE_STATIC_CAMERA = 0;
+const int STATE_SCREEN_CHANGE = 1;
+const int STATE_SCENE_CHANGE = 2;
 
 cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
@@ -37,7 +47,8 @@ bool cGame::Init()
 	Player.SetWidthHeight(32,32);
 	Player.SetTile(4,1);
 	Player.SetWidthHeight(32,32);
-	Player.SetState(STATE_LOOKRIGHT);
+	Player.SetDirection(Direction::Right);
+	Player.SetState(cBicho::State::Look);
 
 	return res;
 }
@@ -100,17 +111,14 @@ bool cGame::Process()
 	}
 
 	if (state == STATE_STATIC_CAMERA) {
-		if (keys[GLUT_KEY_DOWN]) {
-			Player.MoveDown(Scene.GetMap(), sceneX, sceneY);
-		} else if (keys[GLUT_KEY_UP]) {
-			Player.MoveUp(Scene.GetMap(), sceneX, sceneY);
-		} else if (keys[GLUT_KEY_LEFT]) {
-			Player.MoveLeft(Scene.GetMap(), sceneX, sceneY);
-		} else if (keys[GLUT_KEY_RIGHT]) {
-			Player.MoveRight(Scene.GetMap(), sceneX, sceneY);
-		} else {
-			Player.Stop();
-		}
+		Direction dir = Direction::None;
+		if (keys[GLUT_KEY_UP]) dir = Direction::Up;
+		else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
+		else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
+		else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
+
+		if (dir == Direction::None) Player.Stop();
+		else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
 		//Game Logic
 		Player.Logic(Scene.GetMap());
@@ -138,7 +146,6 @@ void cGame::endTransition() {
 //Output
 void cGame::Render()
 {
-
 
 	if (state == STATE_SCREEN_CHANGE) {
 		if (transitionState == Direction::Right) {

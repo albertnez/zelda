@@ -4,12 +4,13 @@
 #include <iostream>
 #include <algorithm>
 
+const int FRAME_DELAY = 8;
+const int STEP_LENGTH = 2;
+
 cBicho::cBicho(void)
 {
 	seq=0;
 	delay=0;
-
-	jumping = false;
 }
 cBicho::~cBicho(void){}
 
@@ -216,142 +217,44 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::MoveDown(const Map &map, int scene_x, int scene_y) {
-    int yaux;
-	
-	//Whats next tile?
-	if( (y % TILE_SIZE) == 0)
-	{
-		yaux = y;
-		y -= STEP_LENGTH;
-
-		if (ReachesMapLimit(map, scene_x, scene_y)) {
-			ReachLimit(Direction::Down);
-			y = yaux;
-		} else if(CollidesMap(map)) {
-			y = yaux;
-			state = STATE_LOOKDOWN;
-		}
+void cBicho::Move(const Map& map, Direction dir, int sceneX, int sceneY) {
+	int &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
+	int mult = 1;
+	if (dir == Direction::Left || dir == Direction::Down) {
+		mult = -1;
 	}
-	//Advance, no problem
-	else
-	{
-		y -= STEP_LENGTH;
-		if(state != STATE_WALKDOWN)
-		{
-			state = STATE_WALKDOWN;
+	// What's next tile
+	if (axis % TILE_SIZE == 0) {
+		int aux = axis;
+		axis += STEP_LENGTH * mult;
+		if (ReachesMapLimit(map, sceneX, sceneY)) {
+			ReachLimit(dir);
+			axis = aux;
+		} else if (CollidesMap(map)) {
+			axis = aux;
+			state = State::Look;
+		}
+	} else {
+		// Advance
+		axis += STEP_LENGTH * mult;
+		// TODO Maybe here we also want to restart animation on
+		// change of direction, but I think this is fine not to
+		// restart animation on direction change.
+		if (state != State::Walk) {
+			state = State::Walk;
 			seq = 0;
 			delay = 0;
 		}
 	}
+	// Always set direction
+	direction = dir;
 }
 
-void cBicho::MoveLeft(const Map &map, int scene_x, int scene_y)
-{
-	int xaux;
-	
-	//Whats next tile?
-	if( (x % TILE_SIZE) == 0)
-	{
-		xaux = x;
-		x -= STEP_LENGTH;
-
-		if (ReachesMapLimit(map, scene_x, scene_y)) {
-			ReachLimit(Direction::Left);
-			x = xaux;
-		} else if(CollidesMap(map)) {
-			x = xaux;
-			state = STATE_LOOKLEFT;
-		}
-	}
-	//Advance, no problem
-	else
-	{
-		x -= STEP_LENGTH;
-		if(state != STATE_WALKLEFT)
-		{
-			state = STATE_WALKLEFT;
-			seq = 0;
-			delay = 0;
-		}
-	}
+void cBicho::Stop() {
+	state = State::Look;
 }
 
-void cBicho::MoveUp(const Map &map, int scene_x, int scene_y) {
-    int yaux;
-
-	//Whats next tile?
-	if( (y % TILE_SIZE) == 0)
-	{
-		yaux = y;
-		y += STEP_LENGTH;
-
-		if (ReachesMapLimit(map, scene_x, scene_y)) {
-			ReachLimit(Direction::Up);
-			y = yaux;
-		} else if(CollidesMap(map)) {
-			y = yaux;
-			state = STATE_LOOKUP;
-		}
-	}
-	//Advance, no problem
-	else
-	{
-		y += STEP_LENGTH;
-
-		if(state != STATE_WALKUP)
-		{
-			state = STATE_WALKUP;
-			seq = 0;
-			delay = 0;
-		}
-	}
-}
-
-void cBicho::MoveRight(const Map &map, int scene_x, int scene_y) {
-	int xaux;
-
-	//Whats next tile?
-	if( (x % TILE_SIZE) == 0)
-	{
-		xaux = x;
-		x += STEP_LENGTH;
-
-		if (ReachesMapLimit(map, scene_x, scene_y)) {
-			ReachLimit(Direction::Right);
-			x = xaux;
-		} else if(CollidesMap(map)) {
-			x = xaux;
-			state = STATE_LOOKRIGHT;
-		}
-	}
-	//Advance, no problem
-	else
-	{
-		x += STEP_LENGTH;
-
-		if(state != STATE_WALKRIGHT)
-		{
-			state = STATE_WALKRIGHT;
-			seq = 0;
-			delay = 0;
-		}
-	}
-}
-
-void cBicho::Stop()
-{
-	switch(state)
-	{
-        case STATE_WALKDOWN:  state = STATE_LOOKDOWN;  break;
-        case STATE_WALKLEFT:  state = STATE_LOOKLEFT;  break;
-        case STATE_WALKUP:    state = STATE_LOOKUP;    break;
-		case STATE_WALKRIGHT: state = STATE_LOOKRIGHT; break;
-	}
-}
-
-void cBicho::Logic(const Map &map)
-{
+void cBicho::Logic(const Map &map) {
 }
 
 void cBicho::NextFrame(int max)
@@ -364,16 +267,25 @@ void cBicho::NextFrame(int max)
 		delay = 0;
 	}
 }
+
 int cBicho::GetFrame()
 {
 	return seq;
 }
-int cBicho::GetState()
-{
+
+Direction cBicho::GetDirection() {
+	return direction;
+}
+
+void cBicho::SetDirection(Direction dir) {
+	direction = dir;
+}
+
+cBicho::State cBicho::GetState() {
 	return state;
 }
-void cBicho::SetState(int s)
-{
-	state = s;
+
+void cBicho::SetState(cBicho::State state) {
+	this->state = state;
 }
 

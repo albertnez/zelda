@@ -13,26 +13,32 @@ void cPlayer::Draw(int tex_id)
 {	
 	float xo,yo,xf,yf;
 
-	switch(GetState())
-	{
-		//1
-        case STATE_LOOKDOWN:
-		case STATE_LOOKLEFT:	xo = 0.0f;	yo = 0.25f;
-								break;
-		//4
-        case STATE_LOOKUP:
-		case STATE_LOOKRIGHT:	xo = 0.25f;	yo = 0.25f;
-								break;
-		//1..3
-        case STATE_WALKDOWN:
-		case STATE_WALKLEFT:	xo = 0.0f;	yo = 0.25f + (GetFrame()*0.25f);
-								NextFrame(3);
-								break;
-		//4..6
-        case STATE_WALKUP:
-		case STATE_WALKRIGHT:	xo = 0.25f; yo = 0.25f + (GetFrame()*0.25f);
-								NextFrame(3);
-								break;
+	switch (GetDirection()) {
+		case Up:
+			xo = 0.25f;
+			yo = 0.25f;
+			break;
+		case Down: 
+			xo = 0.0f;
+			yo = 0.25f;
+			break;
+		case Left:
+			xo = 0.0f;
+			yo = 0.25f;
+			break;
+		case Right:
+			xo = 0.25f;
+			yo = 0.25f;
+			break;
+		default:
+			// Set some default sprite.
+			xo = 0.25f;
+			yo = 0.25f;
+			break;
+	}
+	if (GetState() == State::Walk) {
+		yo += GetFrame()*0.25f;
+		NextFrame(3);
 	}
 	xf = xo + 0.25f;
 	yf = yo - 0.25f;
