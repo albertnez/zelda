@@ -1,31 +1,36 @@
 #pragma once
 
 #include "cTexture.h"
+#include <string>
+#include <vector>
 
 // Number of tiles in the map.
-#define SCENE_WIDTH	80
-#define SCENE_HEIGHT	60
+extern const int SCENE_WIDTH;
+extern const int SCENE_HEIGHT;
 // The Tiles that are visible at any time.
-#define VIEW_WIDTH 40
-#define VIEW_HEIGHT 30
+extern const int VIEW_WIDTH;
+extern const int VIEW_HEIGHT;
 
-#define FILENAME		"level"
-#define FILENAME_EXT	".txt"
+extern const std::string FILENAME;
+extern const std::string FILENAME_EXT;
 
-#define TILE_SIZE		16
-#define BLOCK_SIZE		24
+extern const int TILE_SIZE;
+extern const int BLOCK_SIZE;
+// #define TILE_SIZE		16
+// #define BLOCK_SIZE		24
 
 class cScene
 {
 public:
+	typedef std::vector<std::vector<int>> Map;
 	cScene(void);
 	virtual ~cScene(void);
 
 	bool LoadLevel(int level);
 	void Draw(int tex_id);
-	int *GetMap();
+	const Map& GetMap() const;
 
 private:
-	int map[SCENE_WIDTH * SCENE_HEIGHT];	//scene
+	Map map;  // Map of the scene.
 	int id_DL;								//actual level display list
 };

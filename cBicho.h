@@ -3,6 +3,7 @@
 #include "cTexture.h"
 #include "Globals.h"
 #include "utils.h"
+#include <vector>
 
 #define FRAME_DELAY		8
 #define STEP_LENGTH		2
@@ -28,16 +29,17 @@
 class cBicho
 {
 public:
+	typedef std::vector<std::vector<int>> Map;
 	cBicho(void);
 	cBicho(int x,int y,int w,int h);
 	~cBicho(void);
 
 	void SetPosition(int x,int y);
-	void GetPosition(int *x,int *y);
+	void GetPosition(int *x, int *y);
 	void SetTile(int tx,int ty);
-	void GetTile(int *tx,int *ty);
+	void GetTile(int *tx, int *ty);
 	void SetWidthHeight(int w,int h);
-	void GetWidthHeight(int *w,int *h);
+	void GetWidthHeight(int *w, int *h);
 	void SetHitpoints(int hp);
 	int GetHitpoints();
 	void SetMaxHitpoints(int hp);
@@ -50,11 +52,11 @@ public:
 
 	bool Collides(cRect *rc);
 	// Checks collision with tiles
-	bool CollidesMap(int *map);
-	bool CollidesMapWall(int *map,bool right);
-	bool CollidesMapFloor(int *map);
+	bool CollidesMap(const Map &map);
+	bool CollidesMapWall(const Map &map,bool right);
+	bool CollidesMapFloor(const Map &map);
 	// Returns whether reaches the limit of the map.
-	bool ReachesMapLimit(int *map, int scene_x, int scene_y);
+	bool ReachesMapLimit(const Map &map, int scene_x, int scene_y);
 	// Called when cBicho reaches limit of map.
 	virtual void ReachLimit(Direction dir);
 
@@ -62,13 +64,13 @@ public:
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
-	void MoveLeft(int *map, int scene_x = 0, int scene_y = 0);
-	void MoveUp(int *map, int scene_x = 0, int scene_y = 0);
-	void MoveRight(int *map, int scene_x = 0, int scene_y = 0);
-	void MoveDown(int *map, int scene_x = 0, int scene_y = 0);   
-	void Jump(int *map);
+	void MoveLeft(const Map &map, int scene_x = 0, int scene_y = 0);
+	void MoveUp(const Map &map, int scene_x = 0, int scene_y = 0);
+	void MoveRight(const Map &map, int scene_x = 0, int scene_y = 0);
+	void MoveDown(const Map &map, int scene_x = 0, int scene_y = 0);   
+	void Jump(const Map &map);
 	void Stop();
-	void Logic(int *map);
+	void Logic(const Map &map);
 
 	int  GetState();
 	void SetState(int s);

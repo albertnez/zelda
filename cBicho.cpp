@@ -92,7 +92,7 @@ bool cBicho::Collides(cRect *rc)
 	return ((x>rc->left) && (x+w<rc->right) && (y>rc->bottom) && (y+h<rc->top));
 }
 
-bool cBicho::CollidesMap(int *map) {
+bool cBicho::CollidesMap(const Map &map) {
     int init_tile_x = x / TILE_SIZE;
     int init_tile_y = y / TILE_SIZE;
     int tile_width = w / TILE_SIZE;
@@ -108,14 +108,14 @@ bool cBicho::CollidesMap(int *map) {
             if (j < 0 || j >= SCENE_HEIGHT) {
                 continue;
             }
-            if (map[i + j*SCENE_WIDTH] != 0) {
+	    if (map[j][i] != 0) {
                 return true;
             }
         }
     }
     return false;
 }
-bool cBicho::CollidesMapWall(int *map,bool right)
+bool cBicho::CollidesMapWall(const Map &map,bool right)
 {
 	int tile_x,tile_y;
 	int j;
@@ -130,13 +130,13 @@ bool cBicho::CollidesMapWall(int *map,bool right)
 	
 	for(j=0;j<height_tiles;j++)
 	{
-		if(map[ tile_x + ((tile_y+j)*SCENE_WIDTH) ] != 0)	return true;
+		if (map[tile_y+j][tile_x] != 0)	return true;
 	}
 	
 	return false;
 }
 
-bool cBicho::CollidesMapFloor(int *map)
+bool cBicho::CollidesMapFloor(const Map &map)
 {
 	int tile_x,tile_y;
 	int width_tiles;
@@ -155,12 +155,12 @@ bool cBicho::CollidesMapFloor(int *map)
 	{
 		if( (y % TILE_SIZE) == 0 )
 		{
-			if(map[ (tile_x + i) + ((tile_y - 1) * SCENE_WIDTH) ] != 0)
+			if(map[tile_y-1][tile_x+1] != 0)
 				on_base = true;
 		}
 		else
 		{
-			if(map[ (tile_x + i) + (tile_y * SCENE_WIDTH) ] != 0)
+			if (map[tile_y][tile_x + i] != 0)
 			{
 				y = (tile_y + 1) * TILE_SIZE;
 				on_base = true;
@@ -171,7 +171,7 @@ bool cBicho::CollidesMapFloor(int *map)
 	return on_base;
 }
 
-bool cBicho::ReachesMapLimit(int *map, int scene_x, int scene_y) {
+bool cBicho::ReachesMapLimit(const Map &map, int scene_x, int scene_y) {
 	int init_tile_x = x / TILE_SIZE;
 	int init_tile_y = y / TILE_SIZE;
 	int tile_width = w / TILE_SIZE;
@@ -216,7 +216,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::MoveDown(int *map, int scene_x, int scene_y) {
+void cBicho::MoveDown(const Map &map, int scene_x, int scene_y) {
     int yaux;
 	
 	//Whats next tile?
@@ -246,7 +246,7 @@ void cBicho::MoveDown(int *map, int scene_x, int scene_y) {
 	}
 }
 
-void cBicho::MoveLeft(int *map, int scene_x, int scene_y)
+void cBicho::MoveLeft(const Map &map, int scene_x, int scene_y)
 {
 	int xaux;
 	
@@ -277,7 +277,7 @@ void cBicho::MoveLeft(int *map, int scene_x, int scene_y)
 	}
 }
 
-void cBicho::MoveUp(int *map, int scene_x, int scene_y) {
+void cBicho::MoveUp(const Map &map, int scene_x, int scene_y) {
     int yaux;
 
 	//Whats next tile?
@@ -308,7 +308,7 @@ void cBicho::MoveUp(int *map, int scene_x, int scene_y) {
 	}
 }
 
-void cBicho::MoveRight(int *map, int scene_x, int scene_y) {
+void cBicho::MoveRight(const Map &map, int scene_x, int scene_y) {
 	int xaux;
 
 	//Whats next tile?
@@ -350,7 +350,7 @@ void cBicho::Stop()
 	}
 }
 
-void cBicho::Logic(int *map)
+void cBicho::Logic(const Map &map)
 {
 }
 
