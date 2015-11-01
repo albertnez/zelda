@@ -2,8 +2,7 @@
 
 #include "cBicho.h"
 
-#define PLAYER_START_CX		3
-#define PLAYER_START_CY		2
+extern const int PLAYER_TILE_SIZE;
 
 class cPlayer: public cBicho
 {

@@ -5,6 +5,8 @@
 const int GAME_WIDTH = 640;
 const int GAME_HEIGHT = 480;
 
+//const int X_TRANSITION = STEP_LENGTH;
+//const int Y_TRANSITION = STEP_LENGTH;
 const int TRANSITION_FRAMES = 80;
 const int X_TRANSITION = VIEW_WIDTH * TILE_SIZE / TRANSITION_FRAMES;
 const int Y_TRANSITION = VIEW_HEIGHT * TILE_SIZE / TRANSITION_FRAMES;
@@ -45,7 +47,7 @@ bool cGame::Init()
 	res = Data.LoadImage(IMG_PLAYER,"bub.png",GL_RGBA);
 	if(!res) return false;
 	Player.SetWidthHeight(32,32);
-	Player.SetTile(4,1);
+	Player.SetTile(20,25);
 	Player.SetWidthHeight(32,32);
 	Player.SetDirection(Direction::Right);
 	Player.SetState(cBicho::State::Look);
@@ -134,12 +136,12 @@ bool cGame::Process()
 void cGame::startTransition() {
 	transitionState = Player.GetTransition();
 	state = STATE_SCREEN_CHANGE;
-	UpdateScenePos(transitionState);
 	frame = 0;
 }
 
 void cGame::endTransition() {
 	state = STATE_STATIC_CAMERA;
+	UpdateScenePos(transitionState);
 	Player.EndTransition();
 }
 
@@ -148,18 +150,27 @@ void cGame::Render()
 {
 
 	if (state == STATE_SCREEN_CHANGE) {
+		int px, py, pw, ph;
+		Player.GetPosition(&px, &py);
+		Player.GetWidthHeight(&pw, &ph);
+
 		if (transitionState == Direction::Right) {
 			sceneOffsetx += X_TRANSITION;
+			px = std::max(px, sceneOffsetx);
 		}
 		else if (transitionState == Direction::Left) {
 			sceneOffsetx -= X_TRANSITION;
+			px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
 		}
 		else if (transitionState == Direction::Down) {
 			sceneOffsety -= Y_TRANSITION;
+			py = std::min(py, sceneOffsety + GAME_HEIGHT - ph);
 		}
 		else if (transitionState == Direction::Up) {
 			sceneOffsety += Y_TRANSITION;
+			py = std::max(py, sceneOffsety);
 		}
+		Player.SetPosition(px, py);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();

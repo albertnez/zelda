@@ -2,6 +2,7 @@
 #include "cPlayer.h"
 #include "cScene.h"
 
+const int PLAYER_TILE_SIZE = 2;
 cPlayer::cPlayer() : transition(Direction::None) {}
 cPlayer::~cPlayer(){}
 
@@ -53,22 +54,6 @@ bool cPlayer::IsChangingScreen()
 }
 
 void cPlayer::EndTransition() {
-	switch (transition) {
-		case Direction::Left:
-			x -= 2*TILE_SIZE;
-			break;
-		case Direction::Right:
-			x += 2*TILE_SIZE;
-			break;
-		case Direction::Up:
-			y += 2*TILE_SIZE;
-			break;
-		case Direction::Down:
-			y -= 2*TILE_SIZE;
-			break;
-		default:
-			break;
-	}
 	transition = Direction::None;
 }
 
