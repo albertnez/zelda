@@ -2,8 +2,8 @@
 #include "Globals.h"
 #include <iostream>
 
-const int GAME_WIDTH = 640;
-const int GAME_HEIGHT = 480;
+const int GAME_WIDTH = 256;
+const int GAME_HEIGHT = 172;
 
 const int TRANSITION_FRAMES = 80;
 const int X_TRANSITION = VIEW_WIDTH * TILE_SIZE / TRANSITION_FRAMES;
@@ -44,14 +44,14 @@ bool cGame::Init()
 	//Scene initialization
 	res = Data.LoadImage(IMG_BLOCKS,"blocks.png",GL_RGBA);
 	if(!res) return false;
-	res = Scene.LoadLevel(1);
+	res = Scene.LoadLevel(2);
 	if(!res) return false;
 
 	//Player initialization
 	res = Data.LoadImage(IMG_PLAYER,"bub.png",GL_RGBA);
 	if(!res) return false;
 	Player.SetWidthHeight(32,32);
-	Player.SetTile(20,25);
+	Player.SetTile(5, 5);
 	Player.SetWidthHeight(32,32);
 	Player.SetDirection(Direction::Right);
 	Player.SetState(cBicho::State::Look);

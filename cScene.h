@@ -4,9 +4,6 @@
 #include <string>
 #include <vector>
 
-// Number of tiles in the map.
-extern const int SCENE_WIDTH;
-extern const int SCENE_HEIGHT;
 // The Tiles that are visible at any time.
 extern const int VIEW_WIDTH;
 extern const int VIEW_HEIGHT;

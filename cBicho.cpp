@@ -102,11 +102,11 @@ bool cBicho::CollidesMap(const Map &map) {
     int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
 
     for (int i = init_tile_x; i < end_tile_x; ++i) {
-        if (i < 0 || i >= SCENE_WIDTH) {
+        if (i < 0 || i >= int(map[0].size())) {
             continue;
         }
         for (int j = init_tile_y; j < end_tile_y; ++j) {
-            if (j < 0 || j >= SCENE_HEIGHT) {
+            if (j < 0 || j >= int(map.size())) {
                 continue;
             }
 	    if (map[j][i] != 0) {

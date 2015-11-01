@@ -3,11 +3,8 @@
 #include <iostream>
 #include <fstream>
 
-const int SCENE_WIDTH = 80;
-const int SCENE_HEIGHT = 60;
-
-const int VIEW_WIDTH = 40;
-const int VIEW_HEIGHT = 30;
+const int VIEW_WIDTH = 16;
+const int VIEW_HEIGHT = 11;
 
 const std::string FILENAME = "level";
 const std::string FILENAME_EXT = ".txt";
@@ -29,10 +26,8 @@ cScene::~cScene(void)
 
 bool cScene::LoadLevel(int level)
 {
-	map = Map(SCENE_HEIGHT, std::vector<int>(SCENE_WIDTH, 0));
 	bool res;
 	int i,j,px,py;
-	char tile;
 	float coordx_tile, coordy_tile;
 
 	res=true;
@@ -45,40 +40,29 @@ bool cScene::LoadLevel(int level)
 		return false;
 	}
 
+	int sceneWidth, sceneHeight;
+	ifs >> sceneWidth >> sceneHeight;
+	map = Map(sceneHeight, std::vector<int>(sceneWidth, 0));
+
+	std::cerr << "width: " << sceneWidth << " height: " << sceneHeight << std::endl;
 	id_DL=glGenLists(1);
 	glNewList(id_DL,GL_COMPILE);
 
 	glBegin(GL_QUADS);
 
-	for(j=SCENE_HEIGHT-1;j>=0;j--) {
+	for (j = sceneHeight - 1; j >= 0; j--) {
 		px=0;
 		py=(j*TILE_SIZE);
 
-		std::string line;
-		getline(ifs, line);
-		for(i=0;i<SCENE_WIDTH;i++) {
-			tile = line[i];
-			if(tile==' ') {
-				map[j][i] = 0;
-			} else {
-				map[j][i] = tile - '0';
+		for (i=0; i< sceneWidth; i++) {
+			ifs >> map[j][i];
 
 			coordx_tile = double(map[j][i] % TILESET_WIDTH) / (TILESET_WIDTH);
 			coordy_tile = double(map[j][i] / TILESET_WIDTH) / (TILESET_HEIGHT);
-			// if (map[j][i] & 1) coordx_tile = 0.0f;
-			// else coordx_tile = 0.5f;
-			// if (map[j][i] < 3) coordy_tile = 0.0f;
-			// else coordy_tile = 0.5f;
-			//
+
 			const double tilesetXPixels = 1./TILESET_WIDTH;
 			const double tilesetYPixels = 1./TILESET_HEIGHT;
-			//coordx_tile = 0.0;
-			//coordy_tile = 0.0;
-			//double tilesetXPixels = 0.24;
-			//double tilesetYPixels = 0.24;
 
-			// TILE_SIZE = 16, FILE_SIZE = 64.
-			// 16 / 64 = 0.26666
 			glTexCoord2f(coordx_tile, coordy_tile + tilesetYPixels); 
 			glVertex2i(px, py);
 
@@ -91,7 +75,6 @@ bool cScene::LoadLevel(int level)
 			glTexCoord2f(coordx_tile, coordy_tile);
 			glVertex2i(px, py + TILE_SIZE);
 
-			}
 			px+=TILE_SIZE;
 		}
 	}
