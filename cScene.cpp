@@ -15,6 +15,9 @@ const std::string FILENAME_EXT = ".txt";
 const int TILE_SIZE = 16;
 const int BLOCK_SIZE = 24;
 
+const int TILESET_WIDTH = 18;
+const int TILESET_HEIGHT = 8;
+
 
 cScene::cScene(void)
 {
@@ -58,27 +61,36 @@ bool cScene::LoadLevel(int level)
 			if(tile==' ') {
 				map[j][i] = 0;
 			} else {
-				//Tiles = 1,2,3,...
 				map[j][i] = tile - '0';
 
-				if (map[j][i] & 1) coordx_tile = 0.0f;
-				else coordx_tile = 0.5f;
-				if (map[j][i] < 3) coordy_tile = 0.0f;
-				else coordy_tile = 0.5f;
+			coordx_tile = double(map[j][i] % TILESET_WIDTH) / (TILESET_WIDTH);
+			coordy_tile = double(map[j][i] / TILESET_WIDTH) / (TILESET_HEIGHT);
+			// if (map[j][i] & 1) coordx_tile = 0.0f;
+			// else coordx_tile = 0.5f;
+			// if (map[j][i] < 3) coordy_tile = 0.0f;
+			// else coordy_tile = 0.5f;
+			//
+			const double tilesetXPixels = 1./TILESET_WIDTH;
+			const double tilesetYPixels = 1./TILESET_HEIGHT;
+			//coordx_tile = 0.0;
+			//coordy_tile = 0.0;
+			//double tilesetXPixels = 0.24;
+			//double tilesetYPixels = 0.24;
 
-				// TILE_SIZE = 16, FILE_SIZE = 64.
-				// 16 / 64 = 0.26666
-				glTexCoord2f(coordx_tile ,coordy_tile + 0.26666f); 
-				glVertex2i(px, py);
+			// TILE_SIZE = 16, FILE_SIZE = 64.
+			// 16 / 64 = 0.26666
+			glTexCoord2f(coordx_tile, coordy_tile + tilesetYPixels); 
+			glVertex2i(px, py);
 
-				glTexCoord2f(coordx_tile + 0.26666f,coordy_tile + 0.26666f); 
-				glVertex2i(px + TILE_SIZE, py);
+			glTexCoord2f(coordx_tile + tilesetXPixels, coordy_tile + tilesetYPixels); 
+			glVertex2i(px + TILE_SIZE, py);
 
-				glTexCoord2f(coordx_tile + 0.26666f,coordy_tile);
-				glVertex2i(px + TILE_SIZE, py + TILE_SIZE);
+			glTexCoord2f(coordx_tile + tilesetXPixels, coordy_tile);
+			glVertex2i(px + TILE_SIZE, py + TILE_SIZE);
 
-				glTexCoord2f(coordx_tile, coordy_tile);
-				glVertex2i(px, py + TILE_SIZE);
+			glTexCoord2f(coordx_tile, coordy_tile);
+			glVertex2i(px, py + TILE_SIZE);
+
 			}
 			px+=TILE_SIZE;
 		}

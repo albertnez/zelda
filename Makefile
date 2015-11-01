@@ -2,6 +2,9 @@ all: main
 
 CFLAGS= -Wall -std=c++11
 
+debug: CFLAGS= -Wall -std=c++11 -g
+debug: main
+
 main: GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o
 	g++ GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o -o main -lGL -lGLU -lglut -L. $(CFLAGS)
 

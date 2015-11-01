@@ -1,5 +1,7 @@
 #include "cData.h"
 
+const int IMG_TILESET = 2;
+
 cData::cData(void) {}
 cData::~cData(void){}
 

@@ -16,8 +16,11 @@ extern const std::string FILENAME_EXT;
 
 extern const int TILE_SIZE;
 extern const int BLOCK_SIZE;
-// #define TILE_SIZE		16
-// #define BLOCK_SIZE		24
+
+// Number of tiles in the tileset image.
+extern const int TILESET_WIDTH;
+extern const int TILESET_HEIGHT;
+
 
 class cScene
 {

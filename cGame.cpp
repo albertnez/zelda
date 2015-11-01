@@ -5,8 +5,6 @@
 const int GAME_WIDTH = 640;
 const int GAME_HEIGHT = 480;
 
-//const int X_TRANSITION = STEP_LENGTH;
-//const int Y_TRANSITION = STEP_LENGTH;
 const int TRANSITION_FRAMES = 80;
 const int X_TRANSITION = VIEW_WIDTH * TILE_SIZE / TRANSITION_FRAMES;
 const int Y_TRANSITION = VIEW_HEIGHT * TILE_SIZE / TRANSITION_FRAMES;
@@ -37,6 +35,12 @@ bool cGame::Init()
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
 
+	// Load textures
+	if (!Data.LoadImage(IMG_TILESET, "res/tileset.png", GL_RGBA)) {
+		std::cerr << "Error loading res/tileset.png" << std::endl;
+		return false;
+	}
+	
 	//Scene initialization
 	res = Data.LoadImage(IMG_BLOCKS,"blocks.png",GL_RGBA);
 	if(!res) return false;
@@ -192,7 +196,7 @@ void cGame::Render()
 
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(IMG_BLOCKS));
+	Scene.Draw(Data.GetID(IMG_TILESET));
 	Player.Draw(Data.GetID(IMG_PLAYER));
 
 	glutSwapBuffers();

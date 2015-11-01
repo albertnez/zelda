@@ -6,11 +6,12 @@
 #include <string>
 
 //Image array size
-#define NUM_IMG		2
+#define NUM_IMG		3
 
 //Image identifiers
 #define IMG_BLOCKS	0
 #define IMG_PLAYER	1
+extern const int IMG_TILESET;
 /*
 #define IMG_ENEMY1	2
 #define IMG_ENEMY2	3
