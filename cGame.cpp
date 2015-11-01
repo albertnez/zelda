@@ -3,11 +3,12 @@
 #include <iostream>
 
 const int GAME_WIDTH = 256;
-const int GAME_HEIGHT = 172;
+const int GAME_HEIGHT = 176;
 
-const int TRANSITION_FRAMES = 80;
-const int X_TRANSITION = VIEW_WIDTH * TILE_SIZE / TRANSITION_FRAMES;
-const int Y_TRANSITION = VIEW_HEIGHT * TILE_SIZE / TRANSITION_FRAMES;
+// TRANSITION_SPEED should divide Game width and game height!
+const int TRANSITION_SPEED = 4;
+const int X_TRANSITION_FRAMES = TRANSITION_SPEED * VIEW_WIDTH;
+const int Y_TRANSITION_FRAMES = TRANSITION_SPEED * VIEW_HEIGHT;
 
 const int STATE_STATIC_CAMERA = 0;
 const int STATE_SCREEN_CHANGE = 1;
@@ -159,19 +160,19 @@ void cGame::Render()
 		Player.GetWidthHeight(&pw, &ph);
 
 		if (transitionState == Direction::Right) {
-			sceneOffsetx += X_TRANSITION;
+			sceneOffsetx += TRANSITION_SPEED;
 			px = std::max(px, sceneOffsetx);
 		}
 		else if (transitionState == Direction::Left) {
-			sceneOffsetx -= X_TRANSITION;
+			sceneOffsetx -= TRANSITION_SPEED;
 			px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
 		}
 		else if (transitionState == Direction::Down) {
-			sceneOffsety -= Y_TRANSITION;
+			sceneOffsety -= TRANSITION_SPEED;
 			py = std::min(py, sceneOffsety + GAME_HEIGHT - ph);
 		}
 		else if (transitionState == Direction::Up) {
-			sceneOffsety += Y_TRANSITION;
+			sceneOffsety += TRANSITION_SPEED;
 			py = std::max(py, sceneOffsety);
 		}
 		Player.SetPosition(px, py);
@@ -187,7 +188,11 @@ void cGame::Render()
 			);
 		glMatrixMode(GL_MODELVIEW);
 		frame++;
-		if (frame == TRANSITION_FRAMES) {
+		int targetFrames = X_TRANSITION_FRAMES;
+		if (transitionState == Direction::Up || transitionState == Direction::Down) {
+			targetFrames = Y_TRANSITION_FRAMES;
+		}
+		if (frame == targetFrames) {
 			endTransition();
 		}
 	}

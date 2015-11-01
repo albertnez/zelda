@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cTexture.h"
+#include "cMap.h"
 #include <string>
 #include <vector>
 
@@ -28,9 +29,9 @@ public:
 
 	bool LoadLevel(int level);
 	void Draw(int tex_id);
-	const Map& GetMap() const;
+	const cMap &GetMap() const;
 
 private:
-	Map map;  // Map of the scene.
+	cMap map;  // Map of the scene.
 	int id_DL;								//actual level display list
 };

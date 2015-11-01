@@ -3,7 +3,7 @@
 #include "cTexture.h"
 #include "Globals.h"
 #include "utils.h"
-#include <vector>
+#include "cMap.h"
 
 extern const int FRAME_DELAY;
 extern const int STEP_LENGTH;
@@ -15,7 +15,6 @@ public:
 		Look = 0,
 		Walk,
 	};
-	typedef std::vector<std::vector<int>> Map;
 	cBicho(void);
 	cBicho(int x,int y,int w,int h);
 	~cBicho(void);
@@ -38,11 +37,9 @@ public:
 
 	bool Collides(cRect *rc);
 	// Checks collision with tiles
-	bool CollidesMap(const Map &map);
-	bool CollidesMapWall(const Map &map,bool right);
-	bool CollidesMapFloor(const Map &map);
+	bool CollidesMap(const cMap &map);
 	// Returns whether reaches the limit of the map.
-	bool ReachesMapLimit(const Map &map, int scene_x, int scene_y);
+	bool ReachesMapLimit(const cMap &map, int scene_x, int scene_y);
 	// Called when cBicho reaches limit of map.
 	virtual void ReachLimit(Direction dir);
 
@@ -50,9 +47,9 @@ public:
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
-	void Move(const Map &map, Direction dir, int sceneX = 0, int sceneY = 0);
+	void Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
 	void Stop();
-	void Logic(const Map &map);
+	void Logic(const cMap &map);
 
 	Direction GetDirection();
 	void SetDirection(Direction dir);

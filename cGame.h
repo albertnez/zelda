@@ -7,12 +7,6 @@
 
 extern const int GAME_WIDTH;
 extern const int GAME_HEIGHT;
-extern const int TRANSITION_FRAMES;
-extern const int X_FRAMES;
-extern const int Y_FRAMES;
-
-extern const int X_TRANSITION;
-extern const int Y_TRANSITION;
 
 extern const int STATE_STATIC_CAMERA;
 extern const int STATE_SCREEN_CHANGE;

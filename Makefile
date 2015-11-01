@@ -5,8 +5,8 @@ CFLAGS= -Wall -std=c++11
 debug: CFLAGS= -Wall -std=c++11 -g
 debug: main
 
-main: GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o
-	g++ GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o -o main -lGL -lGLU -lglut -L. $(CFLAGS)
+main: GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o
+	g++ GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o -o main -lGL -lGLU -lglut -L. $(CFLAGS)
 
 GLUTMain.o: GLUTMain.cpp
 	g++ -c GLUTMain.cpp -lGL -lGLU -lglut $(CFLAGS)
@@ -28,6 +28,9 @@ cGame.o: cGame.cpp cGame.h
 
 cTexture.o: cTexture.cpp cTexture.h
 	g++ -c cTexture.cpp $(CFLAGS)
+
+cMap.o: cMap.cpp cMap.h
+	g++ -c cMap.cpp $(CFLAGS)
 
 clean:
 	rm -f *.o main

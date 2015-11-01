@@ -93,7 +93,7 @@ bool cBicho::Collides(cRect *rc)
 	return ((x>rc->left) && (x+w<rc->right) && (y>rc->bottom) && (y+h<rc->top));
 }
 
-bool cBicho::CollidesMap(const Map &map) {
+bool cBicho::CollidesMap(const cMap &map) {
     int init_tile_x = x / TILE_SIZE;
     int init_tile_y = y / TILE_SIZE;
     int tile_width = w / TILE_SIZE;
@@ -102,77 +102,22 @@ bool cBicho::CollidesMap(const Map &map) {
     int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
 
     for (int i = init_tile_x; i < end_tile_x; ++i) {
-        if (i < 0 || i >= int(map[0].size())) {
+        if (i < 0 || i >= map.Width()) {
             continue;
         }
         for (int j = init_tile_y; j < end_tile_y; ++j) {
-            if (j < 0 || j >= int(map.size())) {
+            if (j < 0 || j >= map.Height()) {
                 continue;
             }
-	    if (map[j][i] != 0) {
+	    if (map.Obstacle(i, j)) {
                 return true;
             }
         }
     }
     return false;
 }
-bool cBicho::CollidesMapWall(const Map &map,bool right)
-{
-	int tile_x,tile_y;
-	int j;
-	int width_tiles,height_tiles;
 
-	tile_x = x / TILE_SIZE;
-	tile_y = y / TILE_SIZE;
-	width_tiles  = w / TILE_SIZE;
-	height_tiles = h / TILE_SIZE;
-
-	if(right)	tile_x += width_tiles;
-	
-	for(j=0;j<height_tiles;j++)
-	{
-		if (map[tile_y+j][tile_x] != 0)	return true;
-	}
-	
-	return false;
-}
-
-bool cBicho::CollidesMapFloor(const Map &map)
-{
-	int tile_x,tile_y;
-	int width_tiles;
-	bool on_base;
-	int i;
-
-	tile_x = x / TILE_SIZE;
-	tile_y = y / TILE_SIZE;
-
-	width_tiles = w / TILE_SIZE;
-	if( (x % TILE_SIZE) != 0) width_tiles++;
-
-	on_base = false;
-	i=0;
-	while((i<width_tiles) && !on_base)
-	{
-		if( (y % TILE_SIZE) == 0 )
-		{
-			if(map[tile_y-1][tile_x+1] != 0)
-				on_base = true;
-		}
-		else
-		{
-			if (map[tile_y][tile_x + i] != 0)
-			{
-				y = (tile_y + 1) * TILE_SIZE;
-				on_base = true;
-			}
-		}
-		i++;
-	}
-	return on_base;
-}
-
-bool cBicho::ReachesMapLimit(const Map &map, int scene_x, int scene_y) {
+bool cBicho::ReachesMapLimit(const cMap &map, int scene_x, int scene_y) {
 	int init_tile_x = x / TILE_SIZE;
 	int init_tile_y = y / TILE_SIZE;
 	int tile_width = w / TILE_SIZE;
@@ -217,7 +162,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::Move(const Map& map, Direction dir, int sceneX, int sceneY) {
+void cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 	int &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
 	int mult = 1;
 	if (dir == Direction::Left || dir == Direction::Down) {
@@ -254,7 +199,7 @@ void cBicho::Stop() {
 	state = State::Look;
 }
 
-void cBicho::Logic(const Map &map) {
+void cBicho::Logic(const cMap &map) {
 }
 
 void cBicho::NextFrame(int max)

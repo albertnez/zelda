@@ -42,7 +42,8 @@ bool cScene::LoadLevel(int level)
 
 	int sceneWidth, sceneHeight;
 	ifs >> sceneWidth >> sceneHeight;
-	map = Map(sceneHeight, std::vector<int>(sceneWidth, 0));
+
+	map = cMap(sceneWidth, sceneHeight);
 
 	std::cerr << "width: " << sceneWidth << " height: " << sceneHeight << std::endl;
 	id_DL=glGenLists(1);
@@ -55,10 +56,12 @@ bool cScene::LoadLevel(int level)
 		py=(j*TILE_SIZE);
 
 		for (i=0; i< sceneWidth; i++) {
-			ifs >> map[j][i];
+			int tile;
+			ifs >> tile;
+			map.SetCell(i, j, tile);
 
-			coordx_tile = double(map[j][i] % TILESET_WIDTH) / (TILESET_WIDTH);
-			coordy_tile = double(map[j][i] / TILESET_WIDTH) / (TILESET_HEIGHT);
+			coordx_tile = double(tile % TILESET_WIDTH) / (TILESET_WIDTH);
+			coordy_tile = double(tile / TILESET_WIDTH) / (TILESET_HEIGHT);
 
 			const double tilesetXPixels = 1./TILESET_WIDTH;
 			const double tilesetYPixels = 1./TILESET_HEIGHT;
@@ -94,7 +97,7 @@ void cScene::Draw(int tex_id)
 	glCallList(id_DL);
 	glDisable(GL_TEXTURE_2D);
 }
-const cScene::Map& cScene::GetMap() const
+const cMap &cScene::GetMap() const
 {
 	return map;
 }
