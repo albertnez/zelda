@@ -3,7 +3,7 @@
 #include <iostream>
 
 const int GAME_WIDTH = 256;
-const int GAME_HEIGHT = 176;
+const int GAME_HEIGHT = 224;
 
 // TRANSITION_SPEED should divide Game width and game height!
 const int TRANSITION_SPEED = 4;
@@ -58,6 +58,14 @@ bool cGame::Init()
 	Player.SetWidthHeight(16,16);
 	Player.SetDirection(Direction::Right);
 	Player.SetState(cBicho::State::Look);
+
+
+	res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
+	if (!res) return false;
+	Gui.setMaxHP(6);
+	Gui.setHP(6);
+	return res;
+
 
 	return res;
 }
@@ -171,7 +179,6 @@ void cGame::endTransition() {
 //Output
 void cGame::Render()
 {
-
 	if (state == STATE_SCREEN_CHANGE) {
 		int px, py, pw, ph;
 		Player.GetPosition(&px, &py);
@@ -214,7 +221,8 @@ void cGame::Render()
 			endTransition();
 		}
 	}
-
+	Gui.setXo(sceneOffsetx);
+	Gui.setYo(sceneOffsety);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -223,6 +231,8 @@ void cGame::Render()
 	Scene.Draw(Data.GetID(Images::Tileset));
 	Data.GetSize(Images::Sprites, &width, &height);
 	Player.Draw(Data.GetID(Images::Sprites), width, height);
+
+	Gui.Draw(Data.GetID(Images::Hearts),GAME_WIDTH,GAME_HEIGHT);
 
 	glutSwapBuffers();
 }

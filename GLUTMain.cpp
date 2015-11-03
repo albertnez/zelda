@@ -45,7 +45,7 @@ void AppIdle()
 	int elapsed = et - st;
 	if (elapsed < 1000 / 60)
 	{
-		std::this_thread::sleep_for(std::chrono::microseconds(1000/60 - elapsed));
+		std::this_thread::sleep_for(std::chrono::microseconds(100000/60 - elapsed*1000));
 	}
 
 }

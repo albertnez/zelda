@@ -4,7 +4,8 @@
 #include "cPlayer.h"
 #include "cData.h"
 #include "utils.h"
-
+#include "cGui.h"
+#include <algorithm>
 extern const int GAME_WIDTH;
 extern const int GAME_HEIGHT;
 
@@ -46,4 +47,6 @@ private:
 	Direction transitionState;
 	int state;
 	int frame = 0;
+	cGUI Gui;
+
 };
