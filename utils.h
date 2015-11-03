@@ -8,6 +8,7 @@ enum Direction {
 	Right,
 	Above,
 	Below,
+    SizeDirection,
 };
 
 struct cRect {

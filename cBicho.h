@@ -4,6 +4,8 @@
 #include "Globals.h"
 #include "utils.h"
 #include "cMap.h"
+#include "cAnim.h"
+#include <unordered_map>
 
 extern const int FRAME_DELAY;
 extern const int STEP_LENGTH;
@@ -42,6 +44,10 @@ public:
 	bool ReachesMapLimit(const cMap &map, int scene_x, int scene_y);
 	// Called when cBicho reaches limit of map.
 	virtual void ReachLimit(Direction dir);
+    // Reset Animation.
+    void ResetAnimation();
+    void SetAnimation(const std::string& name);
+    std::string GetAnimation();
 
 
 	void GetArea(cRect *rc);
@@ -57,11 +63,9 @@ public:
 	void SetState(State state);
 
 	void NextFrame(int max);
-	int  GetFrame();
 	
 protected:
 	int x,y;
-private:
 	int w,h;
 	Direction direction;
 	State state;
@@ -69,5 +73,6 @@ private:
 	int max_hitpoints;
 	int attack;
 
-	int seq,delay;
+	std::string currentAnimation;
+	std::unordered_map<std::string, cAnim> animations;
 };

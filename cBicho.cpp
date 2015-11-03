@@ -7,12 +7,10 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
-cBicho::cBicho(void)
-{
-	seq=0;
-	delay=0;
+cBicho::cBicho(void) {
 }
-cBicho::~cBicho(void){}
+
+cBicho::~cBicho(void) {}
 
 cBicho::cBicho(int posx,int posy,int width,int height)
 {
@@ -135,6 +133,19 @@ bool cBicho::ReachesMapLimit(const cMap &map, int scene_x, int scene_y) {
 void cBicho::ReachLimit(Direction dir) {
 }
 
+void cBicho::ResetAnimation() {
+	animations[currentAnimation].Reset();
+}
+
+void cBicho::SetAnimation(const std::string& name) {
+	currentAnimation = name;
+	animations[currentAnimation].Reset();
+}
+
+std::string cBicho::GetAnimation() {
+	return currentAnimation;
+}
+
 void cBicho::GetArea(cRect *rc)
 {
 	rc->left   = x;
@@ -187,8 +198,6 @@ void cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 		// restart animation on direction change.
 		if (state != State::Walk) {
 			state = State::Walk;
-			seq = 0;
-			delay = 0;
 		}
 	}
 	// Always set direction
@@ -202,21 +211,10 @@ void cBicho::Stop() {
 void cBicho::Logic(const cMap &map) {
 }
 
-void cBicho::NextFrame(int max)
-{
-	delay++;
-	if(delay == FRAME_DELAY)
-	{
-		seq++;
-		seq%=max;
-		delay = 0;
-	}
+void cBicho::NextFrame(int max) {
+	animations[currentAnimation].Advance(max);
 }
 
-int cBicho::GetFrame()
-{
-	return seq;
-}
 
 Direction cBicho::GetDirection() {
 	return direction;

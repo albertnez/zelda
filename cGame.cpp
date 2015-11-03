@@ -126,8 +126,24 @@ bool cGame::Process()
 		else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
 		else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
 
+		std::string oldAnimation = Player.GetAnimation();
+		std::vector<std::string> animations(Direction::SizeDirection);
+		animations[Direction::Up] = "up";
+		animations[Direction::Down] = "down";
+		animations[Direction::Left] = "left";
+		animations[Direction::Right] = "right";
+
 		if (dir == Direction::None) Player.Stop();
 		else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
+
+		std::string newAnimation;
+		if (Player.GetState() == cBicho::State::Walk) {
+			newAnimation = "walk";
+		}
+		newAnimation += animations[Player.GetDirection()];
+		if (newAnimation != oldAnimation) {
+			Player.SetAnimation(newAnimation);
+		}
 
 		//Game Logic
 		Player.Logic(Scene.GetMap());

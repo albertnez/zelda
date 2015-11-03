@@ -21,6 +21,4 @@ public:
 
 private:
 	Direction transition;
-	std::unordered_map<std::string, cAnim> animations;
-	std::string currentAnimation;
 };

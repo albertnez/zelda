@@ -10,7 +10,7 @@ enum Images : int {
     Player,
     Tileset,
     Sprites,
-    Size,
+    SizeImages,
 };
 
 class cData
@@ -24,5 +24,5 @@ public:
 	bool LoadImage(int img, const std::string& filename,int type = GL_RGBA);
 
 private:
-	cTexture texture[Images::Size];
+	cTexture texture[Images::SizeImages];
 };
