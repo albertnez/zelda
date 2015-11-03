@@ -1,6 +1,9 @@
 #pragma once
 
 #include "cBicho.h"
+#include "cAnim.h"
+#include <unordered_map>
+#include <string>
 
 extern const int PLAYER_TILE_SIZE;
 
@@ -11,11 +14,13 @@ public:
 	~cPlayer();
 
 	void ReachLimit(Direction dir) override;
-	void Draw(int tex_id);
+	void Draw(int tex_id, int texWidth, int texHeight);
 	bool IsChangingScreen();
 	void EndTransition();
 	Direction GetTransition();
 
 private:
 	Direction transition;
+	std::unordered_map<std::string, cAnim> animations;
+	std::string currentAnimation;
 };

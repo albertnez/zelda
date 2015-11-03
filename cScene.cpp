@@ -1,6 +1,5 @@
 #include "cScene.h"
 #include "Globals.h"
-#include <iostream>
 #include <fstream>
 
 const int VIEW_WIDTH = 16;
@@ -36,8 +35,7 @@ bool cScene::LoadLevel(int level)
 
 	std::ifstream ifs(file);
 	if (!ifs.good()) {
-		std::cerr << "Error loading " << file << std::endl;
-		return false;
+		throw std::runtime_error("Error loading " + file);
 	}
 
 	int sceneWidth, sceneHeight;
@@ -45,7 +43,6 @@ bool cScene::LoadLevel(int level)
 
 	map = cMap(sceneWidth, sceneHeight);
 
-	std::cerr << "width: " << sceneWidth << " height: " << sceneHeight << std::endl;
 	id_DL=glGenLists(1);
 	glNewList(id_DL,GL_COMPILE);
 

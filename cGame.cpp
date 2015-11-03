@@ -37,23 +37,25 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 
 	// Load textures
-	if (!Data.LoadImage(IMG_TILESET, "res/tileset.png", GL_RGBA)) {
-		std::cerr << "Error loading res/tileset.png" << std::endl;
-		return false;
+	if (!Data.LoadImage(Images::Tileset, "res/tileset.png", GL_RGBA)) {
+		throw std::runtime_error("Error loading res/tileset.png");
+	}
+	if (!Data.LoadImage(Images::Sprites, "res/sprites.png", GL_RGBA)) {
+		throw std::runtime_error("Error loading res/sprites.png");
 	}
 	
 	//Scene initialization
-	res = Data.LoadImage(IMG_BLOCKS,"blocks.png",GL_RGBA);
+	res = Data.LoadImage(Images::Blocks, "blocks.png",GL_RGBA);
 	if(!res) return false;
 	res = Scene.LoadLevel(2);
 	if(!res) return false;
 
 	//Player initialization
-	res = Data.LoadImage(IMG_PLAYER,"bub.png",GL_RGBA);
+	res = Data.LoadImage(Images::Player, "bub.png",GL_RGBA);
 	if(!res) return false;
 	Player.SetWidthHeight(32,32);
 	Player.SetTile(5, 5);
-	Player.SetWidthHeight(32,32);
+	Player.SetWidthHeight(16,16);
 	Player.SetDirection(Direction::Right);
 	Player.SetState(cBicho::State::Look);
 
@@ -201,8 +203,10 @@ void cGame::Render()
 
 	glLoadIdentity();
 
-	Scene.Draw(Data.GetID(IMG_TILESET));
-	Player.Draw(Data.GetID(IMG_PLAYER));
+	int width, height;
+	Scene.Draw(Data.GetID(Images::Tileset));
+	Data.GetSize(Images::Sprites, &width, &height);
+	Player.Draw(Data.GetID(Images::Sprites), width, height);
 
 	glutSwapBuffers();
 }

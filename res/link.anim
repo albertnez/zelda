@@ -1,0 +1,14 @@
+# Format:
+# start animName numFrames
+#    startx starty width height frames
+#    startx starty width height frames
+#    ...
+# end
+#   
+#
+#
+start up 2
+    42 17 16 16 20
+    59 17 16 16 20
+end
+
