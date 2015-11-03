@@ -58,12 +58,14 @@ bool cGame::Init()
 	Player.SetWidthHeight(16,16);
 	Player.SetDirection(Direction::Right);
 	Player.SetState(cBicho::State::Look);
+	Player.SetHitpoints(6);
+	Player.SetMaxHitpoints(6);
 
 
 	res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
 	if (!res) return false;
-	Gui.setMaxHP(6);
-	Gui.setHP(6);
+	Gui.setMaxHP(Player.GetMaxHitpoints());
+	Gui.setHP(Player.GetHitpoints());
 	return res;
 
 
@@ -221,6 +223,7 @@ void cGame::Render()
 			endTransition();
 		}
 	}
+	Gui.setHP(Player.GetHitpoints());
 	Gui.setXo(sceneOffsetx);
 	Gui.setYo(sceneOffsety);
 	glClear(GL_COLOR_BUFFER_BIT);
