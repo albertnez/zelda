@@ -196,7 +196,7 @@ void cGame::Render()
 		}
 		else if (transitionState == Direction::Down) {
 			sceneOffsety -= TRANSITION_SPEED;
-			py = std::min(py, sceneOffsety + GAME_HEIGHT - ph);
+			py = std::min(py, sceneOffsety + VIEW_HEIGHT * TILE_SIZE - ph);
 		}
 		else if (transitionState == Direction::Up) {
 			sceneOffsety += TRANSITION_SPEED;
