@@ -13,7 +13,7 @@ public:
 	cPlayer();
 	~cPlayer();
 
-	void ReachLimit(Direction dir) override;
+	bool ReachLimit(Direction dir) override;
 	void Draw(int tex_id, int texWidth, int texHeight);
 	bool IsChangingScreen();
 	void EndTransition();

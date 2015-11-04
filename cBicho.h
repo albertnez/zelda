@@ -42,20 +42,22 @@ public:
 	bool CollidesMap(const cMap &map);
 	// Returns whether reaches the limit of the map.
 	bool ReachesMapLimit(const cMap &map, int scene_x, int scene_y);
-	// Called when cBicho reaches limit of map.
-	virtual void ReachLimit(Direction dir);
-    // Reset Animation.
-    void ResetAnimation();
-    void SetAnimation(const std::string& name);
-    std::string GetAnimation();
+	// Called when cBicho reaches limit of map. Returns true if
+	// it can go through the limit (like link going to next view).
+	virtual bool ReachLimit(Direction dir);
+	// Reset Animation.
+	void ResetAnimation();
+	void SetAnimation(const std::string& name);
+	std::string GetAnimation();
 
 
 	void GetArea(cRect *rc);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
-	void Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
+	// Returns True if it can move, false otherwise.
+	bool Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
 	void Stop();
-	void Logic(const cMap &map);
+	virtual void Logic(const cMap &map);
 
 	Direction GetDirection();
 	void SetDirection(Direction dir);
