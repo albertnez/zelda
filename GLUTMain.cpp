@@ -45,7 +45,12 @@ void AppIdle()
 	int elapsed = et - st;
 	if (elapsed < 1000 / 60)
 	{
+#ifdef WIN32
+		Sleep(1000 / 60 - elapsed);
+#else
 		std::this_thread::sleep_for(std::chrono::microseconds(100000/60 - elapsed*1000));
+#endif
+		
 	}
 
 }

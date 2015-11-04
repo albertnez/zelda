@@ -33,7 +33,6 @@ void cGUI::setYo(int newYo) {
 
 void cGUI::Draw(int img, int gui_width, int gui_height)
 {
-	int x = glutGet(GL_COLOR);
 
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
@@ -45,8 +44,6 @@ void cGUI::Draw(int img, int gui_width, int gui_height)
 
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	//glScissor(0, SCENE_Yo, gui_width,gui_height-SCENE_Yo);
-	//glClear(GL_COLOR_BI)
 	int resthp = hp;
 	int y = SCENE_Yo+10;
 	for (int i = 0; i < maxHP; i += 2) {
@@ -82,7 +79,6 @@ void cGUI::DrawRect(
 
 	screen_x = x + view_xo;
 	screen_y = y + view_yo;
-	//glColor3f(1.0f, 0.0f, 0.0f);
 	glEnable(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, tex_id);

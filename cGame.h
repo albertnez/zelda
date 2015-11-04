@@ -4,7 +4,7 @@
 #include "cPlayer.h"
 #include "cData.h"
 #include "utils.h"
-#include "cGui.h"
+#include "cGUI.h"
 #include <algorithm>
 extern const int GAME_WIDTH;
 extern const int GAME_HEIGHT;
