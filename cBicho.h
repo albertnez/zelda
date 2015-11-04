@@ -52,6 +52,7 @@ public:
 
 
 	void GetArea(cRect *rc);
+	virtual void Draw(int texId, int texWidth, int texHeight);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
 	// Returns True if it can move, false otherwise.

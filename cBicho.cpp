@@ -155,6 +155,17 @@ void cBicho::GetArea(cRect *rc)
 	rc->bottom = y;
 	rc->top    = y+h;
 }
+
+void cBicho::Draw(int texId, int texWidth, int texHeight) {
+	float xo,yo,xf,yf;
+
+	animations[currentAnimation].CurrentFrame().TextureOffset(xo, yo, xf, yf, texWidth, texHeight);
+	if (state == State::Walk) {
+		animations[currentAnimation].Advance(1);
+	}
+	DrawRect(texId,xo,yo,xf,yf);
+}
+
 void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 {
 	int screen_x,screen_y;

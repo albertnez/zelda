@@ -14,7 +14,6 @@ public:
 	~cPlayer();
 
 	bool ReachLimit(Direction dir) override;
-	void Draw(int tex_id, int texWidth, int texHeight);
 	bool IsChangingScreen();
 	void EndTransition();
 	Direction GetTransition();
