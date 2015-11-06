@@ -178,6 +178,16 @@ void cGame::startTransition() {
 
 void cGame::endTransition() {
 	state = STATE_STATIC_CAMERA;
+	if (transitionState == Direction::Above) {
+		if (!Scene.LoadLevel(2)) {
+			throw std::runtime_error("Error loading res/tileset.png");
+		}
+	}
+	if (transitionState == Direction::Below) {
+		if (!Scene.LoadLevel(3)) {
+			throw std::runtime_error("Error loading res/tileset.png");
+		}
+	}
 	UpdateScenePos(transitionState);
 	Player.EndTransition();
 }
