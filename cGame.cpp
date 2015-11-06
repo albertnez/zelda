@@ -64,9 +64,13 @@ bool cGame::Init()
 
 	res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
 	if (!res) return false;
+
+	res = Data.LoadImage(Images::Font, "res/nesfont_w.png", GL_RGBA);
+	if (!res) return false;
+	Gui.init();
 	Gui.setMaxHP(Player.GetMaxHitpoints());
 	Gui.setHP(Player.GetHitpoints());
-	return res;
+
 
 
 	return res;
@@ -235,7 +239,7 @@ void cGame::Render()
 	Data.GetSize(Images::Sprites, &width, &height);
 	Player.Draw(Data.GetID(Images::Sprites), width, height);
 
-	Gui.Draw(Data.GetID(Images::Hearts),GAME_WIDTH,GAME_HEIGHT);
+	Gui.Draw(Data.GetID(Images::Hearts),Data.GetID(Images::Font),GAME_WIDTH,GAME_HEIGHT);
 
 	glutSwapBuffers();
 }

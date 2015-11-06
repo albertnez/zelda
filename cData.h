@@ -11,6 +11,7 @@ enum Images : int {
     Tileset,
     Sprites,
 	Hearts,
+	Font,
     SizeImages,
 };
 

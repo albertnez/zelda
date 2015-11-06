@@ -90,6 +90,7 @@
     <ClCompile Include="cAnim.cpp" />
     <ClCompile Include="cBicho.cpp" />
     <ClCompile Include="cData.cpp" />
+    <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cGame.cpp" />
     <ClCompile Include="cGUI.cpp" />
     <ClCompile Include="cMap.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="cAnim.h" />
     <ClInclude Include="cBicho.h" />
     <ClInclude Include="cData.h" />
+    <ClInclude Include="cFont.h" />
     <ClInclude Include="cGame.h" />
     <ClInclude Include="cGUI.h" />
     <ClInclude Include="cMap.h" />

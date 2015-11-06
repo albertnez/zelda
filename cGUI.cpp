@@ -14,6 +14,10 @@ cGUI::~cGUI()
 {
 }
 
+void cGUI::init() {
+	Font = cFont();
+	Font.loadFont();
+}
 
 void cGUI::setHP(int newHP) {
 	hp = newHP;
@@ -31,7 +35,7 @@ void cGUI::setYo(int newYo) {
 	view_yo = newYo;
 }
 
-void cGUI::Draw(int img, int gui_width, int gui_height)
+void cGUI::Draw(int img, int font, int gui_width, int gui_height)
 {
 
 	glColor3f(0.0f, 0.0f, 0.0f);
@@ -46,6 +50,7 @@ void cGUI::Draw(int img, int gui_width, int gui_height)
 
 	int resthp = hp;
 	int y = SCENE_Yo+10;
+	int x = 175;
 	for (int i = 0; i < maxHP; i += 2) {
 		float xo;
 		
@@ -62,12 +67,24 @@ void cGUI::Draw(int img, int gui_width, int gui_height)
 		float yf = 0.0f;
 		float xf = xo + 0.21875f;
 		//screencoords
-		int x = 175 + 9*i/2;
+		int x_heart = x + 9*i/2;
 		
-		DrawRect(img, xo, yo, xf, yf, x, y, 8, 8);
+		DrawRect(img, xo, yo, xf, yf, x_heart, y, 8, 8);
 		resthp -= 2;
 	}
+	std::string text = "LIFE";
+	DrawText(font, text, x, y+16);
 }
+
+void cGUI::DrawText(int font, std::string text, int x, int y) {
+	for (int i = 0; i < text.length(); ++i) {
+		float xo, yo, xf, yf;
+		Font.getCharPosition(text[i], xo, yo, xf, yf);
+		int x_letter = x + i * 9;
+		DrawRect(font, xo, yo, xf, yf, x_letter, y, 8, 8);
+	}
+}
+
 
 void cGUI::DrawRect(
 	int tex_id, float xo, float yo, float xf, float yf,
