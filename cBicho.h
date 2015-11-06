@@ -70,8 +70,9 @@ public:
 protected:
 	int x,y;
 	int w,h;
-	Direction direction;
+	int stepLength;
 	State state;
+	Direction direction;
 	int hitpoints;
 	int max_hitpoints;
 	int attack;

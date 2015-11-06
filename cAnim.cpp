@@ -40,6 +40,9 @@ int cAnim::Size() const {
 
 std::unordered_map<std::string, cAnim> LoadAnimations(const std::string &path) {
 	std::ifstream ifs(path);
+	if (!ifs.good()) {
+		throw std::runtime_error("Error loading " + path);
+	}
 	return ParseAnimations(ifs);
 }
 
@@ -118,5 +121,6 @@ std::unordered_map<std::string, cAnim> ParseAnimations(std::ifstream& ifs) {
             }
         }
     }
+
     return animations;
 }

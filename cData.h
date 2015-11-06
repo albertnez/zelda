@@ -10,6 +10,7 @@ enum Images : int {
     Player,
     Tileset,
     Sprites,
+    Enemies,
 	Hearts,
     SizeImages,
 };

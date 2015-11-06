@@ -7,13 +7,19 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
-cBicho::cBicho(void) {
+cBicho::cBicho(void) 
+	: stepLength(STEP_LENGTH)
+	, state(State::Walk)
+	, direction(Direction::Down) {
 }
 
 cBicho::~cBicho(void) {}
 
 cBicho::cBicho(int posx,int posy,int width,int height)
-{
+	: stepLength(STEP_LENGTH)
+	, state(State::Walk)
+	, direction(Direction::Down) {
+
 	x = posx;
 	y = posy;
 	w = width;
@@ -196,7 +202,7 @@ bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 	// What's next tile
 	if (axis % TILE_SIZE == 0) {
 		int aux = axis;
-		axis += STEP_LENGTH * mult;
+		axis += stepLength * mult;
 		if (ReachesMapLimit(map, sceneX, sceneY)) {
 			canMove = ReachLimit(dir);
 			axis = aux;
@@ -207,7 +213,7 @@ bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 		}
 	} else {
 		// Advance
-		axis += STEP_LENGTH * mult;
+		axis += stepLength * mult;
 	}
 	// Always set direction
 	direction = dir;

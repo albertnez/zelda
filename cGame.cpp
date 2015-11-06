@@ -43,7 +43,9 @@ bool cGame::Init()
 	if (!Data.LoadImage(Images::Sprites, "res/sprites.png", GL_RGBA)) {
 		throw std::runtime_error("Error loading res/sprites.png");
 	}
-	
+	if (!Data.LoadImage(Images::Enemies, "res/enemies.png", GL_RGBA)) {
+		throw std::runtime_error("Error loading res/enemies.png");
+	}
 	//Scene initialization
 	res = Data.LoadImage(Images::Blocks, "blocks.png",GL_RGBA);
 	if(!res) return false;
@@ -61,13 +63,13 @@ bool cGame::Init()
 	Player.SetHitpoints(6);
 	Player.SetMaxHitpoints(6);
 
+	enemies.push_back(new cOctorok(0, 0, 0, 0));
+	enemies.back()->SetTile(7, 7);
 
 	res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
 	if (!res) return false;
 	Gui.setMaxHP(Player.GetMaxHitpoints());
 	Gui.setHP(Player.GetHitpoints());
-	return res;
-
 
 	return res;
 }
@@ -145,6 +147,9 @@ bool cGame::Process()
 		}
 
 		//Game Logic
+		for (cBicho* enemy : enemies) {
+			enemy->Logic(Scene.GetMap());
+		}
 		Player.Logic(Scene.GetMap());
 
 		if (Player.IsChangingScreen()) {
@@ -221,7 +226,13 @@ void cGame::Render()
 
 	int width, height;
 	Scene.Draw(Data.GetID(Images::Tileset));
+	// Draw enemies.
+	Data.GetSize(Images::Enemies, &width, &height);
+	for (cBicho* enemy : enemies) {
+		enemy->Draw(Data.GetID(Images::Enemies), width, height);
+	}
 	Data.GetSize(Images::Sprites, &width, &height);
+	// Draw player.
 	Player.Draw(Data.GetID(Images::Sprites), width, height);
 
 	Gui.Draw(Data.GetID(Images::Hearts),GAME_WIDTH,GAME_HEIGHT);
