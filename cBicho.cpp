@@ -194,7 +194,7 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glBindTexture(GL_TEXTURE_2D,tex_id);
 
         float alpha = 1.0;
-        if (isProtected && (protectionTime % 16) > 8) {
+        if (isProtected && (protectionTime % 16) < 8) {
             alpha = 0.5;
         }
 
