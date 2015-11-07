@@ -7,13 +7,19 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
-cBicho::cBicho(void) {
+cBicho::cBicho(void) 
+	: stepLength(STEP_LENGTH)
+	, state(State::Walk)
+	, direction(Direction::Down) {
 }
 
 cBicho::~cBicho(void) {}
 
 cBicho::cBicho(int posx,int posy,int width,int height)
-{
+	: stepLength(STEP_LENGTH)
+	, state(State::Walk)
+	, direction(Direction::Down) {
+
 	x = posx;
 	y = posy;
 	w = width;
@@ -130,7 +136,9 @@ bool cBicho::ReachesMapLimit(const cMap &map, int scene_x, int scene_y) {
 	    || end_tile_x > start_x + VIEW_WIDTH 
 	    || end_tile_y > start_y + VIEW_HEIGHT);
 }
-void cBicho::ReachLimit(Direction dir) {
+// By default, enemies cannot go through.
+bool cBicho::ReachLimit(Direction dir) {
+	return false;
 }
 
 void cBicho::ResetAnimation() {
@@ -153,6 +161,17 @@ void cBicho::GetArea(cRect *rc)
 	rc->bottom = y;
 	rc->top    = y+h;
 }
+
+void cBicho::Draw(int texId, int texWidth, int texHeight) {
+	float xo,yo,xf,yf;
+
+	animations[currentAnimation].CurrentFrame().TextureOffset(xo, yo, xf, yf, texWidth, texHeight);
+	if (state == State::Walk) {
+		animations[currentAnimation].Advance(1);
+	}
+	DrawRect(texId,xo,yo,xf,yf);
+}
+
 void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 {
 	int screen_x,screen_y;
@@ -173,35 +192,35 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
+bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 	int &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
 	int mult = 1;
+	bool canMove = true;
 	if (dir == Direction::Left || dir == Direction::Down) {
 		mult = -1;
 	}
 	// What's next tile
 	if (axis % TILE_SIZE == 0) {
 		int aux = axis;
-		axis += STEP_LENGTH * mult;
+		axis += stepLength * mult;
 		if (ReachesMapLimit(map, sceneX, sceneY)) {
-			ReachLimit(dir);
+			canMove = ReachLimit(dir);
 			axis = aux;
 		} else if (CollidesMap(map)) {
 			axis = aux;
 			state = State::Look;
+			canMove = false;
 		}
 	} else {
 		// Advance
-		axis += STEP_LENGTH * mult;
-		// TODO Maybe here we also want to restart animation on
-		// change of direction, but I think this is fine not to
-		// restart animation on direction change.
-		if (state != State::Walk) {
-			state = State::Walk;
-		}
+		axis += stepLength * mult;
 	}
 	// Always set direction
 	direction = dir;
+	if (canMove && state != State::Walk) {
+		state = State::Walk;
+	}
+	return canMove;
 }
 
 void cBicho::Stop() {

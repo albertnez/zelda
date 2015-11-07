@@ -43,7 +43,9 @@ bool cGame::Init()
 	if (!Data.LoadImage(Images::Sprites, "res/sprites.png", GL_RGBA)) {
 		throw std::runtime_error("Error loading res/sprites.png");
 	}
-	
+	if (!Data.LoadImage(Images::Enemies, "res/enemies.png", GL_RGBA)) {
+		throw std::runtime_error("Error loading res/enemies.png");
+	}
 	//Scene initialization
 	res = Data.LoadImage(Images::Blocks, "blocks.png",GL_RGBA);
 	if(!res) return false;
@@ -56,11 +58,13 @@ bool cGame::Init()
 	Player.SetWidthHeight(32,32);
 	Player.SetTile(5, 5);
 	Player.SetWidthHeight(16,16);
-	Player.SetDirection(Direction::Right);
+	Player.SetDirection(Direction::Down);
 	Player.SetState(cBicho::State::Look);
 	Player.SetHitpoints(6);
 	Player.SetMaxHitpoints(6);
 
+	enemies.push_back(new cOctorok(0, 0, 0, 0));
+	enemies.back()->SetTile(7, 7);
 
 	res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
 	if (!res) return false;
@@ -72,7 +76,6 @@ bool cGame::Init()
 	Gui.setHP(Player.GetHitpoints());
 
 	LoadLevel(2);
-
 
 	return res;
 }
@@ -135,32 +138,24 @@ bool cGame::Process()
 	}
 
 	if (state == STATE_STATIC_CAMERA) {
+		Direction oldDir = Player.GetDirection();
 		Direction dir = Direction::None;
 		if (keys[GLUT_KEY_UP]) dir = Direction::Up;
 		else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
 		else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
 		else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
 
-		std::string oldAnimation = Player.GetAnimation();
-		std::vector<std::string> animations(Direction::SizeDirection);
-		animations[Direction::Up] = "up";
-		animations[Direction::Down] = "down";
-		animations[Direction::Left] = "left";
-		animations[Direction::Right] = "right";
-
 		if (dir == Direction::None) Player.Stop();
 		else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
-		std::string newAnimation;
-		if (Player.GetState() == cBicho::State::Walk) {
-			newAnimation = "walk";
-		}
-		newAnimation += animations[Player.GetDirection()];
-		if (newAnimation != oldAnimation) {
-			Player.SetAnimation(newAnimation);
+		if (oldDir != Player.GetDirection()) {
+			Player.SetAnimation(to_string(Player.GetDirection()));
 		}
 
 		//Game Logic
+		for (cBicho* enemy : enemies) {
+			enemy->Logic(Scene.GetMap());
+		}
 		Player.Logic(Scene.GetMap());
 
 		if (Player.IsChangingScreen()) {
@@ -254,7 +249,13 @@ void cGame::Render()
 
 	int width, height;
 	Scene.Draw(Data.GetID(Images::Tileset));
+	// Draw enemies.
+	Data.GetSize(Images::Enemies, &width, &height);
+	for (cBicho* enemy : enemies) {
+		enemy->Draw(Data.GetID(Images::Enemies), width, height);
+	}
 	Data.GetSize(Images::Sprites, &width, &height);
+	// Draw player.
 	Player.Draw(Data.GetID(Images::Sprites), width, height);
 
 	Gui.Draw(Data.GetID(Images::Hearts),Data.GetID(Images::Font),GAME_WIDTH,GAME_HEIGHT);

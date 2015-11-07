@@ -2,10 +2,13 @@
 
 #include "cScene.h"
 #include "cPlayer.h"
+#include "cOctorok.h"
 #include "cData.h"
 #include "utils.h"
 #include "cGUI.h"
 #include <algorithm>
+#include <list>
+
 extern const int GAME_WIDTH;
 extern const int GAME_HEIGHT;
 
@@ -40,6 +43,7 @@ private:
 	bool keys[256];
 	cScene Scene;
 	cPlayer Player;
+	std::list<cBicho*> enemies;
 	cData Data;
 	int sceneOffsetx = 0;
 	int sceneOffsety = 0;
@@ -49,5 +53,4 @@ private:
 	int state;
 	int frame = 0;
 	cGUI Gui;
-
 };
