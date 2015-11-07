@@ -68,7 +68,7 @@ void cGUI::setEquippedObjectB(int object) {
 void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
 {
 	DrawPlainRect(0.0f, 0.0f, 0.0f,
-		0, 0, gui_width, gui_height-SCENE_Yo);
+		0, SCENE_Yo, gui_width, gui_height-SCENE_Yo);
 
 	int resthp = hp;
 	int y = 10;
@@ -91,7 +91,7 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
 		//screencoords
 		int x_heart = x + 9*i/2;
 		
-		DrawRect(img, xo, yo, xf, yf, x_heart, y, 8, 8);
+		DrawRect(img, xo, yo, xf, yf, x_heart, y+SCENE_Yo, 8, 8);
 		resthp -= 2;
 	}
 	std::string text = "-LIFE-";
@@ -111,11 +111,11 @@ void cGUI::DrawObjects(int sprites, int x, int y) {
 	float yf = 0.0f;
 	float xf = float(w) / SPRITES_WIDTH;
 	float yo = float(h) / SPRITES_HEIGHT;
-	DrawRect(sprites, xo, yo, xf, yf, x, y, w, h);
+	DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
 	x = x + 23;
 	xo = xf;
 	xf = xo + float(w) / SPRITES_WIDTH;
-	DrawRect(sprites, xo, yo, xf, yf, x, y, w, h);
+	DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
 }
 
 
@@ -124,17 +124,17 @@ void cGUI::DrawText(int font, std::string text, int x, int y) {
 		float xo, yo, xf, yf;
 		Font.getCharPosition(text[i], xo, yo, xf, yf);
 		int x_letter = x + i * 9;
-		DrawRect(font, xo, yo, xf, yf, x_letter, y, 8, 8);
+		DrawRect(font, xo, yo, xf, yf, x_letter, y+SCENE_Yo, 8, 8);
 	}
 }
 
 void cGUI::DrawMap(int level, int x, int y) {
 	int mapWidth = 64;
 	int mapHeight = 32;
-	DrawPlainRect(0.5f, 0.5f, 0.5f, x, y, mapWidth, mapHeight);
+	DrawPlainRect(0.5f, 0.5f, 0.5f, x, y+SCENE_Yo, mapWidth, mapHeight);
 	int viewX = ((2 * pos_x + 1)*mapWidth / max_views_x) / 2 - 2;
 	int viewY = ((2*pos_y + 1)*mapHeight / max_views_y) / 2 - 2;
-	DrawPlainRect(0.0f, 1.0f, 0.0f, x+viewX, y+viewY, 4, 4);
+	DrawPlainRect(0.0f, 1.0f, 0.0f, x+viewX, y+viewY + SCENE_Yo, 4, 4);
 }
 
 void cGUI::DrawPlainRect(float r, float g, float b,
@@ -144,10 +144,10 @@ void cGUI::DrawPlainRect(float r, float g, float b,
 	int screen_x = x + view_xo;
 	int screen_y = y + view_yo;
 
-	glVertex2i(screen_x , screen_y + SCENE_Yo);
-	glVertex2i(screen_x + w, screen_y + SCENE_Yo);
-	glVertex2i(screen_x + w, screen_y + SCENE_Yo + h);
-	glVertex2i(screen_x, screen_y + SCENE_Yo + h);
+	glVertex2i(screen_x , screen_y);
+	glVertex2i(screen_x + w, screen_y);
+	glVertex2i(screen_x + w, screen_y + h);
+	glVertex2i(screen_x, screen_y + h);
 	glEnd();
 	glColor3f(1.0f, 1.0f, 1.0f);
 }
@@ -167,11 +167,15 @@ void cGUI::DrawRect(
 
 	glBindTexture(GL_TEXTURE_2D, tex_id);
 	glBegin(GL_QUADS);
-	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + SCENE_Yo);
-	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + SCENE_Yo);
-	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + SCENE_Yo + h);
-	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + SCENE_Yo + h);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + h);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + h);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
+}
+
+void cGUI::DrawTitle(int tex, int game_width, int game_height) {
+	DrawRect(tex, 0.0f, 1.0f, 1.0f, 0.0f, 0, 0, game_width, game_height);
 }

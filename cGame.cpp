@@ -2,6 +2,9 @@
 #include "Globals.h"
 #include <iostream>
 
+
+
+
 const int GAME_WIDTH = 256;
 const int GAME_HEIGHT = 224;
 
@@ -47,14 +50,11 @@ bool cGame::Init()
 		throw std::runtime_error("Error loading res/enemies.png");
 	}
 	//Scene initialization
-	res = Data.LoadImage(Images::Blocks, "blocks.png",GL_RGBA);
-	if(!res) return false;
+
 	//res = Scene.LoadLevel(2);
 	//if(!res) return false;
 
 	//Player initialization
-	res = Data.LoadImage(Images::Player, "bub.png",GL_RGBA);
-	if(!res) return false;
 	Player.SetWidthHeight(32,32);
 	Player.SetTile(5, 5);
 	Player.SetWidthHeight(16,16);
@@ -73,12 +73,15 @@ bool cGame::Init()
 	if (!res) return false;
 	res = Data.LoadImage(Images::Interface, "res/interface.png", GL_RGBA);
 	if (!res) return false;
+	res = Data.LoadImage(Images::Title, "res/zeldatitle.png", GL_RGBA);
+	if (!res) return false;
 	Gui.init();
 	Gui.setMaxHP(Player.GetMaxHitpoints());
 	Gui.setHP(Player.GetHitpoints());
 
 	LoadLevel(2);
-
+	
+	currentScreen = Screens::Home;
 	return res;
 }
 
@@ -139,32 +142,36 @@ bool cGame::Process()
 		res = false;
 	}
 
-	if (state == STATE_STATIC_CAMERA) {
-		Direction oldDir = Player.GetDirection();
-		Direction dir = Direction::None;
-		if (keys[GLUT_KEY_UP]) dir = Direction::Up;
-		else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
-		else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
-		else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
+	if (currentScreen == Screens::GameScreen) {
+		if (state == STATE_STATIC_CAMERA) {
+			Direction oldDir = Player.GetDirection();
+			Direction dir = Direction::None;
+			if (keys[GLUT_KEY_UP]) dir = Direction::Up;
+			else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
+			else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
+			else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
 
-		if (dir == Direction::None) Player.Stop();
-		else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
+			if (dir == Direction::None) Player.Stop();
+			else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
-		if (oldDir != Player.GetDirection()) {
-			Player.SetAnimation(to_string(Player.GetDirection()));
-		}
+			if (oldDir != Player.GetDirection()) {
+				Player.SetAnimation(to_string(Player.GetDirection()));
+			}
 
-		//Game Logic
-		for (cBicho* enemy : enemies) {
-			enemy->Logic(Scene.GetMap());
-		}
-		Player.Logic(Scene.GetMap());
+			//Game Logic
+			for (cBicho* enemy : enemies) {
+				enemy->Logic(Scene.GetMap());
+			}
+			Player.Logic(Scene.GetMap());
 
-		if (Player.IsChangingScreen()) {
-			startTransition();
+			if (Player.IsChangingScreen()) {
+				startTransition();
+			}
 		}
 	}
-
+	else if (currentScreen == Screens::Home) {
+		if (keys[13]) currentScreen = Screens::GameScreen;
+	}
 	return res;
 }
 
@@ -200,68 +207,82 @@ void cGame::LoadLevel(int level) {
 //Output
 void cGame::Render()
 {
-	if (state == STATE_SCREEN_CHANGE) {
-		int px, py, pw, ph;
-		Player.GetPosition(&px, &py);
-		Player.GetWidthHeight(&pw, &ph);
+	if (currentScreen == Screens::Home) {
+		glOrtho(
+			0, GAME_WIDTH,
+			0, GAME_HEIGHT, 0, 1
+			);
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		if (transitionState == Direction::Right) {
-			sceneOffsetx += TRANSITION_SPEED;
-			px = std::max(px, sceneOffsetx);
-		}
-		else if (transitionState == Direction::Left) {
-			sceneOffsetx -= TRANSITION_SPEED;
-			px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
-		}
-		else if (transitionState == Direction::Down) {
-			sceneOffsety -= TRANSITION_SPEED;
-			py = std::min(py, sceneOffsety + VIEW_HEIGHT * TILE_SIZE - ph);
-		}
-		else if (transitionState == Direction::Up) {
-			sceneOffsety += TRANSITION_SPEED;
-			py = std::max(py, sceneOffsety);
-		}
-		Player.SetPosition(px, py);
-
-		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
+		Gui.DrawTitle(Data.GetID(Images::Title), GAME_WIDTH, GAME_HEIGHT);
+	}
+	else if (currentScreen == Screens::GameScreen) {
+		if (state == STATE_SCREEN_CHANGE) {
+			int px, py, pw, ph;
+			Player.GetPosition(&px, &py);
+			Player.GetWidthHeight(&pw, &ph);
+
+			if (transitionState == Direction::Right) {
+				sceneOffsetx += TRANSITION_SPEED;
+				px = std::max(px, sceneOffsetx);
+			}
+			else if (transitionState == Direction::Left) {
+				sceneOffsetx -= TRANSITION_SPEED;
+				px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
+			}
+			else if (transitionState == Direction::Down) {
+				sceneOffsety -= TRANSITION_SPEED;
+				py = std::min(py, sceneOffsety + VIEW_HEIGHT * TILE_SIZE - ph);
+			}
+			else if (transitionState == Direction::Up) {
+				sceneOffsety += TRANSITION_SPEED;
+				py = std::max(py, sceneOffsety);
+			}
+			Player.SetPosition(px, py);
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+
+
+			glOrtho(
+				sceneOffsetx, sceneOffsetx + GAME_WIDTH,
+				sceneOffsety, sceneOffsety + GAME_HEIGHT, 0, 1
+				);
+			glMatrixMode(GL_MODELVIEW);
+			frame++;
+			int targetFrames = X_TRANSITION_FRAMES;
+			if (transitionState == Direction::Up || transitionState == Direction::Down) {
+				targetFrames = Y_TRANSITION_FRAMES;
+			}
+			if (frame == targetFrames) {
+				endTransition();
+			}
+		}
+		Gui.setHP(Player.GetHitpoints());
+		Gui.setXo(sceneOffsetx);
+		Gui.setYo(sceneOffsety);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glLoadIdentity();
+
+		int width, height;
+		Scene.Draw(Data.GetID(Images::Tileset));
+		// Draw enemies.
+		Data.GetSize(Images::Enemies, &width, &height);
+		for (cBicho* enemy : enemies) {
+			enemy->Draw(Data.GetID(Images::Enemies), width, height);
+		}
+		Data.GetSize(Images::Sprites, &width, &height);
+		// Draw player.
+		Player.Draw(Data.GetID(Images::Sprites), width, height);
+
+		Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
+			Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+
 		
-
-		glOrtho(
-			sceneOffsetx, sceneOffsetx+GAME_WIDTH,
-			sceneOffsety, sceneOffsety+GAME_HEIGHT, 0, 1
-			);
-		glMatrixMode(GL_MODELVIEW);
-		frame++;
-		int targetFrames = X_TRANSITION_FRAMES;
-		if (transitionState == Direction::Up || transitionState == Direction::Down) {
-			targetFrames = Y_TRANSITION_FRAMES;
-		}
-		if (frame == targetFrames) {
-			endTransition();
-		}
 	}
-	Gui.setHP(Player.GetHitpoints());
-	Gui.setXo(sceneOffsetx);
-	Gui.setYo(sceneOffsety);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	glLoadIdentity();
-
-	int width, height;
-	Scene.Draw(Data.GetID(Images::Tileset));
-	// Draw enemies.
-	Data.GetSize(Images::Enemies, &width, &height);
-	for (cBicho* enemy : enemies) {
-		enemy->Draw(Data.GetID(Images::Enemies), width, height);
-	}
-	Data.GetSize(Images::Sprites, &width, &height);
-	// Draw player.
-	Player.Draw(Data.GetID(Images::Sprites), width, height);
-
-	Gui.Draw(Data.GetID(Images::Hearts),Data.GetID(Images::Font),
-		Data.GetID(Images::Interface),GAME_WIDTH,GAME_HEIGHT);
-
 	glutSwapBuffers();
 }

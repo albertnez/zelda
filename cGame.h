@@ -16,6 +16,13 @@ extern const int STATE_STATIC_CAMERA;
 extern const int STATE_SCREEN_CHANGE;
 extern const int STATE_SCENE_CHANGE;
 
+enum Screens : int {
+	Home = 0,
+	GameScreen,
+	Instructions,
+	Credits
+};
+
 class cGame
 {
 public:
@@ -53,4 +60,5 @@ private:
 	int state;
 	int frame = 0;
 	cGUI Gui;
+	int currentScreen;
 };

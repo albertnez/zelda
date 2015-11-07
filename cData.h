@@ -14,6 +14,7 @@ enum Images : int {
 	Hearts,
 	Font,
 	Interface,
+	Title,
     SizeImages,
 };
 
