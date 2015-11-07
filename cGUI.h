@@ -2,6 +2,7 @@
 
 #include "Globals.h"
 #include "cFont.h"
+
 #define SCENE_Xo 0
 #define SCENE_Yo 176
 
@@ -19,6 +20,8 @@ private:
 	int pos_y;
 	int max_views_x;
 	int max_views_y;
+	int equippedObjectA;
+	int equippedObjectB;
 	cFont Font;
 public:
 	cGUI();
@@ -31,8 +34,11 @@ public:
 	void setViewY(int newXo);
 	void setMaxViewsX(int viewsX);
 	void setMaxViewsY(int viewsY);
+	void setEquippedObjectA(int object);
+	void setEquippedObjectB(int object);
 	void setViewX(int newYo);
-	void Draw(int img, int font, int gui_width, int gui_height);
+	void Draw(int img, int font, int sprites, int gui_width, int gui_height);
+	void DrawObjects(int sprites, int x, int y);
 	void DrawPlainRect(float r, float g, float b, int x, int y, int w, int h);
 	void DrawRect(
 		int tex_id, float xo, float yo,

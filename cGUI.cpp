@@ -2,6 +2,8 @@
 
 const int VIEW_WIDTH = 16;
 const int VIEW_HEIGHT = 11;
+const int SPRITES_HEIGHT = 64;
+const int SPRITES_WIDTH = 128;
 
 cGUI::cGUI()
 {
@@ -53,13 +55,23 @@ void cGUI::setMaxViewsY(int viewsY) {
 }
 
 
-void cGUI::Draw(int img, int font, int gui_width, int gui_height)
+void cGUI::setEquippedObjectA(int object) {
+	equippedObjectA = object;
+}
+
+void cGUI::setEquippedObjectB(int object) {
+	equippedObjectB = object;
+}
+
+
+
+void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
 {
 	DrawPlainRect(0.0f, 0.0f, 0.0f,
 		0, 0, gui_width, gui_height-SCENE_Yo);
 
 	int resthp = hp;
-	int y = SCENE_Yo+10;
+	int y = 10;
 	int x = 175;
 	for (int i = 0; i < maxHP; i += 2) {
 		float xo;
@@ -87,7 +99,25 @@ void cGUI::Draw(int img, int font, int gui_width, int gui_height)
 	x = 16;
 	y = 8;
 	DrawMap(0,x,y);
+	x = 120;
+	y = 8;
+	DrawObjects(sprites, x, y);
 }
+
+void cGUI::DrawObjects(int sprites, int x, int y) {
+	int w = 22;
+	int h = 36;
+	float xo = 0.0f;
+	float yf = 0.0f;
+	float xf = float(w) / SPRITES_WIDTH;
+	float yo = float(h) / SPRITES_HEIGHT;
+	DrawRect(sprites, xo, yo, xf, yf, x, y, w, h);
+	x = x + 23;
+	xo = xf;
+	xf = xo + float(w) / SPRITES_WIDTH;
+	DrawRect(sprites, xo, yo, xf, yf, x, y, w, h);
+}
+
 
 void cGUI::DrawText(int font, std::string text, int x, int y) {
 	for (int i = 0; i < text.length(); ++i) {
@@ -137,10 +167,10 @@ void cGUI::DrawRect(
 
 	glBindTexture(GL_TEXTURE_2D, tex_id);
 	glBegin(GL_QUADS);
-	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y);
-	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y);
-	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + h);
-	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + h);
+	glTexCoord2f(xo, yo);	glVertex2i(screen_x, screen_y + SCENE_Yo);
+	glTexCoord2f(xf, yo);	glVertex2i(screen_x + w, screen_y + SCENE_Yo);
+	glTexCoord2f(xf, yf);	glVertex2i(screen_x + w, screen_y + SCENE_Yo + h);
+	glTexCoord2f(xo, yf);	glVertex2i(screen_x, screen_y + SCENE_Yo + h);
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);

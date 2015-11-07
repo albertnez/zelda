@@ -6,13 +6,14 @@
 #include <string>
 
 enum Images : int {
-    Blocks = 0,
-    Player,
-    Tileset,
-    Sprites,
-    Enemies,
+	Blocks = 0,
+	Player,
+	Tileset,
+	Sprites,
+	Enemies,
 	Hearts,
 	Font,
+	Interface,
     SizeImages,
 };
 
