@@ -47,8 +47,8 @@ bool cGame::Init()
 	//Scene initialization
 	res = Data.LoadImage(Images::Blocks, "blocks.png",GL_RGBA);
 	if(!res) return false;
-	res = Scene.LoadLevel(2);
-	if(!res) return false;
+	//res = Scene.LoadLevel(2);
+	//if(!res) return false;
 
 	//Player initialization
 	res = Data.LoadImage(Images::Player, "bub.png",GL_RGBA);
@@ -71,6 +71,7 @@ bool cGame::Init()
 	Gui.setMaxHP(Player.GetMaxHitpoints());
 	Gui.setHP(Player.GetHitpoints());
 
+	LoadLevel(2);
 
 
 	return res;
@@ -179,17 +180,24 @@ void cGame::startTransition() {
 void cGame::endTransition() {
 	state = STATE_STATIC_CAMERA;
 	if (transitionState == Direction::Above) {
-		if (!Scene.LoadLevel(2)) {
-			throw std::runtime_error("Error loading res/tileset.png");
-		}
+		LoadLevel(2);
 	}
 	if (transitionState == Direction::Below) {
-		if (!Scene.LoadLevel(3)) {
-			throw std::runtime_error("Error loading res/tileset.png");
-		}
+		LoadLevel(3);
 	}
 	UpdateScenePos(transitionState);
 	Player.EndTransition();
+	Gui.setViewX(sceneOffsetx / (VIEW_WIDTH*TILE_SIZE));
+	Gui.setViewY(sceneOffsety / (VIEW_HEIGHT*TILE_SIZE));
+}
+
+void cGame::LoadLevel(int level) {
+	if (!Scene.LoadLevel(level)) {
+		throw std::runtime_error("Error loading res/tileset.png");
+	}
+	cMap m = Scene.GetMap();
+	Gui.setMaxViewsX(m.Width() / VIEW_WIDTH);
+	Gui.setMaxViewsY(m.Height() / VIEW_HEIGHT);
 }
 
 //Output

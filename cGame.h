@@ -30,6 +30,7 @@ public:
 	bool Process();
 	void startTransition();
 	void endTransition();
+	void LoadLevel(int level);
 	//Output
 	void Render();
 	void setState(int s);

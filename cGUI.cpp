@@ -1,6 +1,7 @@
 #include "cGUI.h"
 
-
+const int VIEW_WIDTH = 16;
+const int VIEW_HEIGHT = 11;
 
 cGUI::cGUI()
 {
@@ -35,18 +36,27 @@ void cGUI::setYo(int newYo) {
 	view_yo = newYo;
 }
 
+void cGUI::setViewX(int newXo) {
+	pos_x = newXo;
+}
+
+void cGUI::setViewY(int newYo) {
+	pos_y = newYo;
+}
+
+void cGUI::setMaxViewsX(int viewsX) {
+	max_views_x = viewsX;
+}
+
+void cGUI::setMaxViewsY(int viewsY) {
+	max_views_y = viewsY;
+}
+
+
 void cGUI::Draw(int img, int font, int gui_width, int gui_height)
 {
-
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glBegin(GL_QUADS);
-	glVertex2i(view_xo, view_yo+SCENE_Yo);
-	glVertex2i(view_xo+gui_width, view_yo+SCENE_Yo);
-	glVertex2i(view_xo+gui_width, view_yo+gui_height);
-	glVertex2i(view_xo, view_yo+gui_height);
-	glEnd();
-
-	glColor3f(1.0f, 1.0f, 1.0f);
+	DrawPlainRect(0.0f, 0.0f, 0.0f,
+		0, 0, gui_width, gui_height-SCENE_Yo);
 
 	int resthp = hp;
 	int y = SCENE_Yo+10;
@@ -72,8 +82,11 @@ void cGUI::Draw(int img, int font, int gui_width, int gui_height)
 		DrawRect(img, xo, yo, xf, yf, x_heart, y, 8, 8);
 		resthp -= 2;
 	}
-	std::string text = "LIFE";
+	std::string text = "-LIFE-";
 	DrawText(font, text, x, y+16);
+	x = 16;
+	y = 8;
+	DrawMap(0,x,y);
 }
 
 void cGUI::DrawText(int font, std::string text, int x, int y) {
@@ -83,6 +96,30 @@ void cGUI::DrawText(int font, std::string text, int x, int y) {
 		int x_letter = x + i * 9;
 		DrawRect(font, xo, yo, xf, yf, x_letter, y, 8, 8);
 	}
+}
+
+void cGUI::DrawMap(int level, int x, int y) {
+	int mapWidth = 64;
+	int mapHeight = 32;
+	DrawPlainRect(0.5f, 0.5f, 0.5f, x, y, mapWidth, mapHeight);
+	int viewX = ((2 * pos_x + 1)*mapWidth / max_views_x) / 2 - 2;
+	int viewY = ((2*pos_y + 1)*mapHeight / max_views_y) / 2 - 2;
+	DrawPlainRect(0.0f, 1.0f, 0.0f, x+viewX, y+viewY, 4, 4);
+}
+
+void cGUI::DrawPlainRect(float r, float g, float b,
+	int x, int y, int w, int h) {
+	glColor3f(r, g, b);
+	glBegin(GL_QUADS);
+	int screen_x = x + view_xo;
+	int screen_y = y + view_yo;
+
+	glVertex2i(screen_x , screen_y + SCENE_Yo);
+	glVertex2i(screen_x + w, screen_y + SCENE_Yo);
+	glVertex2i(screen_x + w, screen_y + SCENE_Yo + h);
+	glVertex2i(screen_x, screen_y + SCENE_Yo + h);
+	glEnd();
+	glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 

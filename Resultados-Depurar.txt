@@ -1,0 +1,40 @@
+﻿'2DEngine.exe' (Win32): 'C:\Users\Alicia\Documents\FIB\VJ\zelda\zelda\Debug\2DEngine.exe' cargado. Símbolos cargados.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\ntdll.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\kernel32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\KernelBase.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\opengl32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\glu32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\glut32.dll' cargado. El módulo se compiló sin símbolos.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\advapi32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\msvcrt.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\gdi32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\ddraw.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\user32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\winmm.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\sechost.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\rpcrt4.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\dciman32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\winmmbase.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\cryptbase.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\sspicli.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\cfgmgr32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\devobj.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\bcryptprimitives.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\imm32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\msctf.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\uxtheme.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\combase.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\dwmapi.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\nvoglshim32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\ig75icd32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\igdusc32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\version.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\version.dll' descargado
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\powrprof.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\ole32.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+'2DEngine.exe' (Win32): 'C:\Windows\SysWOW64\kernel.appcore.dll' cargado. No se encuentra el archivo PDB o no se puede abrir.
+El subproceso 0x2708 terminó con código 0 (0x0).
+El subproceso 0x1444 terminó con código 0 (0x0).
+El subproceso 0x1a14 terminó con código 0 (0x0).
+El subproceso 0x29d8 terminó con código 0 (0x0).
+El programa '[9024] 2DEngine.exe' terminó con código 0 (0x0).
