@@ -36,6 +36,7 @@ void cOctorok::Init() {
 	w = width;
 	h = height;
 	stepLength = step;
+	attack = 1;
 }
 
 

@@ -92,9 +92,9 @@ bool cBicho::IsDead() {
     return hitpoints <= 0;
 }
 
-bool cBicho::Collides(cRect *rc)
-{
-	return ((x>rc->left) && (x+w<rc->right) && (y>rc->bottom) && (y+h<rc->top));
+bool cBicho::Collides(const cRect &rect) {
+    return (y + h > rect.bottom) && (y < rect.top) &&
+           (x + w > rect.left) && (x < rect.right);
 }
 
 bool cBicho::CollidesMap(const cMap &map) {

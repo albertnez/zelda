@@ -158,6 +158,15 @@ bool cGame::Process()
 		}
 		Player.Logic(Scene.GetMap());
 
+		// Collisions
+		cRect pRect;
+		Player.GetArea(&pRect);
+		for (cBicho* enemy : enemies) {
+			if (enemy->Collides(pRect)) {
+				Player.Damage(enemy->GetAttack());
+			}
+		}
+
 		if (Player.IsChangingScreen()) {
 			startTransition();
 		}

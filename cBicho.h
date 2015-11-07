@@ -37,7 +37,7 @@ public:
 	int GetAttack();
 	bool IsDead();
 
-	bool Collides(cRect *rc);
+	bool Collides(const cRect &rect);
 	// Checks collision with tiles
 	bool CollidesMap(const cMap &map);
 	// Returns whether reaches the limit of the map.
