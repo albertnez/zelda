@@ -10,7 +10,10 @@ const int STEP_LENGTH = 2;
 cBicho::cBicho(void) 
 	: stepLength(STEP_LENGTH)
 	, state(State::Walk)
-	, direction(Direction::Down) {
+	, direction(Direction::Down)
+	, isProtected(false)
+        , protectionTime(0)
+        , maxProtectionTime(60) {
 }
 
 cBicho::~cBicho(void) {}
@@ -18,7 +21,10 @@ cBicho::~cBicho(void) {}
 cBicho::cBicho(int posx,int posy,int width,int height)
 	: stepLength(STEP_LENGTH)
 	, state(State::Walk)
-	, direction(Direction::Down) {
+	, direction(Direction::Down)
+	, isProtected(false)
+        , protectionTime(0)
+        , maxProtectionTime(60) {
 
 	x = posx;
 	y = posy;
@@ -76,8 +82,13 @@ void cBicho::Heal(int hp) {
     hitpoints = std::max(hitpoints, max_hitpoints);
 }
 
-void cBicho::Damage(int hp) {
-    hitpoints = std::min(0, hitpoints - hp);
+bool cBicho::Damage(int hp) {
+    if (isProtected) return false;
+    hitpoints = std::max(0, hitpoints - hp);
+    if (hitpoints > 0) {
+        isProtected = true;
+    }
+    return true;
 }
 
 void cBicho::SetAttack(int attack) {
@@ -180,8 +191,14 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	screen_y = y;
 
 	glEnable(GL_TEXTURE_2D);
-	
 	glBindTexture(GL_TEXTURE_2D,tex_id);
+
+        float alpha = 1.0;
+        if (isProtected && (protectionTime % 16) > 8) {
+            alpha = 0.5;
+        }
+
+        glColor4f(1.0, 1.0, 1.0, alpha);
 	glBegin(GL_QUADS);	
 		glTexCoord2f(xo,yo);	glVertex2i(screen_x  ,screen_y);
 		glTexCoord2f(xf,yo);	glVertex2i(screen_x+w,screen_y);
@@ -228,6 +245,7 @@ void cBicho::Stop() {
 }
 
 void cBicho::Logic(const cMap &map) {
+    UpdateProtected();
 }
 
 void cBicho::NextFrame(int max) {
@@ -251,3 +269,10 @@ void cBicho::SetState(cBicho::State state) {
 	this->state = state;
 }
 
+void cBicho::UpdateProtected() {
+    if (!isProtected) return;
+    if (++protectionTime > maxProtectionTime) {
+        isProtected = false;
+        protectionTime = 0;
+    }
+}

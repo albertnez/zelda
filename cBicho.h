@@ -32,7 +32,7 @@ public:
 	void SetMaxHitpoints(int hp);
 	int GetMaxHitpoints();
 	void Heal(int hp);
-	void Damage(int hp);
+	bool Damage(int hp);
 	void SetAttack(int attack);
 	int GetAttack();
 	bool IsDead();
@@ -68,6 +68,8 @@ public:
 	void NextFrame(int max);
 	
 protected:
+        void UpdateProtected();
+
 	int x,y;
 	int w,h;
 	int stepLength;
@@ -76,6 +78,9 @@ protected:
 	int hitpoints;
 	int max_hitpoints;
 	int attack;
+        bool isProtected;
+        int protectionTime;
+        int maxProtectionTime;
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;

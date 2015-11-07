@@ -35,6 +35,8 @@ bool cGame::Init()
 	
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Load textures
 	if (!Data.LoadImage(Images::Tileset, "res/tileset.png", GL_RGBA)) {

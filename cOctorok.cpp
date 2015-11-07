@@ -23,6 +23,7 @@ cOctorok::cOctorok(int x, int y, int sceneX, int sceneY)
 }
 
 void cOctorok::Logic(const cMap &map) {
+    UpdateProtected();
 	if (!Move(map, direction, sceneX, sceneY)) {
 		direction = nextDir[int(direction)];
 		SetAnimation(to_string(direction));
