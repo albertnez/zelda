@@ -62,4 +62,6 @@ private:
     int frame = 0;
     cGUI Gui;
     int currentScreen;
+    int counter = 0;
+    bool triggerKeyReleased = true;
 };

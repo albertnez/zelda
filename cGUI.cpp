@@ -185,3 +185,18 @@ void cGUI::DrawTitle(int tex, int game_width, int game_height) {
 void cGUI::DrawGameOver(int tex, int game_width, int game_height) {
     DrawText(tex, "GAME OVER", game_width/2-40, game_height/2-4);
 }
+
+void cGUI::DrawInstructions(int tex, int game_width, int game_height) {
+    std::string s;
+    s = "MOVE: arrow keys";
+    DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 22);
+    s = "A BUTTON: ??????";
+    DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 13);
+    s = "B BUTTON: ??????";
+    DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 4);
+    s = "START: return key";
+    DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 - 5);
+    s = "INSTRUCTIONS: 'h' key";
+    DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 - 14);
+    
+}

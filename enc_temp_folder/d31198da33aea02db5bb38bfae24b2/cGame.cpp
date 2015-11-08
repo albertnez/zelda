@@ -158,6 +158,14 @@ bool cGame::Process()
             currentScreen = Screens::Instructions;
             triggerKeyReleased = false;
         }
+
+        /*if (counter > KEY_PRESS_WAIT_FRAMES) {
+            if (keys['h']) {
+                currentScreen = Screens::Instructions;
+                counter = 0;
+            }
+        }
+        else ++counter;*/
         if (state == STATE_STATIC_CAMERA) {
             Direction oldDir = Player.GetDirection();
             Direction dir = Direction::None;
@@ -202,7 +210,16 @@ bool cGame::Process()
         else if (keys['h']) {
             currentScreen = Screens::GameScreen;
             triggerKeyReleased = false;
-        }   
+        }
+        /*if (counter > KEY_PRESS_WAIT_FRAMES && keys['h']) {
+            currentScreen = Screens::GameScreen;
+            counter = 0;
+        }
+        else {
+            ++counter;
+        }*/
+        
+        
     }
     return res;
 
