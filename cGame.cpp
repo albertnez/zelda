@@ -83,6 +83,7 @@ bool cGame::Init()
     
     currentScreen = Screens::Home;
     return res;
+
 }
 
 bool cGame::Loop()
@@ -158,9 +159,13 @@ bool cGame::Process()
                 Player.SetAnimation(to_string(Player.GetDirection()));
             }
 
+            cRect pRect;
+            Player.GetArea(&pRect);
             //Game Logic
             for (cBicho* enemy : enemies) {
-                enemy->Logic(Scene.GetMap());
+                if (enemy->Collides(pRect)) {
+                    Player.Damage(enemy->GetAttack());
+                }
             }
             Player.Logic(Scene.GetMap());
 
@@ -173,6 +178,7 @@ bool cGame::Process()
         if (keys[13]) currentScreen = Screens::GameScreen;
     }
     return res;
+
 }
 
 void cGame::startTransition() {
