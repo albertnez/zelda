@@ -95,7 +95,9 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
         resthp -= 2;
     }
     std::string text = "-LIFE-";
-    DrawText(font, text, x, y+16);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    DrawText(font, text, x, y+16+SCENE_Yo);
+    glColor3f(1.0f, 1.0f, 1.0f);
     x = 16;
     y = 8;
     DrawMap(0,x,y);
@@ -124,7 +126,7 @@ void cGUI::DrawText(int font, std::string text, int x, int y) {
         float xo, yo, xf, yf;
         Font.getCharPosition(text[i], xo, yo, xf, yf);
         int x_letter = x + i * 9;
-        DrawRect(font, xo, yo, xf, yf, x_letter, y+SCENE_Yo, 8, 8);
+        DrawRect(font, xo, yo, xf, yf, x_letter, y, 8, 8);
     }
 }
 
@@ -178,4 +180,8 @@ void cGUI::DrawRect(
 
 void cGUI::DrawTitle(int tex, int game_width, int game_height) {
     DrawRect(tex, 0.0f, 1.0f, 1.0f, 0.0f, 0, 0, game_width, game_height);
+}
+
+void cGUI::DrawGameOver(int tex, int game_width, int game_height) {
+    DrawText(tex, "GAME OVER", game_width/2-40, game_height/2-4);
 }

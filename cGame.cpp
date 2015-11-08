@@ -146,6 +146,9 @@ bool cGame::Process()
     }
 
     if (currentScreen == Screens::GameScreen) {
+        if (Player.GetHitpoints() == 0) {
+            currentScreen = Screens::GameOver;
+        }
         if (state == STATE_STATIC_CAMERA) {
             Direction oldDir = Player.GetDirection();
             Direction dir = Direction::None;
@@ -177,6 +180,7 @@ bool cGame::Process()
                 startTransition();
             }
         }
+        
     }
     else if (currentScreen == Screens::Home) {
         if (keys[13])currentScreen = Screens::GameScreen;
@@ -227,6 +231,18 @@ void cGame::Render()
         glLoadIdentity();
 
         Gui.DrawTitle(Data.GetID(Images::Title), GAME_WIDTH, GAME_HEIGHT);
+    }
+    else if (currentScreen == Screens::GameOver) {
+        glOrtho(
+            0, GAME_WIDTH,
+            0, GAME_HEIGHT, 0, 1
+            );
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glLoadIdentity();
+        Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
+            Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+        Gui.DrawGameOver(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameScreen) {
         if (state == STATE_SCREEN_CHANGE) {

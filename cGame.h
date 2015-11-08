@@ -20,7 +20,8 @@ enum Screens : int {
     Home = 0,
     GameScreen,
     Instructions,
-    Credits
+    Credits,
+    GameOver
 };
 
 class cGame

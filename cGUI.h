@@ -44,6 +44,7 @@ public:
         int tex_id, float xo, float yo,
         float xf, float yf, int x, int y, int w, int h);
     void DrawTitle(int tex, int game_width, int game_height);
+    void DrawGameOver(int tex, int game_width, int game_height);
     void DrawText(int font, std::string text, int x, int y);
     void DrawMap(int level, int x, int y);
 };
