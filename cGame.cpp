@@ -204,6 +204,9 @@ bool cGame::Process()
             triggerKeyReleased = false;
         }   
     }
+    else if (currentScreen == Screens::Credits) {
+        ++counter;
+    }
     return res;
 
 
@@ -274,9 +277,16 @@ void cGame::Render()
         glLoadIdentity();
         Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
             Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
-        ///////////////////////////WHY?????????????????
-        Gui.DrawInstructions(Images::Hearts, GAME_WIDTH, GAME_HEIGHT);
+        Gui.DrawInstructions(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
 
+    }
+
+    else if (currentScreen == Screens::Credits) {
+        glOrtho(
+            0, GAME_WIDTH,
+            counter, GAME_HEIGHT+counter, 0, 1
+            );
+        Gui.DrawCredits(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameScreen) {
         if (state == STATE_SCREEN_CHANGE) {

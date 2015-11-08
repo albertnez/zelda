@@ -46,6 +46,7 @@ public:
     void DrawTitle(int tex, int game_width, int game_height);
     void DrawGameOver(int tex, int game_width, int game_height);
     void DrawInstructions(int tex, int game_width, int game_height);
+    void DrawCredits(int tex, int game_width, int game_height);
     void DrawText(int font, std::string text, int x, int y);
     void DrawMap(int level, int x, int y);
 };

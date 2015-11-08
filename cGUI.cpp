@@ -200,3 +200,7 @@ void cGUI::DrawInstructions(int tex, int game_width, int game_height) {
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 - 14);
     
 }
+void cGUI::DrawCredits(int tex, int game_width, int game_height) {
+
+
+}
