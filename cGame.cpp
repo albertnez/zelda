@@ -42,7 +42,7 @@ bool cGame::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load textures
-    if (!Data.LoadImage(Images::Tileset, "res/tileset.png", GL_RGBA)) {
+    if (!Data.LoadImage(Images::Tileset, "res/tiles.png", GL_RGBA)) {
         throw std::runtime_error("Error loading res/tileset.png");
     }
     if (!Data.LoadImage(Images::Sprites, "res/sprites.png", GL_RGBA)) {
@@ -179,7 +179,7 @@ bool cGame::Process()
         }
     }
     else if (currentScreen == Screens::Home) {
-        if (keys[13]) currentScreen = Screens::GameScreen;
+        if (keys[13])currentScreen = Screens::GameScreen;
     }
     return res;
 

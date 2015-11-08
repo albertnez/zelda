@@ -1,8 +1,8 @@
 #include "cMap.h"
 
 const std::unordered_set<int> cMap::walkable {
-    0,
-    2,
+    86,
+    100,
 };
 
 cMap::cMap(int width, int height) : width(width), height(height), map(height, std::vector<int>(width)) {}

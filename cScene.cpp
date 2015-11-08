@@ -11,8 +11,8 @@ const std::string FILENAME_EXT = ".txt";
 const int TILE_SIZE = 16;
 const int BLOCK_SIZE = 24;
 
-const int TILESET_WIDTH = 18;
-const int TILESET_HEIGHT = 8;
+const int TILESET_WIDTH = 32;
+const int TILESET_HEIGHT = 32;
 
 
 cScene::cScene(void)
@@ -55,7 +55,8 @@ bool cScene::LoadLevel(int level)
         for (i=0; i< sceneWidth; i++) {
             int tile;
             ifs >> tile;
-            map.SetCell(i, j, tile);
+            --tile;
+            map.SetCell(i, j, tile+1);
 
             coordx_tile = double(tile % TILESET_WIDTH) / (TILESET_WIDTH);
             coordy_tile = double(tile / TILESET_WIDTH) / (TILESET_HEIGHT);
