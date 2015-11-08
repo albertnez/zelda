@@ -40,7 +40,7 @@ bool cGame::Init()
     glEnable(GL_ALPHA_TEST);
 
     // Load textures
-    if (!Data.LoadImage(Images::Tileset, "res/tileset.png", GL_RGBA)) {
+    if (!Data.LoadImage(Images::Tileset, "res/tiles.png", GL_RGBA)) {
         throw std::runtime_error("Error loading res/tileset.png");
     }
     if (!Data.LoadImage(Images::Sprites, "res/sprites.png", GL_RGBA)) {
@@ -79,7 +79,7 @@ bool cGame::Init()
     Gui.setMaxHP(Player.GetMaxHitpoints());
     Gui.setHP(Player.GetHitpoints());
 
-    LoadLevel(2);
+    LoadLevel(3);
     
     currentScreen = Screens::Home;
     return res;
