@@ -4,10 +4,10 @@
 #include <iostream>
 
 void Frame::TextureOffset(float &xo, float &yo, float &xf, float &yf, int texWidth, int texHeight) {
-	xo = float(x) / texWidth;
-	yo = float(y + height) / texHeight;
-	xf = xo + float(width) / texWidth;
-	yf = float(y) / texHeight;
+    xo = float(x) / texWidth;
+    yo = float(y + height) / texHeight;
+    xf = xo + float(width) / texWidth;
+    yf = float(y) / texHeight;
 }
 
 cAnim::cAnim() : frame(0), elapsed(0) {
@@ -39,11 +39,11 @@ int cAnim::Size() const {
 }
 
 std::unordered_map<std::string, cAnim> LoadAnimations(const std::string &path) {
-	std::ifstream ifs(path);
-	if (!ifs.good()) {
-		throw std::runtime_error("Error loading " + path);
-	}
-	return ParseAnimations(ifs);
+    std::ifstream ifs(path);
+    if (!ifs.good()) {
+        throw std::runtime_error("Error loading " + path);
+    }
+    return ParseAnimations(ifs);
 }
 
 std::unordered_map<std::string, cAnim> ParseAnimations(std::ifstream& ifs) {
@@ -68,7 +68,7 @@ std::unordered_map<std::string, cAnim> ParseAnimations(std::ifstream& ifs) {
 
     // Magic vector.
     std::vector<int Frame::*> data {
-	&Frame::x, &Frame::y, &Frame::width, &Frame::height, &Frame::duration,
+    &Frame::x, &Frame::y, &Frame::width, &Frame::height, &Frame::duration,
     };
 
     std::string line;

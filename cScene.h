@@ -23,15 +23,15 @@ extern const int TILESET_HEIGHT;
 class cScene
 {
 public:
-	typedef std::vector<std::vector<int>> Map;
-	cScene(void);
-	virtual ~cScene(void);
+    typedef std::vector<std::vector<int>> Map;
+    cScene(void);
+    virtual ~cScene(void);
 
-	bool LoadLevel(int level);
-	void Draw(int tex_id);
-	const cMap &GetMap() const;
+    bool LoadLevel(int level);
+    void Draw(int tex_id);
+    const cMap &GetMap() const;
 
 private:
-	cMap map;  // Map of the scene.
-	int id_DL;								//actual level display list
+    cMap map;  // Map of the scene.
+    int id_DL;                                //actual level display list
 };

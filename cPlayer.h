@@ -10,14 +10,14 @@ extern const int PLAYER_TILE_SIZE;
 class cPlayer: public cBicho
 {
 public:
-	cPlayer();
-	~cPlayer();
+    cPlayer();
+    ~cPlayer();
 
-	bool ReachLimit(Direction dir) override;
-	bool IsChangingScreen();
-	void EndTransition();
-	Direction GetTransition();
+    bool ReachLimit(Direction dir) override;
+    bool IsChangingScreen();
+    void EndTransition();
+    Direction GetTransition();
 
 private:
-	Direction transition;
+    Direction transition;
 };

@@ -3,25 +3,25 @@
 
 const int PLAYER_TILE_SIZE = 2;
 cPlayer::cPlayer() : transition(Direction::None) {
-	animations = LoadAnimations("res/link.anim");
-	currentAnimation = "down";
+    animations = LoadAnimations("res/link.anim");
+    currentAnimation = "down";
 }
 cPlayer::~cPlayer(){}
 
 bool cPlayer::ReachLimit(Direction dir) {
-	transition = dir;
-	return true;
+    transition = dir;
+    return true;
 }
 
 bool cPlayer::IsChangingScreen() 
 {
-	return transition != None;
+    return transition != None;
 }
 
 void cPlayer::EndTransition() {
-	transition = Direction::None;
+    transition = Direction::None;
 }
 
 Direction cPlayer::GetTransition() {
-	return transition;
+    return transition;
 }

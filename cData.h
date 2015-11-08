@@ -6,28 +6,28 @@
 #include <string>
 
 enum Images : int {
-	Blocks = 0,
-	Player,
-	Tileset,
-	Sprites,
-	Enemies,
-	Hearts,
-	Font,
-	Interface,
-	Title,
+    Blocks = 0,
+    Player,
+    Tileset,
+    Sprites,
+    Enemies,
+    Hearts,
+    Font,
+    Interface,
+    Title,
     SizeImages,
 };
 
 class cData
 {
 public:
-	cData(void);
-	~cData(void);
+    cData(void);
+    ~cData(void);
 
-	int  GetID(int img);
-	void GetSize(int img,int *w,int *h);
-	bool LoadImage(int img, const std::string& filename,int type = GL_RGBA);
+    int  GetID(int img);
+    void GetSize(int img,int *w,int *h);
+    bool LoadImage(int img, const std::string& filename,int type = GL_RGBA);
 
 private:
-	cTexture texture[Images::SizeImages];
+    cTexture texture[Images::SizeImages];
 };
