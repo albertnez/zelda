@@ -47,40 +47,41 @@ public:
 	virtual bool ReachLimit(Direction dir);
 	// Reset Animation.
 	void ResetAnimation();
-	void SetAnimation(const std::string& name);
+	virtual void SetAnimation(const std::string& name);
 	std::string GetAnimation();
 
 
-	void GetArea(cRect *rc);
+	void GetArea(cRect &rc);
 	virtual void Draw(int texId, int texWidth, int texHeight);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
 	// Returns True if it can move, false otherwise.
 	bool Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
 	void Stop();
-	virtual void Logic(const cMap &map);
+	void Logic(const cMap &map);
+    virtual void SpecificLogic(const cMap &map);
 
 	Direction GetDirection();
 	void SetDirection(Direction dir);
 	State GetState();
 	void SetState(State state);
 
-	void NextFrame(int max);
+    void NextFrame(int max);
 	
 protected:
         void UpdateProtected();
 
-	int x,y;
-	int w,h;
-	int stepLength;
-	State state;
-	Direction direction;
-	int hitpoints;
-	int max_hitpoints;
-	int attack;
-        bool isProtected;
-        int protectionTime;
-        int maxProtectionTime;
+    int x,y;
+    int w,h;
+    int stepLength;
+    State state;
+    Direction direction;
+    int hitpoints;
+    int max_hitpoints;
+    int attack;
+    bool isProtected;
+    int protectionTime;
+    int maxProtectionTime;
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;

@@ -7,7 +7,7 @@ public:
     cOctorok();
     cOctorok(int x, int y, int sceneX, int sceneY);
 
-    void Logic(const cMap &map) override;
+    void SpecificLogic(const cMap &map) override;
 private:
     static const int width;
     static const int height;

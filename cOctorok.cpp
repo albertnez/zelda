@@ -22,18 +22,17 @@ cOctorok::cOctorok(int x, int y, int sceneX, int sceneY)
 	Init();
 }
 
-void cOctorok::Logic(const cMap &map) {
-    UpdateProtected();
+void cOctorok::SpecificLogic(const cMap &map) {
 	if (!Move(map, direction, sceneX, sceneY)) {
 		direction = nextDir[int(direction)];
 		SetAnimation(to_string(direction));
 	}
-
 }
 
 void cOctorok::Init() {
 	animations = LoadAnimations("res/octorok.anim");
 	currentAnimation = "down";
+    SetHitpoints(2);
 	w = width;
 	h = height;
 	stepLength = step;

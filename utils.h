@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-
+#include <string>
 enum Direction {
     None = 0,
     Up,
@@ -18,3 +18,5 @@ std::string to_string(Direction dir);
 struct cRect {
     int left,top, right,bottom;
 };
+
+std::string to_string(const cRect &rect);

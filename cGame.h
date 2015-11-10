@@ -8,6 +8,7 @@
 #include "cGUI.h"
 #include <algorithm>
 #include <list>
+#include <memory>
 
 extern const int GAME_WIDTH;
 extern const int GAME_HEIGHT;
@@ -53,7 +54,7 @@ private:
     bool keys[256];
     cScene Scene;
     cPlayer Player;
-    std::list<cBicho*> enemies;
+    std::list<std::unique_ptr<cBicho>> enemies;
     cData Data;
     int sceneOffsetx = 0;
     int sceneOffsety = 0;

@@ -73,7 +73,7 @@ int main(int argc, char** argv)
     
     glutInitWindowPosition(pos_x,pos_y);
     glutInitWindowSize(GAME_WIDTH*2,GAME_HEIGHT*2);
-    glutCreateWindow("Bubble returns!");
+    glutCreateWindow("The Legend of Zelda");
 
     /*glutGameModeString("800x600:32");
     glutEnterGameMode();*/

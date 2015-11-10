@@ -67,7 +67,7 @@ bool cGame::Init()
     Player.SetHitpoints(6);
     Player.SetMaxHitpoints(6);
 
-    enemies.push_back(new cOctorok(0, 0, 0, 0));
+    enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
     enemies.back()->SetTile(7, 7);
 
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
@@ -161,31 +161,50 @@ bool cGame::Process()
             triggerKeyReleased = false;
         }
         if (state == STATE_STATIC_CAMERA) {
-            Direction oldDir = Player.GetDirection();
-            Direction dir = Direction::None;
-            if (keys[GLUT_KEY_UP]) dir = Direction::Up;
-            else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
-            else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
-            else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
+            if (!Player.IsAttacking()) {
+                Direction oldDir = Player.GetDirection();
+                Direction dir = Direction::None;
+                if (keys[GLUT_KEY_UP]) dir = Direction::Up;
+                else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
+                else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
+                else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
 
-            if (dir == Direction::None) Player.Stop();
-            else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
+                if (dir == Direction::None) Player.Stop();
+                else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
-            if (oldDir != Player.GetDirection()) {
-                Player.SetAnimation(to_string(Player.GetDirection()));
+                if (oldDir != Player.GetDirection()) {
+                    Player.SetAnimation(to_string(Player.GetDirection()));
+                }
+                if (keys['a']) {
+                    Player.Attack();
+                }
             }
-            for (cBicho* enemy : enemies) {
+            for (auto &enemy : enemies) {
                 enemy->Logic(Scene.GetMap());
             }
             cRect pRect;
-            Player.GetArea(&pRect);
+            Player.GetArea(pRect);
+            // Sword collision
+            cRect swordRect = Player.GetSwordArea();
             //Game Logic
-            for (cBicho* enemy : enemies) {
+            for (auto &enemy : enemies) {
+                if (Player.IsAttacking() && enemy->Collides(swordRect)) {
+                    enemy->Damage(Player.GetAttack());
+                }
                 if (enemy->Collides(pRect)) {
                     Player.Damage(enemy->GetAttack());
                 }
             }
             Player.Logic(Scene.GetMap());
+
+            // Remove dead enemies:
+            for (auto it = enemies.begin(); it != enemies.end(); ) {
+                if ((*it)->IsDead()) {
+                    it = enemies.erase(it);
+                } else {
+                    ++it;
+                }
+            }
 
             if (Player.IsChangingScreen()) {
                 startTransition();
@@ -396,12 +415,14 @@ void cGame::DrawGameScreen(bool drawEnemies) {
     // Draw enemies.
     if (drawEnemies) {
         Data.GetSize(Images::Enemies, &width, &height);
-        for (cBicho* enemy : enemies) {
+        for (const auto &enemy : enemies) {
             enemy->Draw(Data.GetID(Images::Enemies), width, height);
         }
     }
+    // Draw player.
     Data.GetSize(Images::Sprites, &width, &height);
     // Draw player.
+    Player.DrawSword(Data.GetID(Images::Sprites), width, height);
     Player.Draw(Data.GetID(Images::Sprites), width, height);
 
     Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
