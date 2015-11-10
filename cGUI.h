@@ -43,11 +43,13 @@ public:
     void DrawRect(
         int tex_id, float xo, float yo,
         float xf, float yf, int x, int y, int w, int h);
+    void DrawRectWorld(int tex_id, float xo, float yo, float xf, float yf, int x, int y, int w, int h);
     void DrawTitle(int tex, int game_width, int game_height);
     void DrawGameOver(int tex, int game_width, int game_height);
     void DrawInstructions(int tex, int game_width, int game_height);
-    void DrawCredits(int tex, int game_width, int game_height);
+    void DrawCredits(int font, int sprites, int game_width, int game_height);
     void DrawText(int font, std::string text, int x, int y);
+    void DrawTextWorld(int font, std::string text, int x, int y);
     void DrawMap(int level, int x, int y);
 };
 

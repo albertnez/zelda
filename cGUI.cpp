@@ -3,7 +3,7 @@
 const int VIEW_WIDTH = 16;
 const int VIEW_HEIGHT = 11;
 const int SPRITES_HEIGHT = 64;
-const int SPRITES_WIDTH = 128;
+const int SPRITES_WIDTH = 256;
 
 cGUI::cGUI()
 {
@@ -130,6 +130,15 @@ void cGUI::DrawText(int font, std::string text, int x, int y) {
     }
 }
 
+void cGUI::DrawTextWorld(int font, std::string text, int x, int y) {
+    for (int i = 0; i < text.length(); ++i) {
+        float xo, yo, xf, yf;
+        Font.getCharPosition(text[i], xo, yo, xf, yf);
+        int x_letter = x + i * 9;
+        DrawRectWorld(font, xo, yo, xf, yf, x_letter, y, 8, 8);
+    }
+}
+
 void cGUI::DrawMap(int level, int x, int y) {
     int mapWidth = 64;
     int mapHeight = 32;
@@ -159,14 +168,10 @@ void cGUI::DrawRect(
     int tex_id, float xo, float yo, float xf, float yf,
     int x, int y, int w, int h)
 {
-
-
     int screen_x, screen_y;
-
     screen_x = x + view_xo;
     screen_y = y + view_yo;
     glEnable(GL_TEXTURE_2D);
-
     glBindTexture(GL_TEXTURE_2D, tex_id);
     glBegin(GL_QUADS);
     glTexCoord2f(xo, yo);    glVertex2i(screen_x, screen_y);
@@ -174,7 +179,24 @@ void cGUI::DrawRect(
     glTexCoord2f(xf, yf);    glVertex2i(screen_x + w, screen_y + h);
     glTexCoord2f(xo, yf);    glVertex2i(screen_x, screen_y + h);
     glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
 
+void cGUI::DrawRectWorld(
+    int tex_id, float xo, float yo, float xf, float yf,
+    int x, int y, int w, int h)
+{
+    int screen_x, screen_y;
+    screen_x = x;
+    screen_y = y;
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, tex_id);
+    glBegin(GL_QUADS);
+    glTexCoord2f(xo, yo);    glVertex2i(screen_x, screen_y);
+    glTexCoord2f(xf, yo);    glVertex2i(screen_x + w, screen_y);
+    glTexCoord2f(xf, yf);    glVertex2i(screen_x + w, screen_y + h);
+    glTexCoord2f(xo, yf);    glVertex2i(screen_x, screen_y + h);
+    glEnd();
     glDisable(GL_TEXTURE_2D);
 }
 
@@ -200,7 +222,22 @@ void cGUI::DrawInstructions(int tex, int game_width, int game_height) {
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 - 14);
     
 }
-void cGUI::DrawCredits(int tex, int game_width, int game_height) {
+void cGUI::DrawCredits(int font, int sprites, int game_width, int game_height) {
+    float xo = 108.0f / float(SPRITES_WIDTH);
+    float xf = xo + 16.0f / float(SPRITES_WIDTH);
+    float yo = 16.0f / float(SPRITES_HEIGHT);
+    float yf = 0.0f;
+    int w = 8;
+    int h = 8;
 
+    for (int i = 1; i < 31; ++i) {
+        DrawRectWorld(sprites, xo, yo, xf, yf, i*w, game_height-392, w, h);
+        DrawRectWorld(sprites, xo, yo, xf, yf, i*w, game_height-8, w, h);
+    }
+    for (int i = game_height - 392; i < game_height - 8; i+=8) {
+        DrawRectWorld(sprites, xo, yo, xf, yf, 8, i, w, h);
+        DrawRectWorld(sprites, xo, yo, xf, yf, 240, i, w, h);
+    }
+    std::string s;
 
 }

@@ -46,7 +46,9 @@ public:
     void Render();
     void setState(int s);
     void UpdateScenePos(Direction dir);
- 
+    void DrawGameScreen(bool drawEnemies);
+    void CalculateTransition();
+
 private:
     bool keys[256];
     cScene Scene;

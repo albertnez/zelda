@@ -85,6 +85,7 @@ bool cGame::Init()
 
     LoadLevel(2);
     
+    //currentScreen = Screens::Home;
     currentScreen = Screens::Home;
     return res;
 
@@ -150,6 +151,7 @@ bool cGame::Process()
     if (currentScreen == Screens::GameScreen) {
         if (Player.GetHitpoints() == 0) {
             currentScreen = Screens::GameOver;
+            counter = 0;
         }
         if (!triggerKeyReleased) {
             if(!keys['h'])triggerKeyReleased = true;
@@ -189,6 +191,9 @@ bool cGame::Process()
                 startTransition();
             }
         }
+        else if (state = STATE_SCREEN_CHANGE) {
+            CalculateTransition();
+        }
 
         
     }
@@ -205,6 +210,9 @@ bool cGame::Process()
         }   
     }
     else if (currentScreen == Screens::Credits) {
+        ++counter;
+    }
+    else if (currentScreen == Screens::GameOver) {
         ++counter;
     }
     return res;
@@ -245,35 +253,62 @@ void cGame::LoadLevel(int level) {
 void cGame::Render()
 {
     if (currentScreen == Screens::Home) {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
         glOrtho(
             0, GAME_WIDTH,
             0, GAME_HEIGHT, 0, 1
             );
         glClear(GL_COLOR_BUFFER_BIT);
-
+        glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
         Gui.DrawTitle(Data.GetID(Images::Title), GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameOver) {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
         glOrtho(
             0, GAME_WIDTH,
             0, GAME_HEIGHT, 0, 1
             );
         glClear(GL_COLOR_BUFFER_BIT);
-
+        glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
+        if (counter <= 20) {
+            DrawGameScreen(false);
+        }
+        else if (counter <= 120) {
+            glColor3f(1.0f, 0.0f, 0.0f);
+            DrawGameScreen(false);
+            glColor3f(1.0f, 1.0f, 1.0f);
+        }
+        else if (counter <= 140) {
+            glColor3f(0.67f, 0.0f, 0.0f);
+            DrawGameScreen(false);
+            glColor3f(1.0f, 1.0f, 1.0f);
+        }
+        else if (counter <= 160) {
+            glColor3f(0.33f, 0.0f, 0.0f);
+            DrawGameScreen(false);
+            glColor3f(1.0f, 1.0f, 1.0f);
+        }
+        else {
+            Gui.DrawGameOver(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
+        }
         Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
             Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
-        Gui.DrawGameOver(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
+        
     }
     else if (currentScreen == Screens::Instructions) {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
         glOrtho(
             0, GAME_WIDTH,
             0, GAME_HEIGHT, 0, 1
             );
         glClear(GL_COLOR_BUFFER_BIT);
-
+        glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
             Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
@@ -282,77 +317,95 @@ void cGame::Render()
     }
 
     else if (currentScreen == Screens::Credits) {
+        int yo = -counter/2;
+        int yf = GAME_HEIGHT - counter / 2;
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
         glOrtho(
             0, GAME_WIDTH,
-            counter, GAME_HEIGHT+counter, 0, 1
+            yo, yf, 0, 1
             );
-        Gui.DrawCredits(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        Gui.DrawCredits(Data.GetID(Images::Font), Data.GetID(Images::Interface),
+            GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameScreen) {
-        if (state == STATE_SCREEN_CHANGE) {
-            int px, py, pw, ph;
-            Player.GetPosition(&px, &py);
-            Player.GetWidthHeight(&pw, &ph);
-
-            if (transitionState == Direction::Right) {
-                sceneOffsetx += TRANSITION_SPEED;
-                px = std::max(px, sceneOffsetx);
-            }
-            else if (transitionState == Direction::Left) {
-                sceneOffsetx -= TRANSITION_SPEED;
-                px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
-            }
-            else if (transitionState == Direction::Down) {
-                sceneOffsety -= TRANSITION_SPEED;
-                py = std::min(py, sceneOffsety + VIEW_HEIGHT * TILE_SIZE - ph);
-            }
-            else if (transitionState == Direction::Up) {
-                sceneOffsety += TRANSITION_SPEED;
-                py = std::max(py, sceneOffsety);
-            }
-            Player.SetPosition(px, py);
-
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
+        
+        DrawGameScreen(true);
+        
+        
+    }
+    glutSwapBuffers();
+}
 
 
+void cGame::CalculateTransition() {
+    int px, py, pw, ph;
+    Player.GetPosition(&px, &py);
+    Player.GetWidthHeight(&pw, &ph);
 
-            glOrtho(
-                sceneOffsetx, sceneOffsetx + GAME_WIDTH,
-                sceneOffsety, sceneOffsety + GAME_HEIGHT, 0, 1
-                );
-            glMatrixMode(GL_MODELVIEW);
-            frame++;
-            int targetFrames = X_TRANSITION_FRAMES;
-            if (transitionState == Direction::Up || transitionState == Direction::Down) {
-                targetFrames = Y_TRANSITION_FRAMES;
-            }
-            if (frame == targetFrames) {
-                endTransition();
-            }
-        }
-        Gui.setHP(Player.GetHitpoints());
-        Gui.setXo(sceneOffsetx);
-        Gui.setYo(sceneOffsety);
-        glClear(GL_COLOR_BUFFER_BIT);
+    if (transitionState == Direction::Right) {
+        sceneOffsetx += TRANSITION_SPEED;
+        px = std::max(px, sceneOffsetx);
+    }
+    else if (transitionState == Direction::Left) {
+        sceneOffsetx -= TRANSITION_SPEED;
+        px = std::min(px, sceneOffsetx + GAME_WIDTH - pw);
+    }
+    else if (transitionState == Direction::Down) {
+        sceneOffsety -= TRANSITION_SPEED;
+        py = std::min(py, sceneOffsety + VIEW_HEIGHT * TILE_SIZE - ph);
+    }
+    else if (transitionState == Direction::Up) {
+        sceneOffsety += TRANSITION_SPEED;
+        py = std::max(py, sceneOffsety);
+    }
+    Player.SetPosition(px, py);
 
-        glLoadIdentity();
+        
+    frame++;
+    int targetFrames = X_TRANSITION_FRAMES;
+    if (transitionState == Direction::Up || transitionState == Direction::Down) {
+        targetFrames = Y_TRANSITION_FRAMES;
+    }
+    if (frame == targetFrames) {
+        endTransition();
+    }
+}
 
-        int width, height;
-        Scene.Draw(Data.GetID(Images::Tileset));
-        // Draw enemies.
+
+void cGame::DrawGameScreen(bool drawEnemies) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(
+        sceneOffsetx, sceneOffsetx + GAME_WIDTH,
+        sceneOffsety, sceneOffsety + GAME_HEIGHT, 0, 1
+        );
+    glMatrixMode(GL_MODELVIEW);
+    Gui.setHP(Player.GetHitpoints());
+    Gui.setXo(sceneOffsetx);
+    Gui.setYo(sceneOffsety);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glLoadIdentity();
+
+    int width, height;
+    Scene.Draw(Data.GetID(Images::Tileset));
+    // Draw enemies.
+    if (drawEnemies) {
         Data.GetSize(Images::Enemies, &width, &height);
         for (cBicho* enemy : enemies) {
             enemy->Draw(Data.GetID(Images::Enemies), width, height);
         }
-        Data.GetSize(Images::Sprites, &width, &height);
-        // Draw player.
-        Player.Draw(Data.GetID(Images::Sprites), width, height);
-
-        Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
-            Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
-
-        
     }
-    glutSwapBuffers();
+    Data.GetSize(Images::Sprites, &width, &height);
+    // Draw player.
+    Player.Draw(Data.GetID(Images::Sprites), width, height);
+
+    Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
+        Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+
+
 }
