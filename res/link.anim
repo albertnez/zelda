@@ -32,7 +32,7 @@ start attackup 1
 end
 
 start attackdown 1
-    230 67 16 16 100
+    50 66 16 16 100
 end
 
 start attackright 1

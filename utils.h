@@ -18,3 +18,5 @@ std::string to_string(Direction dir);
 struct cRect {
     int left,top, right,bottom;
 };
+
+std::string to_string(const cRect &rect);

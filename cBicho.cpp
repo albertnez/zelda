@@ -165,12 +165,11 @@ std::string cBicho::GetAnimation() {
 	return currentAnimation;
 }
 
-void cBicho::GetArea(cRect *rc)
-{
-	rc->left   = x;
-	rc->right  = x+w;
-	rc->bottom = y;
-	rc->top    = y+h;
+void cBicho::GetArea(cRect &rc) {
+    rc.left   = x;
+    rc.right  = x+w;
+    rc.bottom = y;
+    rc.top    = y+h;
 }
 
 void cBicho::Draw(int texId, int texWidth, int texHeight) {

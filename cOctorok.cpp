@@ -32,6 +32,7 @@ void cOctorok::SpecificLogic(const cMap &map) {
 void cOctorok::Init() {
 	animations = LoadAnimations("res/octorok.anim");
 	currentAnimation = "down";
+    SetHitpoints(2);
 	w = width;
 	h = height;
 	stepLength = step;
