@@ -87,7 +87,8 @@ cRect cPlayer::GetSwordArea() const {
     return area;
 }
 
-void cPlayer::DrawSword(int texId, int texWidth, int texHeight) const {
+void cPlayer::SpecificDraw(int texId, int texWidth, int texHeight) {
+    // If it is attacking, draw the sword before Link.
     if (!isAttacking) {
         return;
     }

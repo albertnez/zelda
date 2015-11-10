@@ -421,12 +421,8 @@ void cGame::DrawGameScreen(bool drawEnemies) {
     }
     // Draw player.
     Data.GetSize(Images::Sprites, &width, &height);
-    // Draw player.
-    Player.DrawSword(Data.GetID(Images::Sprites), width, height);
     Player.Draw(Data.GetID(Images::Sprites), width, height);
 
     Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
-        Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
-
-
+             Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
 }

@@ -173,6 +173,7 @@ void cBicho::GetArea(cRect &rc) {
 }
 
 void cBicho::Draw(int texId, int texWidth, int texHeight) {
+    SpecificDraw(texId, texWidth, texHeight);
 	float xo,yo,xf,yf;
 
 	animations[currentAnimation].CurrentFrame().TextureOffset(xo, yo, xf, yf, texWidth, texHeight);
@@ -180,6 +181,9 @@ void cBicho::Draw(int texId, int texWidth, int texHeight) {
 		animations[currentAnimation].Advance(1);
 	}
 	DrawRect(texId,xo,yo,xf,yf);
+}
+
+void cBicho::SpecificDraw(int texId, int texWidth, int texHeight) {
 }
 
 void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
