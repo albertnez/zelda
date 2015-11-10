@@ -58,7 +58,8 @@ public:
 	// Returns True if it can move, false otherwise.
 	bool Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
 	void Stop();
-	virtual void Logic(const cMap &map);
+	void Logic(const cMap &map);
+    virtual void SpecificLogic(const cMap &map);
 
 	Direction GetDirection();
 	void SetDirection(Direction dir);

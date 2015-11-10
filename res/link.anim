@@ -27,3 +27,19 @@ start left 2
     205 17 16 16 10
 end
 
+start attackup 1
+    131 66 16 16 100
+end
+
+start attackdown 1
+    230 67 16 16 100
+end
+
+start attackright 1
+    96 67 16 16 100
+end
+
+start attackleft 1
+    184 66 16 16 100
+end
+

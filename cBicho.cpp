@@ -246,6 +246,10 @@ void cBicho::Stop() {
 
 void cBicho::Logic(const cMap &map) {
     UpdateProtected();
+    SpecificLogic(map);
+}
+
+void cBicho::SpecificLogic(const cMap &map) {
 }
 
 void cBicho::NextFrame(int max) {

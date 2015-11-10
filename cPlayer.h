@@ -5,8 +5,6 @@
 #include <unordered_map>
 #include <string>
 
-extern const int PLAYER_TILE_SIZE;
-
 class cPlayer: public cBicho
 {
 public:
@@ -17,7 +15,16 @@ public:
 	bool IsChangingScreen();
 	void EndTransition();
 	Direction GetTransition();
+    void Attack();
+    bool IsAttacking();
+    void SpecificLogic(const cMap &map) override;
 
 private:
 	Direction transition;
+    bool isAttacking;
+    int attackTime;
+
+    // When attack / stop attacking, from which animation to which go.
+    static const std::unordered_map<std::string,std::string> nextAttackAnim;
+    static const int maxAttackTime;
 };

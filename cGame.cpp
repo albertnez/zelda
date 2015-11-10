@@ -147,18 +147,23 @@ bool cGame::Process()
 
     if (currentScreen == Screens::GameScreen) {
         if (state == STATE_STATIC_CAMERA) {
-            Direction oldDir = Player.GetDirection();
-            Direction dir = Direction::None;
-            if (keys[GLUT_KEY_UP]) dir = Direction::Up;
-            else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
-            else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
-            else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
+            if (!Player.IsAttacking()) {
+                Direction oldDir = Player.GetDirection();
+                Direction dir = Direction::None;
+                if (keys[GLUT_KEY_UP]) dir = Direction::Up;
+                else if (keys[GLUT_KEY_DOWN]) dir = Direction::Down;
+                else if (keys[GLUT_KEY_LEFT]) dir = Direction::Left;
+                else if (keys[GLUT_KEY_RIGHT]) dir = Direction::Right;
 
-            if (dir == Direction::None) Player.Stop();
-            else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
+                if (dir == Direction::None) Player.Stop();
+                else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
-            if (oldDir != Player.GetDirection()) {
-                Player.SetAnimation(to_string(Player.GetDirection()));
+                if (oldDir != Player.GetDirection()) {
+                    Player.SetAnimation(to_string(Player.GetDirection()));
+                }
+                if (keys['a']) {
+                    Player.Attack();
+                }
             }
             for (cBicho* enemy : enemies) {
                 enemy->Logic(Scene.GetMap());
