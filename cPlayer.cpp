@@ -30,6 +30,7 @@ cPlayer::cPlayer()
       isAttacking(false),
       attackTime(0) {
     SetAttack(1);
+    maxProtectionTime = 60;
     animations = LoadAnimations("res/link.anim");
     currentAnimation = "down";
     swordAnimations = LoadAnimations("res/sword.anim");
@@ -106,8 +107,8 @@ void cPlayer::SpecificDraw(int texId, int texWidth, int texHeight) {
 	glBindTexture(GL_TEXTURE_2D,texId);
 
     float alpha = 1.0;
-    if (isProtected && (protectionTime % 16) < 8) {
-        alpha = 0.5;
+    if (isProtected && (protectionTime % 20) < 10) {
+        alpha = 0.0;
     }
 
     glColor4f(1.0, 1.0, 1.0, alpha);
