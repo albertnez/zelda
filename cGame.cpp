@@ -241,7 +241,7 @@ bool cGame::Process()
             }
             for (auto it = allies.begin(); it != allies.end(); ) {
                 if ((*it)->IsDead()) {
-                    it = enemies.erase(it);
+                    it = allies.erase(it);
                 } else {
                     ++it;
                 }
@@ -269,10 +269,10 @@ bool cGame::Process()
             triggerKeyReleased = false;
         }   
     }
-    else if (currentScreen == Screens::Credits) {
+    else if (currentScreen == Screens::Credits && counter < 32000) {
         ++counter;
     }
-    else if (currentScreen == Screens::GameOver) {
+    else if (currentScreen == Screens::GameOver && counter < 32000) {
         ++counter;
     }
     return res;
@@ -329,15 +329,7 @@ void cGame::Render()
         Gui.DrawTitle(Data.GetID(Images::Title), GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameOver) {
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(
-            0, GAME_WIDTH,
-            0, GAME_HEIGHT, 0, 1
-            );
-        glClear(GL_COLOR_BUFFER_BIT);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
+        
         if (counter <= 20) {
             DrawGameScreen(false);
         }
@@ -357,10 +349,20 @@ void cGame::Render()
             glColor3f(1.0f, 1.0f, 1.0f);
         }
         else {
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(
+                sceneOffsetx, sceneOffsetx + GAME_WIDTH,
+                sceneOffsety, sceneOffsety + GAME_HEIGHT, 0, 1
+                );
+            glClear(GL_COLOR_BUFFER_BIT);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+            Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
+                Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
             Gui.DrawGameOver(Data.GetID(Images::Font), GAME_WIDTH, GAME_HEIGHT);
         }
-        Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
-            Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+        
         
     }
     else if (currentScreen == Screens::Instructions) {
