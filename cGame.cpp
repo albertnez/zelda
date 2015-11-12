@@ -1,5 +1,6 @@
 #include "cGame.h"
 #include "Globals.h"
+#include "cBat.h"
 #include "cBeam.h"
 #include "cWorm.h"
 #include <iostream>
@@ -477,14 +478,23 @@ void cGame::PopulateEnemies() {
         int i = rand() % freeCells.size();
         int x = freeCells[i].first;
         int y = freeCells[i].second;
-        if (rand()&1) {
-            enemies.push_back(std::unique_ptr<cBicho>(
-                new cOctorok(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY)));
-        } else {
-            enemies.push_back(std::unique_ptr<cBicho>(
-                new cWorm(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY, Player)));
-        }
+        enemies.push_back(GenerateRandomEnemy(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY));
         std::swap(freeCells[i], freeCells[freeCells.size()-1]);
         freeCells.pop_back();
+    }
+}
+
+std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int sceneY) {
+    switch (rand()%3) {
+        case 0:
+            return std::unique_ptr<cBicho>(new cOctorok(x, x, sceneX, sceneY));
+            break;
+        case 1:
+            return std::unique_ptr<cBicho>(new cWorm(x, y, sceneX, sceneY, Player));
+            break;
+        case 2:
+        default:
+            return std::unique_ptr<cBicho>(new cBat(x, y, sceneX, sceneY));
+            break;
     }
 }
