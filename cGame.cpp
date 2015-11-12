@@ -179,14 +179,15 @@ bool cGame::Process()
                 if (keys['a']) {
                     if (!Player.IsAttacking()) {
                         Player.Attack();
-                        cRect swordArea = Player.GetSwordArea();
-                        std::unique_ptr<cBicho> beam(
-                            new cBeam(swordArea.left, swordArea.bottom, sceneX,
-                                      sceneY, Player.GetDirection()));
-                        beam->SetAnimation(to_string(Player.GetDirection()));
+                        if (Player.GetHitpoints() == Player.GetMaxHitpoints()) {
+                            cRect swordArea = Player.GetSwordArea();
+                            std::unique_ptr<cBicho> beam(
+                                new cBeam(swordArea.left, swordArea.bottom, sceneX,
+                                          sceneY, Player.GetDirection()));
+                            beam->SetAnimation(to_string(Player.GetDirection()));
 
-                        allies.push_back(std::move(beam));
-
+                            allies.push_back(std::move(beam));
+                        }
                     }
                 }
             }
