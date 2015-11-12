@@ -13,6 +13,11 @@ std::string to_string(Direction dir) {
     return names[int(dir)];
 }
 
+bool cRect::Intersect(const cRect &other) const {
+    return left < other.right && right > other.left && top > other.bottom &&
+           bottom < other.top;
+}
+
 std::string to_string(const cRect &rect) {
     return "{top: " + std::to_string(rect.top) +
            ", bottom: " + std::to_string(rect.bottom) +

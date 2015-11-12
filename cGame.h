@@ -55,6 +55,7 @@ private:
     cScene Scene;
     cPlayer Player;
     std::list<std::unique_ptr<cBicho>> enemies;
+    std::list<std::unique_ptr<cBicho>> allies;
     cData Data;
     int sceneOffsetx = 0;
     int sceneOffsety = 0;

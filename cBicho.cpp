@@ -7,36 +7,26 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
-cBicho::cBicho(void) 
-	: stepLength(STEP_LENGTH)
-	, state(State::Walk)
-	, direction(Direction::Down)
-	, isProtected(false)
-        , protectionTime(0)
-        , maxProtectionTime(60) {
+cBicho::cBicho(void) {
+    Init();
 }
 
 cBicho::~cBicho(void) {}
 
 cBicho::cBicho(int posx,int posy,int width,int height)
-	: stepLength(STEP_LENGTH)
-	, state(State::Walk)
-	, direction(Direction::Down)
-	, isProtected(false)
-        , protectionTime(0)
-        , maxProtectionTime(60) {
-
-	x = posx;
-	y = posy;
-	w = width;
-	h = height;
+    : x(posx),
+      y(posy),
+      w(width),
+      h(height) {
+    Init();
 }
+
 void cBicho::SetPosition(int posx,int posy)
 {
 	x = posx;
 	y = posy;
 }
-void cBicho::GetPosition(int *posx,int *posy)
+void cBicho::GetPosition(int *posx,int *posy) const
 {
 	*posx = x;
 	*posy = y;
@@ -46,7 +36,7 @@ void cBicho::SetTile(int tx,int ty)
 	x = tx * TILE_SIZE;
 	y = ty * TILE_SIZE;
 }
-void cBicho::GetTile(int *tx,int *ty)
+void cBicho::GetTile(int *tx,int *ty) const
 {
 	*tx = x / TILE_SIZE;
 	*ty = y / TILE_SIZE;
@@ -56,7 +46,7 @@ void cBicho::SetWidthHeight(int width,int height)
 	w = width;
 	h = height;
 }
-void cBicho::GetWidthHeight(int *width,int *height)
+void cBicho::GetWidthHeight(int *width,int *height) const
 {
 	*width = w;
 	*height = h;
@@ -66,20 +56,20 @@ void cBicho::SetHitpoints(int hp) {
     hitpoints = hp;
 }
 
-int cBicho::GetHitpoints() {
+int cBicho::GetHitpoints() const {
     return hitpoints;
 }
 
 void cBicho::SetMaxHitpoints(int hp) {
-    max_hitpoints = hp;
+    maxHitpoints = hp;
 }
 
-int cBicho::GetMaxHitpoints() {
-    return max_hitpoints;
+int cBicho::GetMaxHitpoints() const {
+    return maxHitpoints;
 }
 
 void cBicho::Heal(int hp) {
-    hitpoints = std::max(hitpoints, max_hitpoints);
+    hitpoints = std::max(hitpoints, maxHitpoints);
 }
 
 bool cBicho::Damage(int hp) {
@@ -95,11 +85,11 @@ void cBicho::SetAttack(int attack) {
     this->attack = attack;
 }
 
-int cBicho::GetAttack() {
+int cBicho::GetAttack() const {
     return attack;
 }
 
-bool cBicho::IsDead() {
+bool cBicho::IsDead() const {
     return hitpoints <= 0;
 }
 
@@ -161,15 +151,17 @@ void cBicho::SetAnimation(const std::string& name) {
 	animations[currentAnimation].Reset();
 }
 
-std::string cBicho::GetAnimation() {
+std::string cBicho::GetAnimation() const {
 	return currentAnimation;
 }
 
-void cBicho::GetArea(cRect &rc) {
+cRect cBicho::GetArea() const {
+    cRect rc;
     rc.left   = x;
     rc.right  = x+w;
     rc.bottom = y;
     rc.top    = y+h;
+    return rc;
 }
 
 void cBicho::Draw(int texId, int texWidth, int texHeight) {
@@ -260,7 +252,7 @@ void cBicho::NextFrame(int max) {
 }
 
 
-Direction cBicho::GetDirection() {
+Direction cBicho::GetDirection() const {
 	return direction;
 }
 
@@ -268,7 +260,7 @@ void cBicho::SetDirection(Direction dir) {
 	direction = dir;
 }
 
-cBicho::State cBicho::GetState() {
+cBicho::State cBicho::GetState() const {
 	return state;
 }
 
@@ -282,4 +274,15 @@ void cBicho::UpdateProtected() {
         isProtected = false;
         protectionTime = 0;
     }
+}
+
+void cBicho::Init() {
+    stepLength = STEP_LENGTH;
+    state = State::Walk;
+    direction = Direction::Down;
+    isProtected = false;
+    protectionTime = 0;
+    maxProtectionTime = 60;
+    hitpoints = 0;
+    maxHitpoints = 0;
 }

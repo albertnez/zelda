@@ -14,6 +14,14 @@ const int BLOCK_SIZE = 24;
 const int TILESET_WIDTH = 32;
 const int TILESET_HEIGHT = 32;
 
+cRect cScene::MapLimits(int sceneX, int sceneY) {
+    return {
+        VIEW_WIDTH * TILE_SIZE * sceneX,     // left
+        VIEW_HEIGHT * TILE_SIZE * -~sceneY,  // top
+        VIEW_WIDTH * TILE_SIZE * -~sceneX,   // right
+        VIEW_HEIGHT * TILE_SIZE * sceneY,    // bottom
+    };
+}
 
 cScene::cScene(void)
 {

@@ -1,5 +1,6 @@
 #include "cGame.h"
 #include "Globals.h"
+#include "cBeam.h"
 #include <iostream>
 
 
@@ -176,18 +177,35 @@ bool cGame::Process()
                     Player.SetAnimation(to_string(Player.GetDirection()));
                 }
                 if (keys['a']) {
-                    Player.Attack();
+                    if (!Player.IsAttacking()) {
+                        Player.Attack();
+                        cRect swordArea = Player.GetSwordArea();
+                        std::unique_ptr<cBicho> beam(
+                            new cBeam(swordArea.left, swordArea.bottom, sceneX,
+                                      sceneY, Player.GetDirection()));
+                        beam->SetAnimation(to_string(Player.GetDirection()));
+
+                        allies.push_back(std::move(beam));
+
+                    }
                 }
+            }
+            for (auto &ally : allies) {
+                ally->Logic(Scene.GetMap());
             }
             for (auto &enemy : enemies) {
                 enemy->Logic(Scene.GetMap());
             }
-            cRect pRect;
-            Player.GetArea(pRect);
-            // Sword collision
+            cRect pRect = Player.GetArea();
             cRect swordRect = Player.GetSwordArea();
             //Game Logic
             for (auto &enemy : enemies) {
+                // Sword beams.
+                for (auto &ally : allies) {
+                    if (!ally->IsDead() && enemy->Collides(ally->GetArea())) {
+                        enemy->Damage(ally->GetAttack());
+                    }
+                }
                 if (Player.IsAttacking() && enemy->Collides(swordRect)) {
                     enemy->Damage(Player.GetAttack());
                 }
@@ -205,12 +223,19 @@ bool cGame::Process()
                     ++it;
                 }
             }
+            for (auto it = allies.begin(); it != allies.end(); ) {
+                if ((*it)->IsDead()) {
+                    it = enemies.erase(it);
+                } else {
+                    ++it;
+                }
+            }
 
             if (Player.IsChangingScreen()) {
                 startTransition();
             }
         }
-        else if (state = STATE_SCREEN_CHANGE) {
+        else if (state == STATE_SCREEN_CHANGE) {
             CalculateTransition();
         }
 
@@ -417,6 +442,13 @@ void cGame::DrawGameScreen(bool drawEnemies) {
         Data.GetSize(Images::Enemies, &width, &height);
         for (const auto &enemy : enemies) {
             enemy->Draw(Data.GetID(Images::Enemies), width, height);
+        }
+    }
+    // Draw Sword Beam
+    if (drawEnemies) {
+        Data.GetSize(Images::Sprites, &width, &height);
+        for (const auto &ally : allies) {
+            ally->Draw(Data.GetID(Images::Sprites), width, height);
         }
     }
     // Draw player.

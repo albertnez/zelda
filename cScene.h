@@ -2,6 +2,7 @@
 
 #include "cTexture.h"
 #include "cMap.h"
+#include "utils.h"
 #include <string>
 #include <vector>
 
@@ -24,6 +25,7 @@ class cScene
 {
 public:
     typedef std::vector<std::vector<int>> Map;
+    static cRect MapLimits(int sceneX, int sceneY);
     cScene(void);
     virtual ~cScene(void);
 
