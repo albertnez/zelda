@@ -1,0 +1,16 @@
+start up 1
+  59 36 7 16 10
+end
+
+start down 1
+  68 36 7 16 10
+end
+
+start left 1
+  77 45 16 7 10 
+end
+
+start right 1
+  77 36 16 7 10
+end
+

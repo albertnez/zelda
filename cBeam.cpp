@@ -11,7 +11,7 @@ cBeam::cBeam(int x, int y, int sceneX, int sceneY, Direction dir)
     SetHitpoints(1);
     SetAttack(1);
     SetDirection(dir);
-    animations = LoadAnimations("res/sword.anim");
+    animations = LoadAnimations("res/beam.anim");
     currentAnimation = to_string(direction);
     w = animations[currentAnimation].CurrentFrame().width;
     h = animations[currentAnimation].CurrentFrame().height;
