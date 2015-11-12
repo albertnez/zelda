@@ -53,6 +53,9 @@ bool cGame::Init()
     if (!Data.LoadImage(Images::Enemies, "res/enemies.png", GL_RGBA)) {
         throw std::runtime_error("Error loading res/enemies.png");
     }
+    if (!Data.LoadImage(Images::Objects, "res/objects.png", GL_RGBA)) {
+        throw std::runtime_error("Error loading res/objects.png");
+    }
     //Scene initialization
 
     //res = Scene.LoadLevel(2);
@@ -70,6 +73,11 @@ bool cGame::Init()
     enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
     enemies.back()->SetTile(7, 7);
 
+    int width, height;
+    Data.GetSize(Images::Objects, &width, &height);
+    objects.push_back(std::unique_ptr<cKey>(
+        new cKey(GAME_WIDTH+200,64,width,height)));
+
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
     if (!res) return false;
 
@@ -85,8 +93,8 @@ bool cGame::Init()
 
     LoadLevel(2);
     
-    //currentScreen = Screens::Home;
     currentScreen = Screens::Home;
+    //currentScreen = Screens::Credits;
     return res;
 
 }
@@ -193,6 +201,15 @@ bool cGame::Process()
                 }
                 if (enemy->Collides(pRect)) {
                     Player.Damage(enemy->GetAttack());
+                }
+            }
+            for (auto it = objects.begin(); it != objects.end(); ) {
+                if ((*it)->Collides(pRect)) {
+                    Player.PickUp();
+                    it = objects.erase(it);
+                }
+                else {
+                    ++it;
                 }
             }
             Player.Logic(Scene.GetMap());
@@ -415,9 +432,14 @@ void cGame::DrawGameScreen(bool drawEnemies) {
     // Draw enemies.
     if (drawEnemies) {
         Data.GetSize(Images::Enemies, &width, &height);
+        for (const auto &object : objects) {
+            object->Draw(Data.GetID(Images::Objects));
+        }
         for (const auto &enemy : enemies) {
             enemy->Draw(Data.GetID(Images::Enemies), width, height);
         }
+
+        
     }
     // Draw player.
     Data.GetSize(Images::Sprites, &width, &height);

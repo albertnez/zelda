@@ -34,6 +34,7 @@ cPlayer::cPlayer()
     currentAnimation = "down";
     swordAnimations = LoadAnimations("res/sword.anim");
     swordAnimation = currentAnimation;
+    keys = 0;
 }
 cPlayer::~cPlayer(){}
 
@@ -126,3 +127,12 @@ void cPlayer::SetAnimation(const std::string &name) {
     }
     cBicho::SetAnimation(name);
 }
+
+
+void cPlayer::PickUp() {
+    ++keys;
+}
+
+//int cPlayer::GetEquippedObjectA() {
+
+//}

@@ -6,6 +6,8 @@
 #include "cData.h"
 #include "utils.h"
 #include "cGUI.h"
+#include "cObject.h"
+#include "cKey.h"
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -28,6 +30,7 @@ enum Screens : int {
 class cGame
 {
 public:
+
     cGame(void);
     virtual ~cGame(void);
 
@@ -49,12 +52,14 @@ public:
     void UpdateScenePos(Direction dir);
     void DrawGameScreen(bool drawEnemies);
     void CalculateTransition();
+    
 
 private:
     bool keys[256];
     cScene Scene;
     cPlayer Player;
     std::list<std::unique_ptr<cBicho>> enemies;
+    std::list<std::unique_ptr<cObject>> objects;
     cData Data;
     int sceneOffsetx = 0;
     int sceneOffsety = 0;

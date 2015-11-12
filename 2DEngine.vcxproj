@@ -93,7 +93,9 @@
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cGame.cpp" />
     <ClCompile Include="cGUI.cpp" />
+    <ClCompile Include="cKey.cpp" />
     <ClCompile Include="cMap.cpp" />
+    <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cOctorok.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cScene.cpp" />
@@ -108,7 +110,9 @@
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cGame.h" />
     <ClInclude Include="cGUI.h" />
+    <ClInclude Include="cKey.h" />
     <ClInclude Include="cMap.h" />
+    <ClInclude Include="cObject.h" />
     <ClInclude Include="cOctorok.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cScene.h" />

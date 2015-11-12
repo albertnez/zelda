@@ -232,12 +232,23 @@ void cGUI::DrawCredits(int font, int sprites, int game_width, int game_height) {
 
     for (int i = 1; i < 31; ++i) {
         DrawRectWorld(sprites, xo, yo, xf, yf, i*w, game_height-392, w, h);
-        DrawRectWorld(sprites, xo, yo, xf, yf, i*w, game_height-8, w, h);
+
+        //DrawRectWorld(sprites, xo, yo, xf, yf, i*w, 8, w, h);
     }
-    for (int i = game_height - 392; i < game_height - 8; i+=8) {
+    for (int i = 1; i < 13; ++i) {
+        DrawRectWorld(sprites, xo, yo, xf, yf, i*w, game_height/2, w, h);
+        DrawRectWorld(sprites, xo, yo, xf, yf, (31-i)*w, game_height / 2, w, h);
+    }
+    for (int i = game_height - 392; i < game_height / 2
+        ; i+=8) {
         DrawRectWorld(sprites, xo, yo, xf, yf, 8, i, w, h);
         DrawRectWorld(sprites, xo, yo, xf, yf, 240, i, w, h);
     }
     std::string s;
-
+    s = "STAFF";
+    DrawText(font, s, game_width / 2 - s.length()*4.5+1, game_height / 2);
+    s = "Albert Martinez";
+    DrawText(font, s, game_width / 2 - s.length()*4.5, game_height / 2 - 72);
+    s = "Alicia Nicas";
+    DrawText(font, s, game_width / 2 - s.length()*4.5, game_height / 2 - 136);
 }

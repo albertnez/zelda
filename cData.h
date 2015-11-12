@@ -15,6 +15,7 @@ enum Images : int {
     Font,
     Interface,
     Title,
+    Objects,
     SizeImages,
 };
 
