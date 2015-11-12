@@ -51,6 +51,8 @@ public:
     void CalculateTransition();
 
 private:
+    void PopulateEnemies();
+
     bool keys[256];
     cScene Scene;
     cPlayer Player;

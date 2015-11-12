@@ -68,9 +68,6 @@ bool cGame::Init()
     Player.SetHitpoints(6);
     Player.SetMaxHitpoints(6);
 
-    enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
-    enemies.back()->SetTile(7, 7);
-
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
     if (!res) return false;
 
@@ -267,6 +264,8 @@ bool cGame::Process()
 
 void cGame::startTransition() {
     transitionState = Player.GetTransition();
+    // Remove all enemies.
+    enemies.clear();
     state = STATE_SCREEN_CHANGE;
     frame = 0;
 }
@@ -280,6 +279,7 @@ void cGame::endTransition() {
         LoadLevel(3);
     }
     UpdateScenePos(transitionState);
+    PopulateEnemies();
     Player.EndTransition();
     Gui.setViewX(sceneOffsetx / (VIEW_WIDTH*TILE_SIZE));
     Gui.setViewY(sceneOffsety / (VIEW_HEIGHT*TILE_SIZE));
@@ -458,4 +458,30 @@ void cGame::DrawGameScreen(bool drawEnemies) {
 
     Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
              Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+}
+
+void cGame::PopulateEnemies() {
+    const cMap &map = Scene.GetMap();
+    int xo = sceneX * VIEW_WIDTH;
+    int yo = sceneY * VIEW_HEIGHT;
+    // Arbitrary value.
+    
+    std::vector<std::pair<int,int>> freeCells;
+    for (int x = xo; x < xo + VIEW_WIDTH; ++x) {
+        for (int y = yo; y < yo + VIEW_HEIGHT; ++y) {
+            if (!map.Obstacle(x, y)) {
+                freeCells.push_back({x, y});
+            }
+        }
+    }
+    int numEnemies = freeCells.size() / 20;
+    while (numEnemies--) {
+        int i = rand() % freeCells.size();
+        int x = freeCells[i].first;
+        int y = freeCells[i].second;
+        enemies.push_back(std::unique_ptr<cBicho>(
+            new cOctorok(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY)));
+        std::swap(freeCells[i], freeCells[freeCells.size()-1]);
+        freeCells.pop_back();
+    }
 }
