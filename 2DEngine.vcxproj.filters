@@ -56,6 +56,12 @@
     <ClCompile Include="cKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cBeam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cWorm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBicho.h">
@@ -101,6 +107,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBeam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cWorm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

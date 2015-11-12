@@ -24,7 +24,7 @@ public:
     bool IsAttacking() const;
     void SpecificLogic(const cMap &map) override;
     cRect GetSwordArea() const;
-    void DrawSword(int texId, int texWidth, int texHeight) const;
+    void SpecificDraw(int texId, int texWidth, int texHeight) override;
     void SetAnimation(const std::string &name);
 
     void PickUp();

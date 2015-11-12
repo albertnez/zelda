@@ -2,7 +2,7 @@
 
 const int cOctorok::width = 16;
 const int cOctorok::height = 16;
-const int cOctorok::step = 1;
+const float cOctorok::step = 0.66;
 const std::vector<Direction> cOctorok::nextDir {
 	Direction::Left,   // From None to left.
 	Direction::Right,  // From Up to right.

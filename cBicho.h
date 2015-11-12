@@ -22,20 +22,20 @@ public:
 	~cBicho(void);
 
 	void SetPosition(int x,int y);
-	void GetPosition(int *x, int *y);
+	void GetPosition(int *x, int *y) const;
 	void SetTile(int tx,int ty);
-	void GetTile(int *tx, int *ty);
+	void GetTile(int *tx, int *ty) const;
 	void SetWidthHeight(int w,int h);
-	void GetWidthHeight(int *w, int *h);
+	void GetWidthHeight(int *w, int *h) const;
 	void SetHitpoints(int hp);
-	int GetHitpoints();
+	int GetHitpoints() const;
 	void SetMaxHitpoints(int hp);
-	int GetMaxHitpoints();
+	int GetMaxHitpoints() const;
 	void Heal(int hp);
 	bool Damage(int hp);
 	void SetAttack(int attack);
-	int GetAttack();
-	bool IsDead();
+	int GetAttack() const;
+	bool IsDead() const;
 
 	bool Collides(const cRect &rect);
 	// Checks collision with tiles
@@ -48,22 +48,23 @@ public:
 	// Reset Animation.
 	void ResetAnimation();
 	virtual void SetAnimation(const std::string& name);
-	std::string GetAnimation();
+	std::string GetAnimation() const;
 
 
-	void GetArea(cRect &rc);
-	virtual void Draw(int texId, int texWidth, int texHeight);
+    virtual cRect GetArea() const;
+    void Draw(int texId, int texWidth, int texHeight);
+    virtual void SpecificDraw(int texId, int texWidth, int texHeight);
 	void DrawRect(int tex_id,float xo,float yo,float xf,float yf);
 	
 	// Returns True if it can move, false otherwise.
-	bool Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
+	virtual bool Move(const cMap &map, Direction dir, int sceneX = 0, int sceneY = 0);
 	void Stop();
 	void Logic(const cMap &map);
     virtual void SpecificLogic(const cMap &map);
 
-	Direction GetDirection();
+	Direction GetDirection() const;
 	void SetDirection(Direction dir);
-	State GetState();
+	State GetState() const;
 	void SetState(State state);
 
     void NextFrame(int max);
@@ -71,13 +72,13 @@ public:
 protected:
         void UpdateProtected();
 
-    int x,y;
+    float x,y;
     int w,h;
-    int stepLength;
+    float stepLength;
     State state;
     Direction direction;
     int hitpoints;
-    int max_hitpoints;
+    int maxHitpoints;
     int attack;
     bool isProtected;
     int protectionTime;
@@ -85,4 +86,8 @@ protected:
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;
+
+ private:
+
+    void Init();
 };

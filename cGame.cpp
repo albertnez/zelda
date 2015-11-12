@@ -1,9 +1,8 @@
 #include "cGame.h"
 #include "Globals.h"
+#include "cBeam.h"
+#include "cWorm.h"
 #include <iostream>
-
-
-
 
 const int GAME_WIDTH = 256;
 const int GAME_HEIGHT = 224;
@@ -70,8 +69,8 @@ bool cGame::Init()
     Player.SetHitpoints(6);
     Player.SetMaxHitpoints(6);
 
-    enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
-    enemies.back()->SetTile(7, 7);
+    //enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
+    //enemies.back()->SetTile(7, 7);
 
     int width, height;
     Data.GetSize(Images::Objects, &width, &height);
@@ -184,18 +183,36 @@ bool cGame::Process()
                     Player.SetAnimation(to_string(Player.GetDirection()));
                 }
                 if (keys['a']) {
-                    Player.Attack();
+                    if (!Player.IsAttacking()) {
+                        Player.Attack();
+                        if (Player.GetHitpoints() == Player.GetMaxHitpoints()) {
+                            cRect swordArea = Player.GetSwordArea();
+                            std::unique_ptr<cBicho> beam(
+                                new cBeam(swordArea.left, swordArea.bottom, sceneX,
+                                          sceneY, Player.GetDirection()));
+                            beam->SetAnimation(to_string(Player.GetDirection()));
+
+                            allies.push_back(std::move(beam));
+                        }
+                    }
                 }
+            }
+            for (auto &ally : allies) {
+                ally->Logic(Scene.GetMap());
             }
             for (auto &enemy : enemies) {
                 enemy->Logic(Scene.GetMap());
             }
-            cRect pRect;
-            Player.GetArea(pRect);
-            // Sword collision
+            cRect pRect = Player.GetArea();
             cRect swordRect = Player.GetSwordArea();
             //Game Logic
             for (auto &enemy : enemies) {
+                // Sword beams.
+                for (auto &ally : allies) {
+                    if (!ally->IsDead() && enemy->Collides(ally->GetArea())) {
+                        enemy->Damage(ally->GetAttack());
+                    }
+                }
                 if (Player.IsAttacking() && enemy->Collides(swordRect)) {
                     enemy->Damage(Player.GetAttack());
                 }
@@ -222,12 +239,19 @@ bool cGame::Process()
                     ++it;
                 }
             }
+            for (auto it = allies.begin(); it != allies.end(); ) {
+                if ((*it)->IsDead()) {
+                    it = enemies.erase(it);
+                } else {
+                    ++it;
+                }
+            }
 
             if (Player.IsChangingScreen()) {
                 startTransition();
             }
         }
-        else if (state = STATE_SCREEN_CHANGE) {
+        else if (state == STATE_SCREEN_CHANGE) {
             CalculateTransition();
         }
 
@@ -258,6 +282,8 @@ bool cGame::Process()
 
 void cGame::startTransition() {
     transitionState = Player.GetTransition();
+    // Remove all enemies.
+    enemies.clear();
     state = STATE_SCREEN_CHANGE;
     frame = 0;
 }
@@ -271,6 +297,7 @@ void cGame::endTransition() {
         LoadLevel(3);
     }
     UpdateScenePos(transitionState);
+    PopulateEnemies();
     Player.EndTransition();
     Gui.setViewX(sceneOffsetx / (VIEW_WIDTH*TILE_SIZE));
     Gui.setViewY(sceneOffsety / (VIEW_HEIGHT*TILE_SIZE));
@@ -431,24 +458,59 @@ void cGame::DrawGameScreen(bool drawEnemies) {
     Scene.Draw(Data.GetID(Images::Tileset));
     // Draw enemies.
     if (drawEnemies) {
-        Data.GetSize(Images::Enemies, &width, &height);
+        
         for (const auto &object : objects) {
             object->Draw(Data.GetID(Images::Objects));
         }
+        Data.GetSize(Images::Sprites, &width, &height);
         for (const auto &enemy : enemies) {
-            enemy->Draw(Data.GetID(Images::Enemies), width, height);
+            enemy->Draw(Data.GetID(Images::Sprites), width, height);
+        }
+    }
+    // Draw Sword Beam
+    if (drawEnemies) {
+        Data.GetSize(Images::Sprites, &width, &height);
+        for (const auto &ally : allies) {
+            ally->Draw(Data.GetID(Images::Sprites), width, height);
         }
 
         
     }
     // Draw player.
     Data.GetSize(Images::Sprites, &width, &height);
-    // Draw player.
-    Player.DrawSword(Data.GetID(Images::Sprites), width, height);
     Player.Draw(Data.GetID(Images::Sprites), width, height);
 
     Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
-        Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+             Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+}
 
-
+void cGame::PopulateEnemies() {
+    const cMap &map = Scene.GetMap();
+    int xo = sceneX * VIEW_WIDTH;
+    int yo = sceneY * VIEW_HEIGHT;
+    // Arbitrary value.
+    
+    std::vector<std::pair<int,int>> freeCells;
+    for (int x = xo; x < xo + VIEW_WIDTH; ++x) {
+        for (int y = yo; y < yo + VIEW_HEIGHT; ++y) {
+            if (!map.Obstacle(x, y)) {
+                freeCells.push_back({x, y});
+            }
+        }
+    }
+    int numEnemies = freeCells.size() / 20;
+    while (numEnemies--) {
+        int i = rand() % freeCells.size();
+        int x = freeCells[i].first;
+        int y = freeCells[i].second;
+        if (rand()&1) {
+            enemies.push_back(std::unique_ptr<cBicho>(
+                new cOctorok(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY)));
+        } else {
+            enemies.push_back(std::unique_ptr<cBicho>(
+                new cWorm(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY, Player)));
+        }
+        std::swap(freeCells[i], freeCells[freeCells.size()-1]);
+        freeCells.pop_back();
+    }
 }

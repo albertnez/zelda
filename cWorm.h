@@ -2,20 +2,21 @@
 
 #include "cBicho.h"
 
-class cOctorok : public cBicho {
+class cPlayer;
+
+class cWorm : public cBicho {
 public:
-    cOctorok();
-    cOctorok(int x, int y, int sceneX, int sceneY);
+    cWorm(int x, int y, int sceneX, int sceneY, const cPlayer &player);
 
     void SpecificLogic(const cMap &map) override;
 private:
     static const int width;
     static const int height;
     static const float step;
-    static const std::vector<Direction> nextDir;
 
     void Init();
     // Which view of the scene is in.
     int sceneX;
     int sceneY;
+    const cPlayer &player;
 };

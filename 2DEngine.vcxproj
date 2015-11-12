@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cAnim.cpp" />
+    <ClCompile Include="cBeam.cpp" />
     <ClCompile Include="cBicho.cpp" />
     <ClCompile Include="cData.cpp" />
     <ClCompile Include="cFont.cpp" />
@@ -100,11 +101,13 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cTexture.cpp" />
+    <ClCompile Include="cWorm.cpp" />
     <ClCompile Include="GLUTMain.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAnim.h" />
+    <ClInclude Include="cBeam.h" />
     <ClInclude Include="cBicho.h" />
     <ClInclude Include="cData.h" />
     <ClInclude Include="cFont.h" />
@@ -117,6 +120,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cTexture.h" />
+    <ClInclude Include="cWorm.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>

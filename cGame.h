@@ -55,11 +55,14 @@ public:
     
 
 private:
+    void PopulateEnemies();
+
     bool keys[256];
     cScene Scene;
     cPlayer Player;
     std::list<std::unique_ptr<cBicho>> enemies;
     std::list<std::unique_ptr<cObject>> objects;
+    std::list<std::unique_ptr<cBicho>> allies;
     cData Data;
     int sceneOffsetx = 0;
     int sceneOffsety = 0;
