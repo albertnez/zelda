@@ -1,10 +1,8 @@
 #include "cGame.h"
 #include "Globals.h"
 #include "cBeam.h"
+#include "cWorm.h"
 #include <iostream>
-
-
-
 
 const int GAME_WIDTH = 256;
 const int GAME_HEIGHT = 224;
@@ -440,9 +438,9 @@ void cGame::DrawGameScreen(bool drawEnemies) {
     Scene.Draw(Data.GetID(Images::Tileset));
     // Draw enemies.
     if (drawEnemies) {
-        Data.GetSize(Images::Enemies, &width, &height);
+        Data.GetSize(Images::Sprites, &width, &height);
         for (const auto &enemy : enemies) {
-            enemy->Draw(Data.GetID(Images::Enemies), width, height);
+            enemy->Draw(Data.GetID(Images::Sprites), width, height);
         }
     }
     // Draw Sword Beam
@@ -479,8 +477,13 @@ void cGame::PopulateEnemies() {
         int i = rand() % freeCells.size();
         int x = freeCells[i].first;
         int y = freeCells[i].second;
-        enemies.push_back(std::unique_ptr<cBicho>(
-            new cOctorok(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY)));
+        if (rand()&1) {
+            enemies.push_back(std::unique_ptr<cBicho>(
+                new cOctorok(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY)));
+        } else {
+            enemies.push_back(std::unique_ptr<cBicho>(
+                new cWorm(x * TILE_SIZE, y * TILE_SIZE, sceneX, sceneY, Player)));
+        }
         std::swap(freeCells[i], freeCells[freeCells.size()-1]);
         freeCells.pop_back();
     }

@@ -103,8 +103,8 @@ bool cBicho::CollidesMap(const cMap &map) {
     int init_tile_y = y / TILE_SIZE;
     int tile_width = w / TILE_SIZE;
     int tile_height = h / TILE_SIZE;
-    int end_tile_x = init_tile_x + tile_width + ((x%TILE_SIZE) != 0);
-    int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
+    int end_tile_x = init_tile_x + tile_width + ((int(x)%TILE_SIZE) != 0);
+    int end_tile_y = init_tile_y + tile_height + ((int(y)%TILE_SIZE) != 0);
 
     for (int i = init_tile_x; i < end_tile_x; ++i) {
         if (i < 0 || i >= map.Width()) {
@@ -127,8 +127,8 @@ bool cBicho::ReachesMapLimit(const cMap &map, int scene_x, int scene_y) {
 	int init_tile_y = y / TILE_SIZE;
 	int tile_width = w / TILE_SIZE;
 	int tile_height = h / TILE_SIZE;
-	int end_tile_x = init_tile_x + tile_width + ((x%TILE_SIZE) != 0);
-	int end_tile_y = init_tile_y + tile_height + ((y%TILE_SIZE) != 0);
+	int end_tile_x = init_tile_x + tile_width + ((int(x)%TILE_SIZE) != 0);
+	int end_tile_y = init_tile_y + tile_height + ((int(y)%TILE_SIZE) != 0);
 	int start_x = VIEW_WIDTH * scene_x;
 	int start_y = VIEW_HEIGHT * scene_y;
 	
@@ -205,14 +205,14 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 }
 
 bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
-	int &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
+	float &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
 	int mult = 1;
 	bool canMove = true;
 	if (dir == Direction::Left || dir == Direction::Down) {
 		mult = -1;
 	}
 	// What's next tile
-	if (axis % TILE_SIZE == 0) {
+	if (int(axis) % TILE_SIZE == 0) {
 		int aux = axis;
 		axis += stepLength * mult;
 		if (ReachesMapLimit(map, sceneX, sceneY)) {

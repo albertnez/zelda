@@ -72,9 +72,9 @@ public:
 protected:
         void UpdateProtected();
 
-    int x,y;
+    float x,y;
     int w,h;
-    int stepLength;
+    float stepLength;
     State state;
     Direction direction;
     int hitpoints;

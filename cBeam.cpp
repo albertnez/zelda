@@ -28,7 +28,7 @@ cRect cBeam::GetArea() const {
 
 void cBeam::SpecificLogic(const cMap &map) {
     // Move
-    int &axis = (direction == Direction::Left || direction == Direction::Right) ? x : y;
+    float &axis = (direction == Direction::Left || direction == Direction::Right) ? x : y;
     int mult = (direction == Direction::Left || direction == Direction::Down) ? -1 : 1;
     axis += speed * mult;
     cRect limits = cScene::MapLimits(sceneX, sceneY);
