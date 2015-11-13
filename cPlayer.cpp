@@ -11,12 +11,7 @@ const std::unordered_map<std::string,std::string> cPlayer::nextAttackAnim {
     {"right", "attackright"},
     {"attackright", "right"},
 };
-//const std::unordered_map<std::string,std::pair<int,int>> cPlayer::swordSize {
-    //{"attackup", {7, 16}},
-    //{"attackdown", {7, 16}},
-    //{"attackleft", {16, 7}},
-    //{"attackright", {16, 7}},
-//};
+
 const std::unordered_map<std::string,std::pair<int,int>> cPlayer::swordOffset {
     {"up", {3, 14}},
     {"down", {6, -14}},
@@ -82,9 +77,6 @@ void cPlayer::SpecificLogic(const cMap &map) {
     if (isAttacking && ++attackTime > maxAttackTime) {
         isAttacking = false;
         SetAnimation(nextAttackAnim.at(GetAnimation()));
-    }
-    if (starActivated && --starTime <= 0) {
-        starActivated = false;
     }
 }
 

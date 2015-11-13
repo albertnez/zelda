@@ -76,7 +76,6 @@ bool cGame::Init()
     Player.SetState(cBicho::State::Look);
     Player.SetHitpoints(6);
     Player.SetMaxHitpoints(6);
-    Player.PickUp();
 
     //enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
     //enemies.back()->SetTile(7, 7);

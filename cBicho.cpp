@@ -7,7 +7,7 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
-const int cBicho::maxStarTime{150};
+const int cBicho::maxStarTime{400};
 
 cBicho::cBicho(void) {
     Init();
@@ -233,7 +233,11 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
         glColor4f(1.0, 1.0, 1.0, alpha);
 
         if (starActivated) {
-            if (starTime % 8 < 4) {
+            int length = 8;
+            if (starTime > 300) {
+                length = 32;
+            }
+            if ((starTime % length) < length / 2) {
                 glColor4f(0.2, 1.0, 1.0, 1.0);
             } else {
                 glColor4f(1.0, 1.0, 1.0, 1.0);
@@ -337,7 +341,7 @@ void cBicho::SetState(cBicho::State state) {
 
 void cBicho::PickStar() {
     starActivated = true;
-    starTime = maxStarTime;
+    starTime = 0;
 }
 
 bool cBicho::HasStar() const {
@@ -345,12 +349,11 @@ bool cBicho::HasStar() const {
 }
 
 void cBicho::UpdateProtected() {
-    if (!isProtected) return;
-    if (++protectionTime > maxProtectionTime) {
+    if (isProtected && ++protectionTime > maxProtectionTime) {
         isProtected = false;
         protectionTime = 0;
     }
-    if (++starTime > maxStarTime) {
+    if (starActivated && ++starTime > maxStarTime) {
         starTime = 0;
         starActivated = false;
     }
