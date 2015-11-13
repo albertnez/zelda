@@ -232,6 +232,13 @@ bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 	if (canMove && state != State::Walk) {
 		state = State::Walk;
 	}
+    // Calculate if entering DungeonDoor from below.
+    int cellx = x/TILE_SIZE;
+    int celly = y/TILE_SIZE;
+    if (!ReachesMapLimit(map, sceneX, sceneY) && map.DungeonDoor(cellx, celly)) {
+        InDungeonDoor();
+    }
+
 	return canMove;
 }
 
@@ -274,6 +281,9 @@ void cBicho::UpdateProtected() {
         isProtected = false;
         protectionTime = 0;
     }
+}
+
+void cBicho::InDungeonDoor() {
 }
 
 void cBicho::Init() {

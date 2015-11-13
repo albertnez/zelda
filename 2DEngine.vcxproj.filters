@@ -62,6 +62,9 @@
     <ClCompile Include="cWorm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBicho.h">
@@ -113,6 +116,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cWorm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

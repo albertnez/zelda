@@ -8,11 +8,13 @@ public:
     cMap(int width = 0, int height = 0);
     void SetCell(int x, int y, int value);
     bool Obstacle(int x, int y) const;
+    bool DungeonDoor(int x, int y) const;
     int Width() const;
     int Height() const;
 
 private:
     static const std::unordered_set<int> walkable;
+    static const std::unordered_set<int> dungeonDoor;
     int width;
     int height;
     std::vector<std::vector<int>> map;    
