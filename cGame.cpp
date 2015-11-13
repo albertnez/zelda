@@ -120,9 +120,6 @@ bool cGame::Init()
     LoadLevel(level);
     
     currentScreen = Screens::Home;
-    if (rand()%2) {
-        currentScreen = Screens::Credits;
-    }
     return res;
 
 }
