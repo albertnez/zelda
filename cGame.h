@@ -58,6 +58,7 @@ private:
     void PopulateEnemies();
     std::unique_ptr<cBicho> GenerateRandomEnemy(int x, int y, int sceneX, int sceneY);
 
+    static const int enemySpawnBoundary;
     bool keys[256];
     cScene Scene;
     cPlayer Player;
@@ -69,6 +70,7 @@ private:
     int sceneOffsety = 0;
     int sceneX;
     int sceneY;
+    int level;
     Direction transitionState;
     int state;
     int frame = 0;

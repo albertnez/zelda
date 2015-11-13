@@ -243,7 +243,7 @@ bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
 	}
 	// What's next tile
 	if (int(axis) % TILE_SIZE == 0) {
-		int aux = axis;
+		float aux = axis;
 		axis += stepLength * mult;
 		if (ReachesMapLimit(map, sceneX, sceneY)) {
 			canMove = ReachLimit(dir);

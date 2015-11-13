@@ -65,6 +65,15 @@
     <ClCompile Include="cBat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cProjectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cBossFire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBicho.h">
@@ -119,6 +128,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cBat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cProjectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBoss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cBossFire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

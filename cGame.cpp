@@ -3,6 +3,7 @@
 #include "cBat.h"
 #include "cBeam.h"
 #include "cWorm.h"
+#include "cBoss.h"
 #include <iostream>
 
 const int GAME_WIDTH = 256;
@@ -18,6 +19,8 @@ const int STATE_SCREEN_CHANGE = 1;
 const int STATE_SCENE_CHANGE = 2;
 
 const int KEY_PRESS_WAIT_FRAMES = 5;
+
+const int cGame::enemySpawnBoundary = 3;
 
 cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
@@ -93,7 +96,9 @@ bool cGame::Init()
     Gui.setKeyCount(Player.getKeyCount());
     Gui.setEquippedObjectA(Player.getEquippedObjectA());
     Gui.setEquippedObjectB(Player.getEquippedObjectB());
-    LoadLevel(2);
+    level = 2;
+    LoadLevel(level);
+    
     currentScreen = Screens::Home;
     //currentScreen = Screens::Credits;
     return res;
@@ -208,10 +213,11 @@ bool cGame::Process()
                         Player.Attack();
                         if (Player.GetHitpoints() == Player.GetMaxHitpoints()) {
                             cRect swordArea = Player.GetSwordArea();
+                            int x, y;
+                            Player.GetPosition(&x, &y);
                             std::unique_ptr<cBicho> beam(
                                 new cBeam(swordArea.left, swordArea.bottom, sceneX,
                                           sceneY, Player.GetDirection()));
-                            beam->SetAnimation(to_string(Player.GetDirection()));
 
                             allies.push_back(std::move(beam));
                         }
@@ -313,8 +319,9 @@ void cGame::startTransition() {
 void cGame::endTransition() {
     state = STATE_STATIC_CAMERA;
     if (transitionState == Direction::Above) {
-        LoadLevel(2);
-        Player.SetLevel(2);
+        level = 2;
+        LoadLevel(level);
+        Player.SetLevel(level);
         Player.SetTile(5 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
     }
     if (transitionState == Direction::Below) {
@@ -324,6 +331,9 @@ void cGame::endTransition() {
         objects.push_back(std::unique_ptr<cKey>(
             new cKey(64, 64, width, height)));
         Player.SetLevel(3);
+        level = 3;
+        LoadLevel(level);
+        Player.SetLevel(level);
         Player.SetPosition(7.5f * TILE_SIZE, 1 * TILE_SIZE);
     }
     UpdateScenePos(transitionState);
@@ -522,11 +532,16 @@ void cGame::PopulateEnemies() {
     const cMap &map = Scene.GetMap();
     int xo = sceneX * VIEW_WIDTH;
     int yo = sceneY * VIEW_HEIGHT;
-    // Arbitrary value.
+
+    if (level == 3) {
+        enemies.push_back(std::unique_ptr<cBicho>(new cBoss(
+            4 * TILE_SIZE, 4 * TILE_SIZE, sceneX, sceneY, enemies)));
+        return;
+    }
     
     std::vector<std::pair<int,int>> freeCells;
-    for (int x = xo; x < xo + VIEW_WIDTH; ++x) {
-        for (int y = yo; y < yo + VIEW_HEIGHT; ++y) {
+    for (int x = xo + enemySpawnBoundary; x < xo + VIEW_WIDTH - enemySpawnBoundary; ++x) {
+        for (int y = yo + enemySpawnBoundary; y < yo + VIEW_HEIGHT - enemySpawnBoundary; ++y) {
             if (!map.Obstacle(x, y)) {
                 freeCells.push_back({x, y});
             }
@@ -546,7 +561,7 @@ void cGame::PopulateEnemies() {
 std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int sceneY) {
     switch (rand()%3) {
         case 0:
-            return std::unique_ptr<cBicho>(new cOctorok(x, x, sceneX, sceneY));
+            return std::unique_ptr<cBicho>(new cOctorok(x, y, sceneX, sceneY));
             break;
         case 1:
             return std::unique_ptr<cBicho>(new cWorm(x, y, sceneX, sceneY, Player));

@@ -91,6 +91,8 @@
     <ClCompile Include="cBat.cpp" />
     <ClCompile Include="cBeam.cpp" />
     <ClCompile Include="cBicho.cpp" />
+    <ClCompile Include="cBoss.cpp" />
+    <ClCompile Include="cBossFire.cpp" />
     <ClCompile Include="cData.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cGame.cpp" />
@@ -100,6 +102,7 @@
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cOctorok.cpp" />
     <ClCompile Include="cPlayer.cpp" />
+    <ClCompile Include="cProjectile.cpp" />
     <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cTexture.cpp" />
     <ClCompile Include="cWorm.cpp" />
@@ -111,6 +114,8 @@
     <ClInclude Include="cBat.h" />
     <ClInclude Include="cBeam.h" />
     <ClInclude Include="cBicho.h" />
+    <ClInclude Include="cBoss.h" />
+    <ClInclude Include="cBossFire.h" />
     <ClInclude Include="cData.h" />
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cGame.h" />
@@ -120,6 +125,7 @@
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cOctorok.h" />
     <ClInclude Include="cPlayer.h" />
+    <ClInclude Include="cProjectile.h" />
     <ClInclude Include="cScene.h" />
     <ClInclude Include="cTexture.h" />
     <ClInclude Include="cWorm.h" />
