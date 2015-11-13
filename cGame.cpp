@@ -22,6 +22,7 @@ const int STATE_SCENE_CHANGE = 2;
 const int KEY_PRESS_WAIT_FRAMES = 5;
 
 const int cGame::enemySpawnBoundary = 3;
+const int cGame::spawnObjectProb = 30;  // Probability out of 100
 
 cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
@@ -265,7 +266,16 @@ bool cGame::Process()
             // Remove dead enemies:
             for (auto it = enemies.begin(); it != enemies.end(); ) {
                 if ((*it)->IsDead()) {
+                    // With some probability, spawn a heart.
+                    if ((*it)->SpawnObjects()) {
+                        if ((rand()%100) < spawnObjectProb) {
+                            int x, y;
+                            (*it)->GetPosition(&x, &y);
+                            SpawnRandomObject(x, y);
+                        }
+                    }
                     it = enemies.erase(it);
+
                 } else {
                     ++it;
                 }
@@ -577,6 +587,17 @@ std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int
         case 2:
         default:
             return std::unique_ptr<cBicho>(new cBat(x, y, sceneX, sceneY));
+            break;
+    }
+}
+
+void cGame::SpawnRandomObject(int x, int y) {
+    int width, height;
+    Data.GetSize(Images::Objects, &width, &height);
+    switch (rand()%1) {
+        case 0:
+        default:
+            objects.push_back(std::unique_ptr<cObject>(new cHeart(x, y, width, height)));
             break;
     }
 }

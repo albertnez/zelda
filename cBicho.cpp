@@ -17,7 +17,8 @@ cBicho::cBicho(int posx,int posy,int width,int height)
     : x(posx),
       y(posy),
       w(width),
-      h(height) {
+      h(height),
+      spawnObjects(false) {
     Init();
 }
 
@@ -294,6 +295,13 @@ void cBicho::NextFrame(int max) {
 	animations[currentAnimation].Advance(max);
 }
 
+void cBicho::SetSpawnObjects(bool spawn) {
+    spawnObjects = spawn;
+}
+
+bool cBicho::SpawnObjects() const {
+    return spawnObjects;
+}
 
 Direction cBicho::GetDirection() const {
 	return direction;

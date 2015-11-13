@@ -39,6 +39,7 @@ void cWorm::Init() {
 	h = height;
 	stepLength = step;
 	attack = 1;
+    SetSpawnObjects(true);
 }
 
 

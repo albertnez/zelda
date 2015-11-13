@@ -69,6 +69,8 @@ public:
 	void SetState(State state);
     bool AtDoor(const cMap &map, int& tileX, int& tileY);
     void NextFrame(int max);
+    void SetSpawnObjects(bool spawn);
+    bool SpawnObjects() const;
 	
 protected:
     void UpdateProtected();
@@ -84,6 +86,7 @@ protected:
     bool isProtected;
     int protectionTime;
     int maxProtectionTime;
+    bool spawnObjects;
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;
