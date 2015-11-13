@@ -289,6 +289,9 @@ bool cGame::Process()
                         } else if (sceneX == 1 && sceneY == 1) {
                             objects.push_back(std::unique_ptr<cObject>(
                                 new cKey(29 * TILE_SIZE, 19 * TILE_SIZE)));
+                        } else if (sceneX == 0 && sceneY == 1) {
+                            // END OF THE GAME
+                            currentScreen = Screens::Credits;
                         }
                     }
 
