@@ -462,6 +462,9 @@ void cGame::Render()
     }
 
     else if (currentScreen == Screens::Credits) {
+        // Clear Gui Xo and Yo for text.
+        Gui.setXo(0);
+        Gui.setYo(0);
         int yo = -counter/2;
         int yf = GAME_HEIGHT - counter / 2;
         glMatrixMode(GL_PROJECTION);
