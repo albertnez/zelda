@@ -26,6 +26,7 @@ private:
     ObjectType equippedObjectB;
     int keyCount;
     cFont Font;
+    int level;
 public:
     cGUI();
     ~cGUI();
@@ -55,6 +56,7 @@ public:
     void DrawCredits(int font, int sprites, int game_width, int game_height);
     void DrawText(int font, std::string text, int x, int y);
     void DrawTextWorld(int font, std::string text, int x, int y);
-    void DrawMap(int level, int x, int y);
+    void DrawMap(int font, int x, int y);
+    void setLevel(int lvl);
 };
 

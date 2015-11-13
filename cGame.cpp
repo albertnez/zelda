@@ -94,7 +94,6 @@ bool cGame::Init()
     Gui.setEquippedObjectA(Player.getEquippedObjectA());
     Gui.setEquippedObjectB(Player.getEquippedObjectB());
     LoadLevel(2);
-    
     currentScreen = Screens::Home;
     //currentScreen = Screens::Credits;
     return res;
@@ -296,6 +295,7 @@ void cGame::endTransition() {
     state = STATE_STATIC_CAMERA;
     if (transitionState == Direction::Above) {
         LoadLevel(2);
+        
     }
     if (transitionState == Direction::Below) {
         LoadLevel(3);
@@ -314,6 +314,7 @@ void cGame::LoadLevel(int level) {
     cMap m = Scene.GetMap();
     Gui.setMaxViewsX(m.Width() / VIEW_WIDTH);
     Gui.setMaxViewsY(m.Height() / VIEW_HEIGHT);
+    Gui.setLevel(level);
 }
 
 //Output

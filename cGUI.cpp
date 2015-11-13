@@ -71,6 +71,10 @@ void cGUI::setKeyCount(int keys) {
 }
 
 
+void cGUI::setLevel(int lvl) {
+    level = lvl;
+}
+
 
 
 void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
@@ -107,8 +111,8 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
     DrawText(font, text, x, y+16+SCENE_Yo);
     glColor3f(1.0f, 1.0f, 1.0f);
     x = 16;
-    y = 8;
-    DrawMap(0,x,y);
+    y = 6;
+    DrawMap(font,x,y);
     x = 120;
     y = 8;
     DrawObjects(sprites, x, y);
@@ -178,13 +182,26 @@ void cGUI::DrawTextWorld(int font, std::string text, int x, int y) {
     }
 }
 
-void cGUI::DrawMap(int level, int x, int y) {
+void cGUI::DrawMap(int font, int x, int y) {
     int mapWidth = 64;
     int mapHeight = 32;
-    DrawPlainRect(0.5f, 0.5f, 0.5f, x, y+SCENE_Yo, mapWidth, mapHeight);
+    if (level != 2) {
+
+        std::string s = "LEVEL-" + std::to_string(level);
+        DrawText(font, s, x, y + SCENE_Yo + 32);
+    }
+    else {
+        DrawPlainRect(0.5f, 0.5f, 0.5f, x, y + SCENE_Yo, mapWidth, mapHeight);
+
+    }
+    
     int viewX = ((2 * pos_x + 1)*mapWidth / max_views_x) / 2 - 2;
     int viewY = ((2*pos_y + 1)*mapHeight / max_views_y) / 2 - 2;
     DrawPlainRect(0.0f, 1.0f, 0.0f, x+viewX, y+viewY + SCENE_Yo, 4, 4);
+    if (level != 2) {
+        std::string s = "LEVEL-" + std::to_string(level);
+        DrawText(font, s, x, y + SCENE_Yo+32);
+    }
 }
 
 void cGUI::DrawPlainRect(float r, float g, float b,
