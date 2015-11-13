@@ -10,6 +10,7 @@ enum ObjectType
     Heart,
     Rupee,
     Star,
+    PlusHeart,
 };
 
 class cPlayer;

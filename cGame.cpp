@@ -4,6 +4,7 @@
 #include "cBoss.h"
 #include "cGame.h"
 #include "cHeart.h"
+#include "cPlusHeart.h"
 #include "cRupee.h"
 #include "cStar.h"
 #include "cWorm.h"
@@ -84,6 +85,8 @@ bool cGame::Init()
     Data.GetSize(Images::Objects, &width, &height);
     objects.push_back(
         std::unique_ptr<cObject>(new cKey(30 * TILE_SIZE, 3 * TILE_SIZE)));
+    objects.push_back(
+        std::unique_ptr<cObject>(new cPlusHeart(28 * TILE_SIZE, 7 * TILE_SIZE)));
 
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
     if (!res) return false;
@@ -261,6 +264,8 @@ bool cGame::Process()
                     // Update GUI
                     Gui.setKeyCount(Player.getKeyCount());
                     Gui.SetMoney(Player.GetMoney());
+                    Gui.setMaxHP(Player.GetMaxHitpoints());
+                    Gui.setHP(Player.GetHitpoints());
 
                     it = objects.erase(it);
                 }
@@ -346,7 +351,8 @@ void cGame::startTransition() {
     enemies.clear();
     // Remove objects that are not keys:
     objects.remove_if([](const std::unique_ptr<cObject> &o) -> bool {
-        return o->GetType() != ObjectType::Key;
+        return o->GetType() != ObjectType::Key &&
+               o->GetType() != ObjectType::PlusHeart;
     });
 
     state = STATE_SCREEN_CHANGE;
