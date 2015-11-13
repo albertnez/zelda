@@ -31,6 +31,10 @@ public:
     virtual void Apply(cPlayer &player) = 0;
     ObjectType GetType() const;
 
+protected:
+    static const int textureWidth;
+    static const int textureHeight;
+
 private:
     int x, y, w, h;
     float xo, yo, xf, yf;

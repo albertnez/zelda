@@ -23,7 +23,7 @@ const int STATE_SCENE_CHANGE = 2;
 const int KEY_PRESS_WAIT_FRAMES = 5;
 
 const int cGame::enemySpawnBoundary = 3;
-const int cGame::spawnObjectProb = 30;  // Probability out of 100
+const int cGame::spawnObjectProb = 80;  // Probability out of 100
 
 cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
@@ -75,14 +75,15 @@ bool cGame::Init()
     Player.SetState(cBicho::State::Look);
     Player.SetHitpoints(6);
     Player.SetMaxHitpoints(6);
+    Player.PickUp();
 
     //enemies.push_back(std::unique_ptr<cOctorok>(new cOctorok(0, 0, 0, 0)));
     //enemies.back()->SetTile(7, 7);
 
     int width, height;
     Data.GetSize(Images::Objects, &width, &height);
-    objects.push_back(std::unique_ptr<cObject>(
-        new cKey(GAME_WIDTH+200,64,width,height)));
+    objects.push_back(
+        std::unique_ptr<cObject>(new cKey(30 * TILE_SIZE, 3 * TILE_SIZE)));
 
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
     if (!res) return false;
@@ -277,6 +278,15 @@ bool cGame::Process()
                         }
                     }
                     it = enemies.erase(it);
+                    if (enemies.empty() && level == 3) {
+                        if (sceneX == 0 && sceneY == 0) {
+                            objects.push_back(std::unique_ptr<cObject>(
+                                new cKey(8 * TILE_SIZE, 5 * TILE_SIZE)));
+                        } else if (sceneX == 1 && sceneY == 1) {
+                            objects.push_back(std::unique_ptr<cObject>(
+                                new cKey(29 * TILE_SIZE, 19 * TILE_SIZE)));
+                        }
+                    }
 
                 } else {
                     ++it;
@@ -342,14 +352,15 @@ void cGame::endTransition() {
         level = 2;
         LoadLevel(level);
         Player.SetLevel(level);
-        Player.SetTile(5 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
+        Player.SetTile(8 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
     }
     if (transitionState == Direction::Below) {
+        //Remove objects.
+        objects.clear();
+
         int width, height;
         Data.GetSize(Images::Objects, &width, &height);
         LoadLevel(3);
-        objects.push_back(std::unique_ptr<cObject>(
-            new cKey(64, 64, width, height)));
         Player.SetLevel(3);
         level = 3;
         LoadLevel(level);
@@ -553,9 +564,9 @@ void cGame::PopulateEnemies() {
     int xo = sceneX * VIEW_WIDTH;
     int yo = sceneY * VIEW_HEIGHT;
 
-    if (level == 3) {
+    if (level == 3 && sceneX == 0 && sceneY == 1) {
         enemies.push_back(std::unique_ptr<cBicho>(new cBoss(
-            4 * TILE_SIZE, 4 * TILE_SIZE, sceneX, sceneY, enemies)));
+            4 * TILE_SIZE, 15 * TILE_SIZE, sceneX, sceneY, enemies)));
         return;
     }
     
@@ -567,7 +578,7 @@ void cGame::PopulateEnemies() {
             }
         }
     }
-    int numEnemies = freeCells.size() / 20;
+    int numEnemies = freeCells.size() / 12;
     while (numEnemies--) {
         int i = rand() % freeCells.size();
         int x = freeCells[i].first;
@@ -598,11 +609,11 @@ void cGame::SpawnRandomObject(int x, int y) {
     Data.GetSize(Images::Objects, &width, &height);
     switch (rand()%2) {
         case 0:
-            objects.push_back(std::unique_ptr<cObject>(new cHeart(x, y, width, height)));
+            objects.push_back(std::unique_ptr<cObject>(new cHeart(x, y)));
             break;
         case 1:
         default:
-            objects.push_back(std::unique_ptr<cObject>(new cRupee(x, y, width, height)));
+            objects.push_back(std::unique_ptr<cObject>(new cRupee(x, y)));
             break;
     }
 }

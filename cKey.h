@@ -4,7 +4,7 @@ class cKey :
     public cObject
 {
 public:
-    cKey(int x, int y, int w, int h);
+    cKey(int x, int y);
     ~cKey();
 
     void Apply(cPlayer &player) override;

@@ -8,7 +8,7 @@ class cRupee :
     public cObject
 {
 public:
-    cRupee(int x, int y, int w, int h);
+    cRupee(int x, int y);
 
     void Apply(cPlayer &player) override;
 

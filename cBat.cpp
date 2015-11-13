@@ -32,8 +32,9 @@ void cBat::SpecificLogic(const cMap &map) {
     x += sx * step;
     y += sy * step;
     cRect limits = cScene::MapLimits(sceneX, sceneY);
-    // Kill if it leaves the area.
+    // Kill if it leaves the area, but don't leave item.
     if (!limits.Intersect(GetArea())) {
+        SetSpawnObjects(false);
         SetHitpoints(0);
     }
 }

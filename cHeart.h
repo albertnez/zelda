@@ -8,7 +8,7 @@ class cHeart :
     public cObject
 {
 public:
-    cHeart(int x, int y, int w, int h);
+    cHeart(int x, int y);
 
     void Apply(cPlayer &player) override;
 

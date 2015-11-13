@@ -6,10 +6,11 @@ const int cHeart::height = 8;
 const int cHeart::texxo = 15;
 const int cHeart::texyo = 0;
 
-cHeart::cHeart(int x, int y, int w, int h)
-    : cObject(ObjectType::Heart, x, y, width, height, texxo / float(w),
-              (texyo + height) / float(h), (texxo + width) / float(w),
-              texyo / float(h)) {}
+cHeart::cHeart(int x, int y)
+    : cObject(ObjectType::Heart, x, y, width, height, texxo / float(textureWidth),
+              (texyo + height) / float(textureHeight),
+              (texxo + width) / float(textureWidth),
+              texyo / float(textureHeight)) {}
 
 void cHeart::Apply(cPlayer &player) {
     player.Heal(1);

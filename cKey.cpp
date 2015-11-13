@@ -6,10 +6,11 @@ const int cKey::height = 16;
 const int cKey::texxo = 0;
 const int cKey::texyo = 0;
 
-cKey::cKey(int x, int y, int w, int h)
-    : cObject(ObjectType::Key, x, y, width, height, texxo / float(w),
-              (texyo + height) / float(h), (texxo + width) / float(w),
-              texyo / float(h)) {}
+cKey::cKey(int x, int y)
+    : cObject(ObjectType::Key, x, y, width, height, texxo / float(textureWidth),
+              (texyo + height) / float(textureHeight),
+              (texxo + width) / float(textureWidth),
+              texyo / float(textureHeight)) {}
 
 cKey::~cKey()
 {
