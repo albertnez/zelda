@@ -28,7 +28,8 @@ const int cPlayer::maxAttackTime{15};
 cPlayer::cPlayer() 
     : transition(Direction::None),
       isAttacking(false),
-      attackTime(0) {
+      attackTime(0),
+      overworld(true) {
     SetAttack(1);
     maxProtectionTime = 60;
     animations = LoadAnimations("res/link.anim");
@@ -127,4 +128,16 @@ void cPlayer::SetAnimation(const std::string &name) {
         swordAnimation = name;
     }
     cBicho::SetAnimation(name);
+}
+
+void cPlayer::InDungeonDoor() {
+    // Reset protection
+    isProtected = false;
+    if (overworld) {
+        transition = Direction::Below;
+    } else {
+        transition = Direction::Above;
+    }
+    overworld = !overworld;
+    SetDirection(Direction::Down);
 }

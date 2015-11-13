@@ -70,7 +70,8 @@ public:
     void NextFrame(int max);
 	
 protected:
-        void UpdateProtected();
+    void UpdateProtected();
+    virtual void InDungeonDoor();
 
     float x,y;
     int w,h;

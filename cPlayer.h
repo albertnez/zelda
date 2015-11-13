@@ -24,9 +24,12 @@ public:
 
 
 private:
+    void InDungeonDoor() override;
+
 	Direction transition;
     bool isAttacking;
     int attackTime;
+    bool overworld;
 
     std::string swordAnimation;
     std::unordered_map<std::string, cAnim> swordAnimations;
