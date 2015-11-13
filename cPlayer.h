@@ -28,6 +28,7 @@ public:
     void SetAnimation(const std::string &name);
 
     void PickUp();
+    int getKeyCount();
 
 
 private:

@@ -134,6 +134,10 @@ void cPlayer::PickUp() {
     ++keys;
 }
 
+int cPlayer::getKeyCount() {
+    return keys;
+}
+
 //int cPlayer::GetEquippedObjectA() {
 
 //}

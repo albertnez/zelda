@@ -89,7 +89,7 @@ bool cGame::Init()
     Gui.init();
     Gui.setMaxHP(Player.GetMaxHitpoints());
     Gui.setHP(Player.GetHitpoints());
-
+    Gui.setKeyCount(Player.getKeyCount());
     LoadLevel(2);
     
     currentScreen = Screens::Home;
@@ -223,6 +223,7 @@ bool cGame::Process()
             for (auto it = objects.begin(); it != objects.end(); ) {
                 if ((*it)->Collides(pRect)) {
                     Player.PickUp();
+                    Gui.setKeyCount(Player.getKeyCount());
                     it = objects.erase(it);
                 }
                 else {

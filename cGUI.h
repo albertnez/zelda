@@ -22,6 +22,7 @@ private:
     int max_views_y;
     int equippedObjectA;
     int equippedObjectB;
+    int keyCount;
     cFont Font;
 public:
     cGUI();
@@ -36,9 +37,11 @@ public:
     void setMaxViewsY(int viewsY);
     void setEquippedObjectA(int object);
     void setEquippedObjectB(int object);
+    void setKeyCount(int keys);
     void setViewX(int newYo);
     void Draw(int img, int font, int sprites, int gui_width, int gui_height);
     void DrawObjects(int sprites, int x, int y);
+    void DrawCounters(int sprites, int font, int x, int y);
     void DrawPlainRect(float r, float g, float b, int x, int y, int w, int h);
     void DrawRect(
         int tex_id, float xo, float yo,

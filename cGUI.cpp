@@ -63,6 +63,11 @@ void cGUI::setEquippedObjectB(int object) {
     equippedObjectB = object;
 }
 
+void cGUI::setKeyCount(int keys) {
+    keyCount = keys;
+}
+
+
 
 
 void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
@@ -104,6 +109,9 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
     x = 120;
     y = 8;
     DrawObjects(sprites, x, y);
+    x = 90;
+    y = 8;
+    DrawCounters(sprites, font, x, y);
 }
 
 void cGUI::DrawObjects(int sprites, int x, int y) {
@@ -118,6 +126,20 @@ void cGUI::DrawObjects(int sprites, int x, int y) {
     xo = xf;
     xf = xo + float(w) / SPRITES_WIDTH;
     DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
+
+}
+
+void cGUI::DrawCounters(int sprites, int font, int x, int y) {
+    int w = 9;
+    int h = 9;
+    float xo = 125.0f/SPRITES_WIDTH;
+    float xf = xo + float(w) / SPRITES_WIDTH;
+    float yo = float(h) / SPRITES_HEIGHT;
+    float yf = 0.0f;
+    DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
+    std::string s;
+    s = 'X'+ std::to_string(keyCount);
+    DrawText(font, s, x + w, y + SCENE_Yo);
 }
 
 
