@@ -3,6 +3,7 @@
 #include "cBat.h"
 #include "cBeam.h"
 #include "cWorm.h"
+#include "cBoss.h"
 #include <iostream>
 
 const int GAME_WIDTH = 256;
@@ -18,6 +19,8 @@ const int STATE_SCREEN_CHANGE = 1;
 const int STATE_SCENE_CHANGE = 2;
 
 const int KEY_PRESS_WAIT_FRAMES = 5;
+
+const int cGame::enemySpawnBoundary = 3;
 
 cGame::cGame(void) : sceneOffsetx(0), sceneOffsety(0), sceneX(0), sceneY(0)
 {
@@ -514,11 +517,16 @@ void cGame::PopulateEnemies() {
     const cMap &map = Scene.GetMap();
     int xo = sceneX * VIEW_WIDTH;
     int yo = sceneY * VIEW_HEIGHT;
-    // Arbitrary value.
+
+    if (level == 3) {
+        enemies.push_back(std::unique_ptr<cBicho>(new cBoss(
+            4 * TILE_SIZE, 4 * TILE_SIZE, sceneX, sceneY, enemies)));
+        return;
+    }
     
     std::vector<std::pair<int,int>> freeCells;
-    for (int x = xo; x < xo + VIEW_WIDTH; ++x) {
-        for (int y = yo; y < yo + VIEW_HEIGHT; ++y) {
+    for (int x = xo + enemySpawnBoundary; x < xo + VIEW_WIDTH - enemySpawnBoundary; ++x) {
+        for (int y = yo + enemySpawnBoundary; y < yo + VIEW_HEIGHT - enemySpawnBoundary; ++y) {
             if (!map.Obstacle(x, y)) {
                 freeCells.push_back({x, y});
             }

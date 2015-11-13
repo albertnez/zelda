@@ -7,7 +7,7 @@ const std::string cBeam::animFilename = "res/beam.anim";
 
 cBeam::cBeam(int x, int y, int sceneX, int sceneY, Direction dir)
     : cProjectile(x, y, dirToXSpeed[dir] * speed, dirToYSpeed[dir] * speed,
-                  sceneX, sceneY, "res/beam.anim", to_string(dir)) {
+                  sceneX, sceneY, animFilename, to_string(dir)) {
     SetMaxHitpoints(1);
     SetHitpoints(1);
     SetAttack(1);

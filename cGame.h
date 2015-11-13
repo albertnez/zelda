@@ -58,6 +58,7 @@ private:
     void PopulateEnemies();
     std::unique_ptr<cBicho> GenerateRandomEnemy(int x, int y, int sceneX, int sceneY);
 
+    static const int enemySpawnBoundary;
     bool keys[256];
     cScene Scene;
     cPlayer Player;
