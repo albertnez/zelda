@@ -1,10 +1,11 @@
-#include "cGame.h"
 #include "Globals.h"
 #include "cBat.h"
 #include "cBeam.h"
-#include "cWorm.h"
 #include "cBoss.h"
+#include "cGame.h"
 #include "cHeart.h"
+#include "cRupee.h"
+#include "cWorm.h"
 #include <iostream>
 
 const int GAME_WIDTH = 256;
@@ -252,9 +253,10 @@ bool cGame::Process()
             for (auto it = objects.begin(); it != objects.end(); ) {
                 if ((*it)->Collides(pRect)) {
                     (*it)->Apply(Player);
-                    if ((*it)->GetType() == ObjectType::Key) {
-                        Gui.setKeyCount(Player.getKeyCount());
-                    }
+                    // Update GUI
+                    Gui.setKeyCount(Player.getKeyCount());
+                    Gui.SetMoney(Player.GetMoney());
+
                     it = objects.erase(it);
                 }
                 else {
@@ -594,10 +596,13 @@ std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int
 void cGame::SpawnRandomObject(int x, int y) {
     int width, height;
     Data.GetSize(Images::Objects, &width, &height);
-    switch (rand()%1) {
+    switch (rand()%2) {
         case 0:
-        default:
             objects.push_back(std::unique_ptr<cObject>(new cHeart(x, y, width, height)));
+            break;
+        case 1:
+        default:
+            objects.push_back(std::unique_ptr<cObject>(new cRupee(x, y, width, height)));
             break;
     }
 }

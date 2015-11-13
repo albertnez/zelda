@@ -27,6 +27,7 @@ private:
     int keyCount;
     cFont Font;
     int level;
+    int money;
 public:
     cGUI();
     ~cGUI();
@@ -58,5 +59,6 @@ public:
     void DrawTextWorld(int font, std::string text, int x, int y);
     void DrawMap(int font, int x, int y);
     void setLevel(int lvl);
+    void SetMoney(int amount);
 };
 

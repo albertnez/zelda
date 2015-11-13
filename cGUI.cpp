@@ -12,6 +12,7 @@ cGUI::cGUI()
 {
     view_xo = 0;
     view_yo = 0;
+    money = 0;
 
 }
 
@@ -84,7 +85,7 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
 
     int resthp = hp;
     int y = 10;
-    int x = 175;
+    int x = 195;
     for (int i = 0; i < maxHP; i += 2) {
         float xo;
         
@@ -113,7 +114,7 @@ void cGUI::Draw(int img, int font, int sprites, int gui_width, int gui_height)
     x = 16;
     y = 6;
     DrawMap(font,x,y);
-    x = 120;
+    x = 140;
     y = 8;
     DrawObjects(sprites, x, y);
     x = 90;
@@ -151,6 +152,8 @@ void cGUI::DrawObjects(int sprites, int x, int y) {
 }
 
 void cGUI::DrawCounters(int sprites, int font, int x, int y) {
+    const int spaceBetweenObjects = 15;
+    const int spaceBeforeText = 2;
     int w = 9;
     int h = 9;
     float xo = 125.0f/SPRITES_WIDTH;
@@ -158,9 +161,21 @@ void cGUI::DrawCounters(int sprites, int font, int x, int y) {
     float yo = float(h) / SPRITES_HEIGHT;
     float yf = 0.0f;
     DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
-    std::string s;
-    s = 'X'+ std::to_string(keyCount);
-    DrawText(font, s, x + w, y + SCENE_Yo);
+    std::string s = 'X'+ std::to_string(keyCount);
+    DrawText(font, s, x + w + spaceBeforeText, y + SCENE_Yo);
+
+    // Draw Rupees
+    xo = 134.0f / SPRITES_WIDTH;
+    xf = xo + float(w) / SPRITES_WIDTH;
+    yo = float(h) / SPRITES_HEIGHT;
+    yf = 0.0f;
+    y += spaceBetweenObjects;
+    DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
+    s = "X";
+    if (money < 100) s += "0";
+    if (money < 10) s += "0";
+    s += std::to_string(money);
+    DrawText(font, s, x + w + spaceBeforeText, y + SCENE_Yo);
 }
 
 
@@ -268,9 +283,9 @@ void cGUI::DrawInstructions(int tex, int game_width, int game_height) {
     std::string s;
     s = "MOVE: arrow keys";
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 22);
-    s = "A BUTTON: ??????";
+    s = "A BUTTON: A";
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 13);
-    s = "B BUTTON: ??????";
+    s = "B BUTTON: B";
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 + 4);
     s = "START: return key";
     DrawText(tex, s, game_width / 2 - s.length()*4.5, game_height / 2 - 5);
@@ -307,4 +322,8 @@ void cGUI::DrawCredits(int font, int sprites, int game_width, int game_height) {
     DrawText(font, s, game_width / 2 - s.length()*4.5, game_height / 2 - 72);
     s = "Alicia Nicas";
     DrawText(font, s, game_width / 2 - s.length()*4.5, game_height / 2 - 136);
+}
+
+void cGUI::SetMoney(int amount) {
+    money = amount;
 }

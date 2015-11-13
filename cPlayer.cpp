@@ -32,7 +32,8 @@ cPlayer::cPlayer()
       overworld(true),
       sceneX(0),
       sceneY(0),
-      level(2) {
+      level(2),
+      money(0) {
     SetAttack(1);
     maxProtectionTime = 60;
     animations = LoadAnimations("res/link.anim");
@@ -168,6 +169,14 @@ void cPlayer::SetScene(int sceneX, int sceneY) {
 
 void cPlayer::SetLevel(int level) {
     this->level = level;
+}
+
+int cPlayer::GetMoney() const {
+    return money;
+}
+
+void cPlayer::SetMoney(int amount) {
+    money = amount;
 }
 
 void cPlayer::InDungeonDoor() {

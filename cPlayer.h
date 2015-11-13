@@ -34,6 +34,8 @@ public:
     int getKeyCount();
     ObjectType getEquippedObjectA();
     ObjectType getEquippedObjectB();
+    int GetMoney() const;
+    void SetMoney(int amount);
 
 
 private:
@@ -46,6 +48,7 @@ private:
     int sceneX;
     int sceneY;
     int level;
+    int money;
 
     std::string swordAnimation;
     std::unordered_map<std::string, cAnim> swordAnimations;
