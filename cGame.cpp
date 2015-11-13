@@ -201,10 +201,11 @@ bool cGame::Process()
                         Player.Attack();
                         if (Player.GetHitpoints() == Player.GetMaxHitpoints()) {
                             cRect swordArea = Player.GetSwordArea();
+                            int x, y;
+                            Player.GetPosition(&x, &y);
                             std::unique_ptr<cBicho> beam(
                                 new cBeam(swordArea.left, swordArea.bottom, sceneX,
                                           sceneY, Player.GetDirection()));
-                            beam->SetAnimation(to_string(Player.GetDirection()));
 
                             allies.push_back(std::move(beam));
                         }

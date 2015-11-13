@@ -1,19 +1,14 @@
 #pragma once
 
-#include "cBicho.h"
+#include "cProjectile.h"
 
-class cBeam : public cBicho {
+class cBeam : public cProjectile {
 public:
     cBeam(int x, int y, int sceneX, int sceneY, Direction dir);
-
     
-    cRect GetArea() const override;
-    void SpecificLogic(const cMap &map) override;
 private:
     static const int speed;
-    static const std::vector<Direction> nextDir;
-
-    // Which view of the scene is in.
-    int sceneX;
-    int sceneY;
+    static const std::vector<float> dirToXSpeed;
+    static const std::vector<float> dirToYSpeed;
+    static const std::string animFilename;
 };
