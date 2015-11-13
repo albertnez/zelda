@@ -4,6 +4,7 @@
 #include "cBeam.h"
 #include "cWorm.h"
 #include "cBoss.h"
+#include "cHeart.h"
 #include <iostream>
 
 const int GAME_WIDTH = 256;
@@ -78,7 +79,7 @@ bool cGame::Init()
 
     int width, height;
     Data.GetSize(Images::Objects, &width, &height);
-    objects.push_back(std::unique_ptr<cKey>(
+    objects.push_back(std::unique_ptr<cObject>(
         new cKey(GAME_WIDTH+200,64,width,height)));
 
     res = Data.LoadImage(Images::Hearts, "res/life.png", GL_RGBA);
@@ -249,8 +250,10 @@ bool cGame::Process()
             }
             for (auto it = objects.begin(); it != objects.end(); ) {
                 if ((*it)->Collides(pRect)) {
-                    Player.PickUp();
-                    Gui.setKeyCount(Player.getKeyCount());
+                    (*it)->Apply(Player);
+                    if ((*it)->GetType() == ObjectType::Key) {
+                        Gui.setKeyCount(Player.getKeyCount());
+                    }
                     it = objects.erase(it);
                 }
                 else {
@@ -312,6 +315,11 @@ void cGame::startTransition() {
     transitionState = Player.GetTransition();
     // Remove all enemies.
     enemies.clear();
+    // Remove objects that are not keys:
+    objects.remove_if([](const std::unique_ptr<cObject> &o) -> bool {
+        return o->GetType() != ObjectType::Key;
+    });
+
     state = STATE_SCREEN_CHANGE;
     frame = 0;
 }
@@ -328,7 +336,7 @@ void cGame::endTransition() {
         int width, height;
         Data.GetSize(Images::Objects, &width, &height);
         LoadLevel(3);
-        objects.push_back(std::unique_ptr<cKey>(
+        objects.push_back(std::unique_ptr<cObject>(
             new cKey(64, 64, width, height)));
         Player.SetLevel(3);
         level = 3;

@@ -69,7 +69,7 @@ int cBicho::GetMaxHitpoints() const {
 }
 
 void cBicho::Heal(int hp) {
-    hitpoints = std::max(hitpoints, maxHitpoints);
+    hitpoints = std::min(hitpoints + hp, maxHitpoints);
 }
 
 bool cBicho::Damage(int hp) {

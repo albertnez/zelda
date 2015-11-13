@@ -7,8 +7,8 @@ const int cBoss::width = 24;
 const int cBoss::height = 32;
 const int cBoss::minDirectionTime = 5;
 const int cBoss::maxDirectionTime = 15;
-const int cBoss::minFireTime = 100;
-const int cBoss::maxFireTime = 350;
+const int cBoss::minFireTime = 80;
+const int cBoss::maxFireTime = 160;
 const float cBoss::step = 0.2;
 const float cBoss::shootAngle = 4.0f * std::atan(1.0f) / 8.0f;
 

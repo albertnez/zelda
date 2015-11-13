@@ -1,11 +1,14 @@
 #pragma once
+
 #include "cObject.h"
-class cKey :
+
+class cPlayer;
+
+class cHeart :
     public cObject
 {
 public:
-    cKey(int x, int y, int w, int h);
-    ~cKey();
+    cHeart(int x, int y, int w, int h);
 
     void Apply(cPlayer &player) override;
 

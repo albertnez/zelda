@@ -3,21 +3,17 @@
 const int OBJECT_WIDTH = 16;
 const int OBJECT_HEIGHT = 16;
 
-cObject::cObject()
-{
-}
-
-cObject::cObject(int posx, int posy, float texxo, float texyo,
-    float texxf, float texyf){
-
-    x = posx;
-    y = posy;
-    xo = texxo;
-    yo = texyo;
-    xf = texxf;
-    yf = texyf;
-}
-
+cObject::cObject(ObjectType type, int posx, int posy, int width, int height,
+                 float texxo, float texyo, float texxf, float texyf)
+    : type(type),
+      x(posx),
+      y(posy),
+      w(width),
+      h(height),
+      xo(texxo),
+      yo(texyo),
+      xf(texxf),
+      yf(texyf) {}
 
 cObject::~cObject()
 {
@@ -25,16 +21,16 @@ cObject::~cObject()
 
 
 void cObject::Draw(int tex_id) {
-    DrawRect(tex_id, xo, yo, xf, yf, x, y, 16, 16);
+    DrawRect(tex_id, xo, yo, xf, yf, x, y);
 }
 bool cObject::Collides(cRect pRect) {
-    return ((y + OBJECT_HEIGHT) > pRect.bottom) && (y < pRect.top) &&
-        (x + OBJECT_WIDTH > pRect.left) && (x < pRect.right);
+    return ((y + h) > pRect.bottom) && (y < pRect.top) &&
+        (x + w > pRect.left) && (x < pRect.right);
 }
 
 void cObject::DrawRect(
     int tex_id, float xo, float yo, float xf, float yf,
-    int x, int y, int w, int h)
+    int x, int y)
 {
     int screen_x, screen_y;
     screen_x = x;
@@ -50,3 +46,6 @@ void cObject::DrawRect(
     glDisable(GL_TEXTURE_2D);
 }
 
+ObjectType cObject::GetType() const {
+    return type;
+}
