@@ -13,6 +13,7 @@ cProjectile::cProjectile(int x, int y, float sx, float sy, int sceneX,
     SetAnimation(currAnim);
     SetWidthHeight(animations[currAnim].CurrentFrame().width,
                    animations[currAnim].CurrentFrame().height);
+    EnableDyingAnimation(false);
 }
 
 void cProjectile::SpecificLogic(const cMap &map) {

@@ -35,6 +35,7 @@ cPlayer::cPlayer()
     currentAnimation = "down";
     swordAnimations = LoadAnimations("res/sword.anim");
     swordAnimation = currentAnimation;
+    EnableDyingAnimation(false);  // Disable dying animation.
     keys = 0;
 }
 cPlayer::~cPlayer(){}

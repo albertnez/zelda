@@ -58,9 +58,11 @@ private:
     void PopulateEnemies();
     std::unique_ptr<cBicho> GenerateRandomEnemy(int x, int y, int sceneX, int sceneY);
     void SpawnRandomObject(int x, int y);
+    Direction NextGameOverRotation(Direction dir);
 
     static const int enemySpawnBoundary;
     static const int spawnObjectProb;
+
     bool keys[256];
     cScene Scene;
     cPlayer Player;

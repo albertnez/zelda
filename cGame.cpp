@@ -415,6 +415,10 @@ void cGame::Render()
         Gui.DrawTitle(Data.GetID(Images::Title), GAME_WIDTH, GAME_HEIGHT);
     }
     else if (currentScreen == Screens::GameOver) {
+        if ((counter % 10) == 0) {
+            Player.SetDirection(NextGameOverRotation(Player.GetDirection()));
+            Player.SetAnimation(to_string(Player.GetDirection()));
+        }
         
         if (counter <= 20) {
             DrawGameScreen(false);
@@ -633,6 +637,23 @@ void cGame::SpawnRandomObject(int x, int y) {
         case 2:
         default:
             objects.push_back(std::unique_ptr<cObject>(new cStar(x, y)));
+            break;
+    }
+}
+
+Direction cGame::NextGameOverRotation(Direction dir) {
+    switch (dir) {
+        case Direction::Up:
+            return Direction::Right;
+            break;
+        case Direction::Right:
+            return Direction::Down;
+            break;
+        case Direction::Down:
+            return Direction::Left;
+            break;
+        default:
+            return Direction::Up;
             break;
     }
 }

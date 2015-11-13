@@ -35,7 +35,7 @@ void cBat::SpecificLogic(const cMap &map) {
     // Kill if it leaves the area, but don't leave item.
     if (!limits.Intersect(GetArea())) {
         SetSpawnObjects(false);
-        SetHitpoints(0);
+        Die();  // Die automatically.
     }
 }
 

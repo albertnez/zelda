@@ -36,6 +36,10 @@ public:
 	void SetAttack(int attack);
 	int GetAttack() const;
 	bool IsDead() const;
+    bool IsDying() const;
+    void ToDie();  // Shows the animation while is dying.
+    void Die();    // Dies completely.
+    void EnableDyingAnimation(bool enable);
 
 	bool Collides(const cRect &rect);
 	// Checks collision with tiles
@@ -92,8 +96,12 @@ protected:
     bool spawnObjects;
     bool starActivated;
     int starTime;
+    bool isDead;
+    int dieTime;
+    bool dyingEnabled;
 
     static const int maxStarTime;
+    static const int maxDieTime;
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;

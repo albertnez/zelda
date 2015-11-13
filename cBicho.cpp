@@ -8,6 +8,7 @@ const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
 const int cBicho::maxStarTime{400};
+const int cBicho::maxDieTime{8 * 4};
 
 cBicho::cBicho(void) {
     Init();
@@ -22,7 +23,10 @@ cBicho::cBicho(int posx,int posy,int width,int height)
       h(height),
       spawnObjects(false),
       starActivated(false),
-      starTime(0) {
+      starTime(0),
+      isDead(false),
+      dieTime(0),
+      dyingEnabled(true) {
     Init();
 }
 
@@ -78,10 +82,12 @@ void cBicho::Heal(int hp) {
 }
 
 bool cBicho::Damage(int hp) {
-    if (isProtected || starActivated) return false;
+    if (isProtected || starActivated || hitpoints <= 0) return false;
     hitpoints = std::max(0, hitpoints - hp);
     if (hitpoints > 0) {
         isProtected = true;
+    } else {
+        ToDie();
     }
     return true;
 }
@@ -91,6 +97,9 @@ void cBicho::SetAttack(int attack) {
 }
 
 int cBicho::GetAttack() const {
+    if (IsDying() || IsDead()) {
+        return 0;
+    }
     if (starActivated) {
         return 1337;
     }
@@ -98,10 +107,35 @@ int cBicho::GetAttack() const {
 }
 
 bool cBicho::IsDead() const {
-    return hitpoints <= 0;
+    return GetHitpoints() <= 0 && isDead;
+}
+
+bool cBicho::IsDying() const {
+    return GetHitpoints() <= 0 && !isDead;
+}
+
+void cBicho::ToDie() {
+    if (dyingEnabled) {
+        isDead = false;
+        dieTime = 0;
+        SetAnimation("dying");
+    } else {
+        isDead = true;
+    }
+}
+
+void cBicho::Die() {
+    isDead = true;
+}
+
+void cBicho::EnableDyingAnimation(bool enable) {
+    dyingEnabled = enable;
 }
 
 bool cBicho::Collides(const cRect &rect) {
+    if (IsDying()) {
+        return false;
+    }
     return (y + h > rect.bottom) && (y < rect.top) &&
            (x + w > rect.left) && (x < rect.right);
 }
@@ -255,6 +289,9 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 }
 
 bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
+    if (IsDying() || IsDead()) {
+        return false;
+    }
 	float &axis = (dir == Direction::Left || dir == Direction::Right) ? x : y;
 	int mult = 1;
 	bool canMove = true;
@@ -304,6 +341,12 @@ void cBicho::Stop() {
 
 void cBicho::Logic(const cMap &map) {
     UpdateProtected();
+    if (IsDying()) {
+        if (++dieTime > maxDieTime) {
+            Die();
+        }
+        return;
+    }
     SpecificLogic(map);
 }
 
@@ -340,6 +383,9 @@ void cBicho::SetState(cBicho::State state) {
 
 
 void cBicho::PickStar() {
+    if (IsDying()) {
+        return;
+    }
     starActivated = true;
     starTime = 0;
 }
