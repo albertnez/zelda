@@ -21,6 +21,8 @@ public:
     cRect GetSwordArea() const;
     void SpecificDraw(int texId, int texWidth, int texHeight) override;
     void SetAnimation(const std::string &name);
+    void SetScene(int sceneX, int sceneY);
+    void SetLevel(int level);
 
 
 private:
@@ -30,6 +32,9 @@ private:
     bool isAttacking;
     int attackTime;
     bool overworld;
+    int sceneX;
+    int sceneY;
+    int level;
 
     std::string swordAnimation;
     std::unordered_map<std::string, cAnim> swordAnimations;

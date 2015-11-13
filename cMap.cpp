@@ -4,6 +4,8 @@ const std::unordered_set<int> cMap::walkable {
     3,
     86,
     100,
+    389,
+    390,
 };
 
 const std::unordered_set<int> cMap::dungeonDoor {

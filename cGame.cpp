@@ -130,9 +130,19 @@ void cGame::UpdateScenePos(Direction dir) {
         case Direction::Right:
             ++sceneX;
             break;
+        case Direction::Below:
+            sceneX = 0;
+            sceneY = 0;
+            break;
+        case Direction::Above:
+            sceneX = 1;
+            sceneY = 1;
+            break;
         default:
             break;
     }
+    sceneOffsetx = sceneX * VIEW_WIDTH * TILE_SIZE;
+    sceneOffsety = sceneY * VIEW_HEIGHT * TILE_SIZE;
 }
 
 //Process
@@ -273,11 +283,16 @@ void cGame::endTransition() {
     state = STATE_STATIC_CAMERA;
     if (transitionState == Direction::Above) {
         LoadLevel(2);
+        Player.SetLevel(2);
+        Player.SetTile(5 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
     }
     if (transitionState == Direction::Below) {
         LoadLevel(3);
+        Player.SetLevel(3);
+        Player.SetPosition(7.5f * TILE_SIZE, 1 * TILE_SIZE);
     }
     UpdateScenePos(transitionState);
+    Player.SetScene(sceneX, sceneY);
     PopulateEnemies();
     Player.EndTransition();
     Gui.setViewX(sceneOffsetx / (VIEW_WIDTH*TILE_SIZE));
