@@ -5,6 +5,7 @@
 const int VIEW_WIDTH = 16;
 const int VIEW_HEIGHT = 11;
 
+const std::string LEVEL_DIR = "res/";
 const std::string FILENAME = "level";
 const std::string FILENAME_EXT = ".txt";
 
@@ -39,7 +40,8 @@ bool cScene::LoadLevel(int level)
 
     res=true;
 
-    std::string file{FILENAME + (level < 10 ? "0" : "") + std::to_string(level) + FILENAME_EXT};
+    std::string file{LEVEL_DIR + FILENAME + (level < 10 ? "0" : "") +
+                     std::to_string(level) + FILENAME_EXT};
 
     std::ifstream ifs(file);
     if (!ifs.good()) {
