@@ -39,6 +39,7 @@ void cBoss::Init() {
 	h = height;
 	stepLength = step;
 	attack = 2;
+    EnableDyingAnimation(false);
 }
 
 void cBoss::SetNewFireTime() {
