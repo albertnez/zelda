@@ -77,7 +77,7 @@ public:
     bool SpawnObjects() const;
     void PickStar();
     bool HasStar() const;
-    bool DeactivateStar();
+    void DeactivateStar();
 
 	
 protected:

@@ -48,7 +48,8 @@ bool cGame::Init()
     Gui = cGUI();
     Player = cPlayer();
     Player.DeactivateStar();
-
+    sceneOffsetx = 0;
+    sceneOffsety = 0;
 
     state = STATE_STATIC_CAMERA;
 

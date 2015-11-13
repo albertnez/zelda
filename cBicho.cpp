@@ -394,7 +394,7 @@ bool cBicho::HasStar() const {
     return starActivated;
 }
 
-bool cBicho::DeactivateStar() {
+void cBicho::DeactivateStar() {
     starActivated = false;
     starTime = 0;
 }

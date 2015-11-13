@@ -74,6 +74,18 @@
     <ClCompile Include="cBossFire.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cHeart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlusHeart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cRupee.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cBicho.h">
@@ -137,6 +149,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cBossFire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cHeart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlusHeart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cRupee.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cStar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
