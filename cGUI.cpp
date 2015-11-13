@@ -180,7 +180,7 @@ void cGUI::DrawCounters(int sprites, int font, int x, int y) {
 
 
 void cGUI::DrawText(int font, std::string text, int x, int y) {
-    for (int i = 0; i < text.length(); ++i) {
+    for (int i = 0; i < int(text.length()); ++i) {
         float xo, yo, xf, yf;
         Font.getCharPosition(text[i], xo, yo, xf, yf);
         int x_letter = x + i * 9;
@@ -189,7 +189,7 @@ void cGUI::DrawText(int font, std::string text, int x, int y) {
 }
 
 void cGUI::DrawTextWorld(int font, std::string text, int x, int y) {
-    for (int i = 0; i < text.length(); ++i) {
+    for (int i = 0; i < int(text.length()); ++i) {
         float xo, yo, xf, yf;
         Font.getCharPosition(text[i], xo, yo, xf, yf);
         int x_letter = x + i * 9;

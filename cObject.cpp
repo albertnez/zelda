@@ -5,15 +5,17 @@ const int cObject::textureHeight = 16;
 
 cObject::cObject(ObjectType type, int posx, int posy, int width, int height,
                  float texxo, float texyo, float texxf, float texyf)
-    : type(type),
-      x(posx),
+    : x(posx),
       y(posy),
       w(width),
       h(height),
       xo(texxo),
       yo(texyo),
       xf(texxf),
-      yf(texyf) {}
+      yf(texyf),
+      type(type) {
+}
+
 
 cObject::~cObject()
 {

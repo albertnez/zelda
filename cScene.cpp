@@ -34,11 +34,8 @@ cScene::~cScene(void)
 
 bool cScene::LoadLevel(int level)
 {
-    bool res;
     int i,j,px,py;
     float coordx_tile, coordy_tile;
-
-    res=true;
 
     std::string file{LEVEL_DIR + FILENAME + (level < 10 ? "0" : "") +
                      std::to_string(level) + FILENAME_EXT};
@@ -95,13 +92,12 @@ bool cScene::LoadLevel(int level)
 
     ifs.close();
 
-    return res;
+    return true;
 }
 
 
 void cScene::ReloadLevel()
 {
-    bool res;
     int i, j, px, py;
     float coordx_tile, coordy_tile;
 
