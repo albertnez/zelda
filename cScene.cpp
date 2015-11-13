@@ -96,6 +96,56 @@ bool cScene::LoadLevel(int level)
     return res;
 }
 
+
+void cScene::ReloadLevel()
+{
+    bool res;
+    int i, j, px, py;
+    float coordx_tile, coordy_tile;
+
+    int sceneWidth, sceneHeight;
+    sceneWidth = map.Width();
+    sceneHeight = map.Height();
+
+    id_DL = glGenLists(1);
+    glNewList(id_DL, GL_COMPILE);
+
+    glBegin(GL_QUADS);
+
+    for (j = sceneHeight - 1; j >= 0; j--) {
+        px = 0;
+        py = (j*TILE_SIZE);
+
+        for (i = 0; i< sceneWidth; i++) {
+            int tile = map.GetCell(j,i);
+            --tile;
+
+            coordx_tile = double(tile % TILESET_WIDTH) / (TILESET_WIDTH);
+            coordy_tile = double(tile / TILESET_WIDTH) / (TILESET_HEIGHT);
+
+            const double tilesetXPixels = 1. / TILESET_WIDTH;
+            const double tilesetYPixels = 1. / TILESET_HEIGHT;
+
+            glTexCoord2f(coordx_tile, coordy_tile + tilesetYPixels);
+            glVertex2i(px, py);
+
+            glTexCoord2f(coordx_tile + tilesetXPixels, coordy_tile + tilesetYPixels);
+            glVertex2i(px + TILE_SIZE, py);
+
+            glTexCoord2f(coordx_tile + tilesetXPixels, coordy_tile);
+            glVertex2i(px + TILE_SIZE, py + TILE_SIZE);
+
+            glTexCoord2f(coordx_tile, coordy_tile);
+            glVertex2i(px, py + TILE_SIZE);
+
+            px += TILE_SIZE;
+        }
+    }
+
+    glEnd();
+    glEndList();
+}
+
 void cScene::Draw(int tex_id)
 {
     glEnable(GL_TEXTURE_2D);
@@ -106,4 +156,14 @@ void cScene::Draw(int tex_id)
 const cMap &cScene::GetMap() const
 {
     return map;
+}
+
+void cScene::SetCell(int i, int j, int value) {
+    map.SetCell(i, j, value);
+    ReloadLevel();
+}
+
+void cScene::OpenDoor(int i, int j) {
+    map.OpenDoor(i, j);
+    ReloadLevel();
 }

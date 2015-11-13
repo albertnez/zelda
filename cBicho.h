@@ -40,7 +40,8 @@ public:
 	bool Collides(const cRect &rect);
 	// Checks collision with tiles
 	bool CollidesMap(const cMap &map);
-	// Returns whether reaches the limit of the map.
+    bool CollidesDoor(const cMap & map, int& tileX, int& tileY);
+    // Returns whether reaches the limit of the map.
 	bool ReachesMapLimit(const cMap &map, int scene_x, int scene_y);
 	// Called when cBicho reaches limit of map. Returns true if
 	// it can go through the limit (like link going to next view).
@@ -66,13 +67,12 @@ public:
 	void SetDirection(Direction dir);
 	State GetState() const;
 	void SetState(State state);
-
+    bool AtDoor(const cMap &map, int& tileX, int& tileY);
     void NextFrame(int max);
 	
 protected:
     void UpdateProtected();
     virtual void InDungeonDoor();
-
     float x,y;
     int w,h;
     float stepLength;

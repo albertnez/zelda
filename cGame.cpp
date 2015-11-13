@@ -191,6 +191,15 @@ bool cGame::Process()
                 if (dir == Direction::None) Player.Stop();
                 else Player.Move(Scene.GetMap(), dir, sceneX, sceneY);
 
+                int tx, ty;
+                if (
+                    Player.CollidesDoor(Scene.GetMap(),tx, ty)&&Player.getKeyCount()>=1) {
+                    Scene.OpenDoor(tx, ty);
+                    Player.UseKey();
+                    Gui.setKeyCount(Player.getKeyCount());
+                }
+
+
                 if (oldDir != Player.GetDirection()) {
                     Player.SetAnimation(to_string(Player.GetDirection()));
                 }
@@ -309,7 +318,11 @@ void cGame::endTransition() {
         Player.SetTile(5 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
     }
     if (transitionState == Direction::Below) {
+        int width, height;
+        Data.GetSize(Images::Objects, &width, &height);
         LoadLevel(3);
+        objects.push_back(std::unique_ptr<cKey>(
+            new cKey(64, 64, width, height)));
         Player.SetLevel(3);
         Player.SetPosition(7.5f * TILE_SIZE, 1 * TILE_SIZE);
     }

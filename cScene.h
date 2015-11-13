@@ -30,8 +30,13 @@ public:
     virtual ~cScene(void);
 
     bool LoadLevel(int level);
+    void ReloadLevel();
     void Draw(int tex_id);
     const cMap &GetMap() const;
+
+    void SetCell(int i, int j, int value);
+
+    void OpenDoor(int i, int j);
 
 private:
     cMap map;  // Map of the scene.

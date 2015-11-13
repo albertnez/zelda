@@ -30,6 +30,7 @@ public:
     void SetLevel(int level);
 
     void PickUp();
+    void UseKey();
     int getKeyCount();
     ObjectType getEquippedObjectA();
     ObjectType getEquippedObjectB();

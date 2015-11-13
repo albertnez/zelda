@@ -44,7 +44,7 @@ cPlayer::cPlayer()
 cPlayer::~cPlayer(){}
 
 bool cPlayer::ReachLimit(Direction dir) {
-    if (level == 3 && sceneX == 0 && sceneY == 0) {
+    if (level == 3 && sceneX == 0 && sceneY == 0&&dir==Direction::Down) {
         transition = Direction::Above;
         return true;
     }
@@ -142,6 +142,9 @@ void cPlayer::SetAnimation(const std::string &name) {
 void cPlayer::PickUp() {
     ++keys;
 }
+void cPlayer::UseKey() {
+    --keys;
+}
 
 int cPlayer::getKeyCount() {
     return keys;
@@ -178,3 +181,4 @@ void cPlayer::InDungeonDoor() {
     overworld = !overworld;
     SetDirection(Direction::Down);
 }
+

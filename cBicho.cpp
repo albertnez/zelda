@@ -122,6 +122,36 @@ bool cBicho::CollidesMap(const cMap &map) {
     return false;
 }
 
+
+bool cBicho::CollidesDoor(const cMap &map, int& tileX, int& tileY) {
+    int init_tile_x = x / TILE_SIZE;
+    int init_tile_y = y / TILE_SIZE;
+    int tile_width = w / TILE_SIZE;
+    int tile_height = h / TILE_SIZE;
+    int end_tile_x = init_tile_x + tile_width + ((int(x) % TILE_SIZE) != 0);
+    int end_tile_y = init_tile_y + tile_height + ((int(y) % TILE_SIZE) != 0);
+
+    for (int i = init_tile_x-1; i < end_tile_x+1; ++i) {
+        if (i < 0 || i >= map.Width()) {
+            continue;
+        }
+        for (int j = init_tile_y; j < end_tile_y; ++j) {
+            if (j < 0 || j >= map.Height()) {
+                continue;
+            }
+            if (map.LockedDoor(i, j)) {
+                tileX = i;
+                tileY = j;
+                return true;
+            
+            }
+            
+        }
+    }
+
+    return false;
+}
+
 bool cBicho::ReachesMapLimit(const cMap &map, int scene_x, int scene_y) {
 	int init_tile_x = x / TILE_SIZE;
 	int init_tile_y = y / TILE_SIZE;
@@ -239,7 +269,13 @@ bool cBicho::Move(const cMap& map, Direction dir, int sceneX, int sceneY) {
         InDungeonDoor();
     }
 
+
 	return canMove;
+}
+
+
+bool cBicho::AtDoor(const cMap& map, int& tileX, int& tileY) {
+    return CollidesDoor(map, tileX, tileY);
 }
 
 void cBicho::Stop() {
@@ -285,6 +321,8 @@ void cBicho::UpdateProtected() {
 
 void cBicho::InDungeonDoor() {
 }
+
+
 
 void cBicho::Init() {
     stepLength = STEP_LENGTH;
