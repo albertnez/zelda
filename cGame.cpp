@@ -92,7 +92,7 @@ bool cGame::Init()
     Gui.setKeyCount(Player.getKeyCount());
     Gui.setEquippedObjectA(Player.getEquippedObjectA());
     Gui.setEquippedObjectB(Player.getEquippedObjectB());
-    LoadLevel(3);
+    LoadLevel(2);
     
     currentScreen = Screens::Home;
     //currentScreen = Screens::Credits;
