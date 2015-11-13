@@ -29,7 +29,10 @@ cPlayer::cPlayer()
     : transition(Direction::None),
       isAttacking(false),
       attackTime(0),
-      overworld(true) {
+      overworld(true),
+      sceneX(0),
+      sceneY(0),
+      level(2) {
     SetAttack(1);
     maxProtectionTime = 60;
     animations = LoadAnimations("res/link.anim");
@@ -41,6 +44,10 @@ cPlayer::cPlayer()
 cPlayer::~cPlayer(){}
 
 bool cPlayer::ReachLimit(Direction dir) {
+    if (level == 3 && sceneX == 0 && sceneY == 0) {
+        transition = Direction::Above;
+        return true;
+    }
 	transition = dir;
 	return true;
 }
@@ -151,6 +158,15 @@ ObjectType cPlayer::getEquippedObjectB() {
 //int cPlayer::GetEquippedObjectA() {
 
 //}
+void cPlayer::SetScene(int sceneX, int sceneY) {
+    this->sceneX = sceneX;
+    this->sceneY = sceneY;
+}
+
+void cPlayer::SetLevel(int level) {
+    this->level = level;
+}
+
 void cPlayer::InDungeonDoor() {
     // Reset protection
     isProtected = false;
