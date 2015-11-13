@@ -55,6 +55,7 @@ public:
     
 
 private:
+    void Restart();
     void PopulateEnemies();
     std::unique_ptr<cBicho> GenerateRandomEnemy(int x, int y, int sceneX, int sceneY);
     void SpawnRandomObject(int x, int y);

@@ -394,6 +394,12 @@ bool cBicho::HasStar() const {
     return starActivated;
 }
 
+bool cBicho::DeactivateStar() {
+    starActivated = false;
+    starTime = 0;
+}
+
+
 void cBicho::UpdateProtected() {
     if (isProtected && ++protectionTime > maxProtectionTime) {
         isProtected = false;

@@ -39,6 +39,19 @@ bool cGame::Init()
 {
     bool res=true;
 
+    for (int i = 0; i < 256; ++i) {
+        keys[i] = false;
+    }
+    triggerKeyReleased = true;
+    sceneX = 0;
+    sceneY = 0;
+    Gui = cGUI();
+    Player = cPlayer();
+    Player.DeactivateStar();
+
+
+    state = STATE_STATIC_CAMERA;
+
     //Graphics initialization
     glClearColor(0.0f,0.0f,0.0f,0.0f);
     glMatrixMode(GL_PROJECTION);
@@ -107,7 +120,9 @@ bool cGame::Init()
     LoadLevel(level);
     
     currentScreen = Screens::Home;
-    //currentScreen = Screens::Credits;
+    if (rand()%2) {
+        currentScreen = Screens::Credits;
+    }
     return res;
 
 }
@@ -336,9 +351,15 @@ bool cGame::Process()
     }
     else if (currentScreen == Screens::Credits && counter < 32000) {
         ++counter;
+        if (keys[13]) {
+            Restart();
+        }
     }
     else if (currentScreen == Screens::GameOver && counter < 32000) {
         ++counter;
+        if (counter >= 160 && keys[13]) {
+            Restart();
+        }
     }
     return res;
 
@@ -577,6 +598,16 @@ void cGame::DrawGameScreen(bool drawEnemies) {
 
     Gui.Draw(Data.GetID(Images::Hearts), Data.GetID(Images::Font),
              Data.GetID(Images::Interface), GAME_WIDTH, GAME_HEIGHT);
+}
+
+void cGame::Restart() {
+    counter = 0;
+    frame = 0;
+    objects.clear();
+    enemies.clear();
+    allies.clear();
+    Init();
+
 }
 
 void cGame::PopulateEnemies() {
