@@ -5,6 +5,9 @@ const int VIEW_HEIGHT = 11;
 const int SPRITES_HEIGHT = 64;
 const int SPRITES_WIDTH = 256;
 
+
+
+
 cGUI::cGUI()
 {
     view_xo = 0;
@@ -55,11 +58,11 @@ void cGUI::setMaxViewsY(int viewsY) {
 }
 
 
-void cGUI::setEquippedObjectA(int object) {
+void cGUI::setEquippedObjectA(ObjectType object) {
     equippedObjectA = object;
 }
 
-void cGUI::setEquippedObjectB(int object) {
+void cGUI::setEquippedObjectB(ObjectType object) {
     equippedObjectB = object;
 }
 
@@ -123,9 +126,23 @@ void cGUI::DrawObjects(int sprites, int x, int y) {
     float yo = float(h) / SPRITES_HEIGHT;
     DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
     x = x + 23;
+
+    if (equippedObjectA == ObjectType::Sword) {
+        int hs = 16;
+        int ws = 16;
+        float xos = 44.0f / SPRITES_WIDTH;
+        float yfs = 0.0f;
+        float xfs = xos + float(ws) / SPRITES_WIDTH;
+        float yos = float(hs) / SPRITES_HEIGHT;
+        int offsetx = (w - ws) / 2;
+        int offsety = (h - hs) / 2;
+        DrawRect(sprites, xos, yos, xfs, yfs, x+offsetx, y + SCENE_Yo+offsety, ws, hs);
+    }
     xo = xf;
     xf = xo + float(w) / SPRITES_WIDTH;
     DrawRect(sprites, xo, yo, xf, yf, x, y+SCENE_Yo, w, h);
+
+    
 
 }
 

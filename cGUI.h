@@ -2,6 +2,8 @@
 
 #include "Globals.h"
 #include "cFont.h"
+#include "cObject.h"
+#include <unordered_map>
 
 #define SCENE_Xo 0
 #define SCENE_Yo 176
@@ -20,8 +22,8 @@ private:
     int pos_y;
     int max_views_x;
     int max_views_y;
-    int equippedObjectA;
-    int equippedObjectB;
+    ObjectType equippedObjectA;
+    ObjectType equippedObjectB;
     int keyCount;
     cFont Font;
 public:
@@ -35,8 +37,8 @@ public:
     void setViewY(int newXo);
     void setMaxViewsX(int viewsX);
     void setMaxViewsY(int viewsY);
-    void setEquippedObjectA(int object);
-    void setEquippedObjectB(int object);
+    void setEquippedObjectA(ObjectType object);
+    void setEquippedObjectB(ObjectType object);
     void setKeyCount(int keys);
     void setViewX(int newYo);
     void Draw(int img, int font, int sprites, int gui_width, int gui_height);

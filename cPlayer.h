@@ -29,6 +29,8 @@ public:
 
     void PickUp();
     int getKeyCount();
+    ObjectType getEquippedObjectA();
+    ObjectType getEquippedObjectB();
 
 
 private:

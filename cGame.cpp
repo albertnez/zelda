@@ -90,7 +90,9 @@ bool cGame::Init()
     Gui.setMaxHP(Player.GetMaxHitpoints());
     Gui.setHP(Player.GetHitpoints());
     Gui.setKeyCount(Player.getKeyCount());
-    LoadLevel(2);
+    Gui.setEquippedObjectA(Player.getEquippedObjectA());
+    Gui.setEquippedObjectB(Player.getEquippedObjectB());
+    LoadLevel(3);
     
     currentScreen = Screens::Home;
     //currentScreen = Screens::Credits;

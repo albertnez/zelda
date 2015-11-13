@@ -138,6 +138,14 @@ int cPlayer::getKeyCount() {
     return keys;
 }
 
+ObjectType cPlayer::getEquippedObjectA() {
+    return ObjectType::Sword;
+}
+
+ObjectType cPlayer::getEquippedObjectB() {
+    return ObjectType::NoObject;
+}
+
 //int cPlayer::GetEquippedObjectA() {
 
 //}

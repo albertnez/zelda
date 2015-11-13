@@ -1,16 +1,21 @@
 #pragma once
 #include "Globals.h"
 #include "utils.h"
+
+enum ObjectType
+{
+    NoObject = 0,
+    Sword,
+    Key,
+};
+
 class cObject
 {
 
     
 
 public:
-    enum Type
-    {
-        key = 0,
-    };
+    
     cObject();
     cObject(
         int posX, int posY, float texxo,
