@@ -189,8 +189,8 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
 	glBindTexture(GL_TEXTURE_2D,tex_id);
 
         float alpha = 1.0;
-        if (isProtected && (protectionTime % 16) < 8) {
-            alpha = 0.5;
+        if (isProtected && (protectionTime % 20) < 10) {
+            alpha = 0.2;
         }
 
         glColor4f(1.0, 1.0, 1.0, alpha);
@@ -282,7 +282,7 @@ void cBicho::Init() {
     direction = Direction::Down;
     isProtected = false;
     protectionTime = 0;
-    maxProtectionTime = 60;
+    maxProtectionTime = 30;
     hitpoints = 0;
     maxHitpoints = 0;
 }

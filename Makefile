@@ -5,8 +5,8 @@ CFLAGS= -Wall -std=c++11
 debug: CFLAGS= -Wall -std=c++11 -g
 debug: main
 
-main: GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o cAnim.o cGUI.o cOctorok.o utils.o cFont.o cBeam.o cWorm.o
-	g++ GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o cAnim.o cGUI.o cOctorok.o utils.o cFont.o cBeam.o cWorm.o -o main -lGL -lGLU -lglut -L. $(CFLAGS)
+main: GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o cAnim.o cGUI.o cOctorok.o utils.o cFont.o cBeam.o cWorm.o cBat.o
+	g++ GLUTMain.o cBicho.o cData.o cPlayer.o cScene.o cGame.o cTexture.o cMap.o cAnim.o cGUI.o cOctorok.o utils.o cFont.o cBeam.o cWorm.o cBat.o -o main -lGL -lGLU -lglut -L. $(CFLAGS)
 
 GLUTMain.o: GLUTMain.cpp
 	g++ -c GLUTMain.cpp -lGL -lGLU -lglut $(CFLAGS)
@@ -52,6 +52,9 @@ cBeam.o: cBeam.h cBeam.cpp
 
 cWorm.o: cWorm.h cWorm.cpp
 	g++ -c cWorm.cpp $(CFLAGS)
+
+cBat.o: cBat.h cBat.cpp
+	g++ -c cBat.cpp $(CFLAGS)
 
 clean:
 	rm -f *.o main
