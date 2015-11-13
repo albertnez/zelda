@@ -5,6 +5,7 @@
 #include "cGame.h"
 #include "cHeart.h"
 #include "cRupee.h"
+#include "cStar.h"
 #include "cWorm.h"
 #include <iostream>
 
@@ -249,6 +250,10 @@ bool cGame::Process()
                 }
                 if (enemy->Collides(pRect)) {
                     Player.Damage(enemy->GetAttack());
+                    // If it has star, let player hit them!
+                    if (Player.HasStar()) {
+                        enemy->Damage(Player.GetAttack());
+                    }
                 }
             }
             for (auto it = objects.begin(); it != objects.end(); ) {
@@ -607,13 +612,16 @@ std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int
 void cGame::SpawnRandomObject(int x, int y) {
     int width, height;
     Data.GetSize(Images::Objects, &width, &height);
-    switch (rand()%2) {
+    switch (rand()%3) {
         case 0:
             objects.push_back(std::unique_ptr<cObject>(new cHeart(x, y)));
             break;
         case 1:
-        default:
             objects.push_back(std::unique_ptr<cObject>(new cRupee(x, y)));
+            break;
+        case 2:
+        default:
+            objects.push_back(std::unique_ptr<cObject>(new cStar(x, y)));
             break;
     }
 }

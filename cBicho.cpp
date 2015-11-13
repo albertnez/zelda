@@ -7,6 +7,8 @@
 const int FRAME_DELAY = 8;
 const int STEP_LENGTH = 2;
 
+const int cBicho::maxStarTime{150};
+
 cBicho::cBicho(void) {
     Init();
 }
@@ -18,7 +20,9 @@ cBicho::cBicho(int posx,int posy,int width,int height)
       y(posy),
       w(width),
       h(height),
-      spawnObjects(false) {
+      spawnObjects(false),
+      starActivated(false),
+      starTime(0) {
     Init();
 }
 
@@ -74,7 +78,7 @@ void cBicho::Heal(int hp) {
 }
 
 bool cBicho::Damage(int hp) {
-    if (isProtected) return false;
+    if (isProtected || starActivated) return false;
     hitpoints = std::max(0, hitpoints - hp);
     if (hitpoints > 0) {
         isProtected = true;
@@ -87,6 +91,9 @@ void cBicho::SetAttack(int attack) {
 }
 
 int cBicho::GetAttack() const {
+    if (starActivated) {
+        return 1337;
+    }
     return attack;
 }
 
@@ -223,9 +230,17 @@ void cBicho::DrawRect(int tex_id,float xo,float yo,float xf,float yf)
         if (isProtected && (protectionTime % 20) < 10) {
             alpha = 0.2;
         }
-
         glColor4f(1.0, 1.0, 1.0, alpha);
-	glBegin(GL_QUADS);	
+
+        if (starActivated) {
+            if (starTime % 8 < 4) {
+                glColor4f(0.2, 1.0, 1.0, 1.0);
+            } else {
+                glColor4f(1.0, 1.0, 1.0, 1.0);
+            }
+        }
+
+        glBegin(GL_QUADS);	
 		glTexCoord2f(xo,yo);	glVertex2i(screen_x  ,screen_y);
 		glTexCoord2f(xf,yo);	glVertex2i(screen_x+w,screen_y);
 		glTexCoord2f(xf,yf);	glVertex2i(screen_x+w,screen_y+h);
@@ -319,18 +334,30 @@ void cBicho::SetState(cBicho::State state) {
 	this->state = state;
 }
 
+
+void cBicho::PickStar() {
+    starActivated = true;
+    starTime = maxStarTime;
+}
+
+bool cBicho::HasStar() const {
+    return starActivated;
+}
+
 void cBicho::UpdateProtected() {
     if (!isProtected) return;
     if (++protectionTime > maxProtectionTime) {
         isProtected = false;
         protectionTime = 0;
     }
+    if (++starTime > maxStarTime) {
+        starTime = 0;
+        starActivated = false;
+    }
 }
 
 void cBicho::InDungeonDoor() {
 }
-
-
 
 void cBicho::Init() {
     stepLength = STEP_LENGTH;

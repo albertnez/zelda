@@ -71,6 +71,9 @@ public:
     void NextFrame(int max);
     void SetSpawnObjects(bool spawn);
     bool SpawnObjects() const;
+    void PickStar();
+    bool HasStar() const;
+
 	
 protected:
     void UpdateProtected();
@@ -87,6 +90,10 @@ protected:
     int protectionTime;
     int maxProtectionTime;
     bool spawnObjects;
+    bool starActivated;
+    int starTime;
+
+    static const int maxStarTime;
 
 	std::string currentAnimation;
 	std::unordered_map<std::string, cAnim> animations;

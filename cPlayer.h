@@ -50,6 +50,7 @@ private:
     int level;
     int money;
 
+
     std::string swordAnimation;
     std::unordered_map<std::string, cAnim> swordAnimations;
 

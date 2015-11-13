@@ -83,6 +83,9 @@ void cPlayer::SpecificLogic(const cMap &map) {
         isAttacking = false;
         SetAnimation(nextAttackAnim.at(GetAnimation()));
     }
+    if (starActivated && --starTime <= 0) {
+        starActivated = false;
+    }
 }
 
 cRect cPlayer::GetSwordArea() const {
@@ -190,4 +193,3 @@ void cPlayer::InDungeonDoor() {
     overworld = !overworld;
     SetDirection(Direction::Down);
 }
-

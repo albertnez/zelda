@@ -1,6 +1,6 @@
 #include "cObject.h"
 
-const int cObject::textureWidth = 32;
+const int cObject::textureWidth = 64;
 const int cObject::textureHeight = 16;
 
 cObject::cObject(ObjectType type, int posx, int posy, int width, int height,
