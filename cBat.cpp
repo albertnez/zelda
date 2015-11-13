@@ -41,7 +41,8 @@ void cBat::SpecificLogic(const cMap &map) {
 void cBat::Init() {
 	animations = LoadAnimations("res/bat.anim");
 	currentAnimation = "all";
-    SetHitpoints(3);
+    SetHitpoints(1);
+    SetMaxHitpoints(1);
 	w = width;
 	h = height;
 	stepLength = step;

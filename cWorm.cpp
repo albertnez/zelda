@@ -34,6 +34,7 @@ void cWorm::Init() {
 	animations = LoadAnimations("res/worm.anim");
 	currentAnimation = "all";
     SetHitpoints(3);
+    SetMaxHitpoints(3);
 	w = width;
 	h = height;
 	stepLength = step;

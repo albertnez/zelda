@@ -69,6 +69,7 @@ private:
     int sceneOffsety = 0;
     int sceneX;
     int sceneY;
+    int level;
     Direction transitionState;
     int state;
     int frame = 0;

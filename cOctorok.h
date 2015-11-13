@@ -4,7 +4,6 @@
 
 class cOctorok : public cBicho {
 public:
-    cOctorok();
     cOctorok(int x, int y, int sceneX, int sceneY);
 
     void SpecificLogic(const cMap &map) override;

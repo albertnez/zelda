@@ -11,11 +11,6 @@ const std::vector<Direction> cOctorok::nextDir {
 	Direction::Down,   // From Right to down.
 };
 
-
-cOctorok::cOctorok() : sceneX(-1), sceneY(-1) {
-	Init();
-}
-
 cOctorok::cOctorok(int x, int y, int sceneX, int sceneY) 
 	: cBicho(x, y, width, height),
 	sceneX(sceneX), sceneY(sceneY) {
@@ -33,6 +28,7 @@ void cOctorok::Init() {
 	animations = LoadAnimations("res/octorok.anim");
 	currentAnimation = "down";
     SetHitpoints(2);
+    SetMaxHitpoints(2);
 	w = width;
 	h = height;
 	stepLength = step;

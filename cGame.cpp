@@ -93,7 +93,9 @@ bool cGame::Init()
     Gui.setKeyCount(Player.getKeyCount());
     Gui.setEquippedObjectA(Player.getEquippedObjectA());
     Gui.setEquippedObjectB(Player.getEquippedObjectB());
-    LoadLevel(2);
+    level = 2;
+    LoadLevel(level);
+    
     currentScreen = Screens::Home;
     //currentScreen = Screens::Credits;
     return res;
@@ -304,13 +306,15 @@ void cGame::startTransition() {
 void cGame::endTransition() {
     state = STATE_STATIC_CAMERA;
     if (transitionState == Direction::Above) {
-        LoadLevel(2);
-        Player.SetLevel(2);
+        level = 2;
+        LoadLevel(level);
+        Player.SetLevel(level);
         Player.SetTile(5 + VIEW_WIDTH, 8 + VIEW_HEIGHT);
     }
     if (transitionState == Direction::Below) {
-        LoadLevel(3);
-        Player.SetLevel(3);
+        level = 3;
+        LoadLevel(level);
+        Player.SetLevel(level);
         Player.SetPosition(7.5f * TILE_SIZE, 1 * TILE_SIZE);
     }
     UpdateScenePos(transitionState);
@@ -533,7 +537,7 @@ void cGame::PopulateEnemies() {
 std::unique_ptr<cBicho> cGame::GenerateRandomEnemy(int x, int y, int sceneX, int sceneY) {
     switch (rand()%3) {
         case 0:
-            return std::unique_ptr<cBicho>(new cOctorok(x, x, sceneX, sceneY));
+            return std::unique_ptr<cBicho>(new cOctorok(x, y, sceneX, sceneY));
             break;
         case 1:
             return std::unique_ptr<cBicho>(new cWorm(x, y, sceneX, sceneY, Player));
